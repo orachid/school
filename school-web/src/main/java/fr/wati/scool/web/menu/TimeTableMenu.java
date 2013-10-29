@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.vaadin.ui.NativeButton;
 
 import fr.wati.scool.web.annotations.MenuConfig;
+import fr.wati.scool.web.menu.Menu.MenuGroup;
 import fr.wati.scool.web.view.TimeTableView;
 
 /**
@@ -19,7 +20,7 @@ import fr.wati.scool.web.view.TimeTableView;
  */
 @Component
 @Scope(SCOPE_PROTOTYPE)
-@MenuConfig(Menu.TOP)
+@MenuConfig(MenuGroup.TOP)
 @SuppressWarnings("serial")
 public class TimeTableMenu extends AbstractMenu {
 
@@ -35,7 +36,7 @@ public class TimeTableMenu extends AbstractMenu {
 	 * @see fr.wati.scool.web.menu.Menu#getButton()
 	 */
 	@Override
-	public NativeButton getButton() {
+	public NativeButton getComponent() {
 		if(nativeButton==null){
 			nativeButton=new NativeButton("Emploie de temps");
 		}

@@ -3,15 +3,14 @@
  */
 package fr.wati.school.entities.bean;
 
-import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 /**
  * @author Rachid Ouattara
@@ -19,7 +18,7 @@ import javax.persistence.OneToMany;
  */
 @SuppressWarnings("serial")
 @Entity
-public class Users implements Serializable {
+public class Users extends Entite {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -27,8 +26,8 @@ public class Users implements Serializable {
 	private String username;
 	private String password;
 	private boolean enabled;
-	@OneToMany(fetch=FetchType.EAGER)
-	private List<Role> roles;
+	@ManyToMany(fetch=FetchType.LAZY)
+	private Set<Role> roles;
 	
 	
 	/**
@@ -84,13 +83,13 @@ public class Users implements Serializable {
 	/**
 	 * @return the roles
 	 */
-	public List<Role> getRoles() {
+	public Set<Role> getRoles() {
 		return roles;
 	}
 	/**
 	 * @param roles the roles to set
 	 */
-	public void setRoles(List<Role> roles) {
+	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
 	

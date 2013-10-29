@@ -9,6 +9,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import fr.wati.scool.web.menu.Menu.MenuGroup;
+
 /**
  * @author Rachid Ouattara
  *
@@ -19,5 +21,5 @@ import java.lang.annotation.Target;
 public @interface MenuConfig {
 	
 	//The menu positioning
-	String value();
+	MenuGroup value() default MenuGroup.TOP;
 }

@@ -9,41 +9,30 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import com.vaadin.ui.Component;
-import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.MenuBar.MenuItem;
-import com.vaadin.ui.VerticalLayout;
 
+import fr.wati.scool.web.addons.SpringSecurityViewProvider;
+import fr.wati.scool.web.menu.AdminTreeMenu;
 import fr.wati.scool.web.view.AbstractView;
-import fr.wati.scool.web.view.HasMenuBar;
-import fr.wati.scool.web.view.admin.parameters.ConfigurationView;
-import fr.wati.scool.web.view.admin.parameters.LogView;
-import fr.wati.scool.web.view.admin.users.UsersEditionView;
-import fr.wati.scool.web.view.admin.users.UsersRightsManagementView;
 
 /**
  * @author Rachid Ouattara
  *
  */
 @SuppressWarnings("serial")
-public abstract class AbstractAdminView extends AbstractView implements HasMenuBar,MenuBar.Command {
+public abstract class AbstractAdminView extends AbstractView {
 
 	protected MenuItem editUser;
 	protected MenuItem usersRight;
-	protected MenuBar menuBar;
-	private Map<MenuItem,String > menuViewMap=new HashMap<>();
-	private MenuItem configuration;
-	private MenuItem logs;
-	private VerticalLayout mainLayout;
+	private HorizontalSplitPanel mainLayout;
 	/**
 	 * @param navigator
 	 */
 	public AbstractAdminView() {
 		super();
-		mainLayout=new VerticalLayout();
-		//springify this
-		menuBar=buildMenuBar();
-		mainLayout.addComponent(menuBar);
-		setCompositionRoot(mainLayout);
+		
 	}
 	
 	
@@ -54,7 +43,12 @@ public abstract class AbstractAdminView extends AbstractView implements HasMenuB
 	@PostConstruct
 	@Override
 	protected void postConstruct() {
+		mainLayout=new HorizontalSplitPanel();
+		//mainLayout.setSizeFull();
+		mainLayout.addComponent(SpringSecurityViewProvider.applicationContext.getBean(AdminTreeMenu.class));
+		setCompositionRoot(mainLayout);
 		mainLayout.addComponent(getContent());
+		mainLayout.setSplitPosition(20);
 	}
 
 
@@ -65,39 +59,25 @@ public abstract class AbstractAdminView extends AbstractView implements HasMenuB
 	public abstract Component getContent();
 
 	
-	/**
-	 * @return the menuBar
-	 */
-	public MenuBar getMenuBar() {
-		return menuBar;
-	}
-	/**
-	 * @param menuBar the menuBar to set
-	 */
-	public void setMenuBar(MenuBar menuBar) {
-		this.menuBar = menuBar;
-	}
+	
 
-	protected  MenuBar buildMenuBar(){
-		MenuBar menuBar=new MenuBar();
-		//Users
-		MenuItem users=menuBar.addItem("Utilisateurs", null, null);
-		editUser = users.addItem("Edition utilisateurs", null, this);
-		menuViewMap.put(editUser, UsersEditionView.NAME);
-		usersRight = users.addItem("Gestion des droits", null, this);
-		menuViewMap.put(usersRight, UsersRightsManagementView.NAME);
-		//parameters
-		MenuItem parameters=menuBar.addItem("Parametres", null, null);
-		configuration = parameters.addItem("Configuration", null, this);
-		menuViewMap.put(configuration, ConfigurationView.NAME);
-		logs = parameters.addItem("Logs", null, this);
-		menuViewMap.put(logs, LogView.NAME);
-		
-		return menuBar;
-	}
+//	protected  MenuBar buildMenuBar(){
+//		MenuBar menuBar=new MenuBar();
+//		//Users
+//		MenuItem users=menuBar.addItem("Utilisateurs", null, null);
+//		editUser = users.addItem("Edition utilisateurs", null, this);
+//		menuViewMap.put(editUser, UsersEditionView.NAME);
+//		usersRight = users.addItem("Gestion des droits", null, this);
+//		menuViewMap.put(usersRight, UsersRightsManagementView.NAME);
+//		//parameters
+//		MenuItem parameters=menuBar.addItem("Parametres", null, null);
+//		configuration = parameters.addItem("Configuration", null, this);
+//		menuViewMap.put(configuration, ConfigurationView.NAME);
+//		logs = parameters.addItem("Logs", null, this);
+//		menuViewMap.put(logs, LogView.NAME);
+//		
+//		return menuBar;
+//	}
 
-	@Override
-	public void menuSelected(MenuItem selectedItem) {
-		menuBar.getUI().getNavigator().navigateTo(menuViewMap.get(selectedItem));
-	}
+
 }

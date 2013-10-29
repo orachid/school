@@ -13,6 +13,7 @@ import com.vaadin.ui.NativeButton;
 
 import fr.wati.school.entities.bean.Role;
 import fr.wati.scool.web.annotations.MenuConfig;
+import fr.wati.scool.web.menu.Menu.MenuGroup;
 import fr.wati.scool.web.view.admin.AdminView;
 
 /**
@@ -22,7 +23,7 @@ import fr.wati.scool.web.view.admin.AdminView;
 @Component
 @Scope(SCOPE_PROTOTYPE)
 @Secured({Role.ROLE_ADMIN,Role.ROLE_DIRECTOR})
-@MenuConfig(Menu.TOP)
+@MenuConfig(MenuGroup.TOP)
 @SuppressWarnings("serial")
 public class AdminMenu extends AbstractMenu {
 
@@ -32,7 +33,7 @@ public class AdminMenu extends AbstractMenu {
 	 * @see fr.wati.scool.web.menu.Menu#getButton()
 	 */
 	@Override
-	public NativeButton getButton() {
+	public NativeButton getComponent() {
 		if(nativeButton==null){
 			nativeButton=new NativeButton("Admin");
 		}

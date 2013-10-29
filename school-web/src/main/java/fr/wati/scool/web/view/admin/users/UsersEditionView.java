@@ -13,7 +13,10 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 
 import fr.wati.school.entities.bean.Users;
+import fr.wati.scool.web.addons.SpringSecurityViewProvider;
 import fr.wati.scool.web.addons.ViewDescription;
+import fr.wati.scool.web.components.BasicCRUDView;
+import fr.wati.scool.web.components.DefaultCRUDPanel;
 import fr.wati.scool.web.view.admin.AbstractAdminView;
 
 /**
@@ -52,27 +55,10 @@ public class UsersEditionView extends AbstractAdminView {
 	 */
 	@Override
 	public Component getContent() {
-		VerticalLayout layout = new VerticalLayout();
-		
-		// We need an entity provider to create a container        
-		CachingMutableLocalEntityProvider<Users> entityProvider =
-		    new CachingMutableLocalEntityProvider<Users>(Users.class,
-		                                                  entityManager);
-
-		// And there we have it
-		JPAContainer<Users> usersContainer =
-		        new JPAContainer<Users> (Users.class);
-		usersContainer.setEntityProvider(entityProvider);
-		
-//		JPAContainer<Users> usersContainer = new JPAContainer<>(Users.class);
-//		EntityProvider<Users> usersEntityProvider = new CachingLocalEntityProvider<>(
-//				Users.class, entityManager);
-//		usersContainer.setEntityProvider(usersEntityProvider);
-
-		Table usersTable = new Table("Users");
-		usersTable.setContainerDataSource(usersContainer);
-		layout.addComponent(usersTable);
-		return layout;
+		DefaultCRUDPanel<Users> usersCrudPanel=(DefaultCRUDPanel<Users>) SpringSecurityViewProvider.applicationContext.getBean("defaultCRUDPanel", Users.class,"Utilisateurs");
+		usersCrudPanel.setVisibleFormProperties("username","password","enabled");
+		usersCrudPanel.setVisibleTableProperties("id","username","password","enabled");
+		return usersCrudPanel;
 	}
 
 	/**

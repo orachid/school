@@ -3,6 +3,7 @@
  */
 package fr.wati.scool.web;
 
+import org.hsqldb.util.DatabaseManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;

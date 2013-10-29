@@ -5,6 +5,8 @@ package fr.wati.scool.web.menu;
 
 import java.util.List;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
@@ -23,7 +25,10 @@ public abstract class AbstractMenu implements Menu, ClickListener {
 	 */
 	public AbstractMenu() {
 		super();
-		getButton().addClickListener(this);
+		if(getComponent() !=null && getComponent() instanceof Button){
+			((Button)getComponent()).addClickListener(this);
+		}
+		
 
 	}
 
@@ -52,5 +57,5 @@ public abstract class AbstractMenu implements Menu, ClickListener {
 	public boolean hasSubMenu() {
 		return false;
 	}	
-	
+
 }

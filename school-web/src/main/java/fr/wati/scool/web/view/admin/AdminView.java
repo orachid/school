@@ -5,10 +5,8 @@ package fr.wati.scool.web.view.admin;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.MenuBar;
 
 import fr.wati.scool.web.addons.ViewDescription;
-import fr.wati.scool.web.view.HasMenuBar;
 
 /**
  * @author Rachid Ouattara
@@ -16,7 +14,7 @@ import fr.wati.scool.web.view.HasMenuBar;
  */
 @ViewDescription(name = AdminView.NAME, requiredPermissions = "isAuthenticated() and hasRole('ROLE_ADMIN')")
 @SuppressWarnings("serial")
-public class AdminView extends AbstractAdminView implements HasMenuBar {
+public class AdminView extends AbstractAdminView  {
 
 	public static final String NAME = "admin";
 
@@ -29,15 +27,6 @@ public class AdminView extends AbstractAdminView implements HasMenuBar {
 		super();
 	}
 	
-	/* (non-Javadoc)
-	 * @see fr.wati.scool.web.view.HasMenuBar#getMenuBar()
-	 */
-	@Override
-	public MenuBar getMenuBar() {
-		return menuBar;
-	}
-
-
 	/*
 	 * (non-Javadoc)
 	 * 

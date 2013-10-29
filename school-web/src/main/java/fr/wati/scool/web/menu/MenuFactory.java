@@ -17,6 +17,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Component;
 
 import fr.wati.scool.web.annotations.MenuConfig;
+import fr.wati.scool.web.menu.Menu.MenuGroup;
 import fr.wati.util.SpringSecurityHelper;
 
 /**
@@ -30,7 +31,16 @@ public class MenuFactory implements ApplicationContextAware {
 	private ApplicationContext applicationContext;
 
 	public  List<Menu> getTopMenus() {
-		List<Menu> topMenus = new ArrayList<>();
+		return getMenus(MenuGroup.TOP);
+	}
+	
+	public  List<Menu> getAdminMenus() {
+		return getMenus(MenuGroup.ADMIN);
+	}
+	
+	
+	public List<Menu> getMenus(MenuGroup menuGroup){
+		List<Menu> menus = new ArrayList<>();
 		String[] menuBeanNames = applicationContext.getBeanNamesForType(Menu.class);
 		
 		for(String beanName:menuBeanNames){
@@ -42,20 +52,19 @@ public class MenuFactory implements ApplicationContextAware {
 							Secured secured=targetClass.getAnnotation(Secured.class);
 							if(SpringSecurityHelper.hasAnyRole(secured.value())){
 								menuConfig=targetClass.getAnnotation(MenuConfig.class);
-								if(Menu.TOP.equals(menuConfig.value())){
-									topMenus.add((Menu) bean);
+								if(menuGroup.equals(menuConfig.value())){
+									menus.add((Menu) bean);
 								}
 							} 
 					}else {
 						menuConfig=targetClass.getAnnotation(MenuConfig.class);
-						if(Menu.TOP.equals(menuConfig.value())){
-							topMenus.add((Menu) bean);
+						if(menuGroup.equals(menuConfig.value())){
+							menus.add((Menu) bean);
 						}
 					}
 			}
 		}
-		return topMenus;
-
+		return menus;
 	}
 	/* (non-Javadoc)
 	 * @see org.springframework.context.ApplicationContextAware#setApplicationContext(org.springframework.context.ApplicationContext)

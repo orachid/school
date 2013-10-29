@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import com.vaadin.ui.NativeButton;
 
 import fr.wati.scool.web.annotations.MenuConfig;
+import fr.wati.scool.web.menu.Menu.MenuGroup;
 import fr.wati.scool.web.view.DashBoardView;
 
 /**
@@ -21,7 +22,7 @@ import fr.wati.scool.web.view.DashBoardView;
  */
 @Component
 @Scope(SCOPE_PROTOTYPE)
-@MenuConfig(Menu.TOP)
+@MenuConfig(MenuGroup.TOP)
 @SuppressWarnings("serial")
 public class DashboardMenu extends AbstractMenu {
 
@@ -32,7 +33,7 @@ public class DashboardMenu extends AbstractMenu {
 	 * @see fr.wati.scool.web.menu.Menu#getButton()
 	 */
 	@Override
-	public NativeButton getButton() {
+	public NativeButton getComponent() {
 		if(nativeButton==null){
 			nativeButton=new NativeButton("DashBoard");
 		}

@@ -47,7 +47,7 @@ public class TopHorizontalMenuBar extends CustomComponent {
 		horizontalLayout.addStyleName("top-horizontal-menu-bar");
 		List<Menu> topMenus = menuFactory.getTopMenus();
 		for(Menu menu:topMenus){
-			horizontalLayout.addComponent(menu.getButton());
+			horizontalLayout.addComponent(menu.getComponent());
 		}
 		
 		setCompositionRoot(horizontalLayout);
