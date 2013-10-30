@@ -55,7 +55,7 @@ public class UsersEditionView extends AbstractAdminView {
 	 */
 	@Override
 	public Component getContent() {
-		DefaultCRUDPanel<Users> usersCrudPanel=(DefaultCRUDPanel<Users>) SpringSecurityViewProvider.applicationContext.getBean("defaultCRUDPanel", Users.class,"Utilisateurs");
+		DefaultCRUDPanel<Users> usersCrudPanel=(DefaultCRUDPanel<Users>) SpringSecurityViewProvider.applicationContext.getBean("defaultCRUDPanel", Users.class,"Utilisateurs","Edition des utilisateurs");
 		usersCrudPanel.setVisibleFormProperties("username","password","enabled");
 		usersCrudPanel.setVisibleTableProperties("id","username","password","enabled");
 		return usersCrudPanel;

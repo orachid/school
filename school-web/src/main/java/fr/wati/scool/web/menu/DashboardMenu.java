@@ -5,10 +5,9 @@ package fr.wati.scool.web.menu;
 
 
 import org.springframework.context.annotation.Scope;
-
-import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
-
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.vaadin.ui.NativeButton;
 
@@ -21,7 +20,7 @@ import fr.wati.scool.web.view.DashBoardView;
  *
  */
 @Component
-@Scope(SCOPE_PROTOTYPE)
+@Scope(value= WebApplicationContext.SCOPE_SESSION,proxyMode = ScopedProxyMode.TARGET_CLASS)
 @MenuConfig(MenuGroup.TOP)
 @SuppressWarnings("serial")
 public class DashboardMenu extends AbstractMenu {

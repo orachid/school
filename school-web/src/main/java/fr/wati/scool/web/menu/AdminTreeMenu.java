@@ -25,7 +25,7 @@ import fr.wati.util.SpringSecurityHelper;
  *
  */
 @Component
-@Scope(BeanDefinition.SCOPE_PROTOTYPE)
+@Scope(value= BeanDefinition.SCOPE_PROTOTYPE)
 @SuppressWarnings("serial")
 public class AdminTreeMenu extends Tree implements ItemClickListener {
 

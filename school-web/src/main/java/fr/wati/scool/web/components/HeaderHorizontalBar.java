@@ -3,12 +3,12 @@
  */
 package fr.wati.scool.web.components;
 
-import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
-
 import javax.annotation.PostConstruct;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.Alignment;
@@ -25,7 +25,7 @@ import fr.wati.util.SpringSecurityHelper;
  */
 @SuppressWarnings("serial")
 @Component
-@Scope(SCOPE_PROTOTYPE)
+@Scope(value= WebApplicationContext.SCOPE_SESSION,proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class HeaderHorizontalBar extends CustomComponent {
 
 	

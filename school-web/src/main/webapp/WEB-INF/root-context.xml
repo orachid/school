@@ -18,8 +18,8 @@
 	<context:property-placeholder location="classpath:*-school.properties" />
 
 
-	<bean id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
 		<property name="driverClassName">
 			<value>${driverClassName}</value>
 		</property>

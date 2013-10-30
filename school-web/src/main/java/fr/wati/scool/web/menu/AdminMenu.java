@@ -3,11 +3,11 @@
  */
 package fr.wati.scool.web.menu;
 
-import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
-
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.vaadin.ui.NativeButton;
 
@@ -21,7 +21,7 @@ import fr.wati.scool.web.view.admin.AdminView;
  *
  */
 @Component
-@Scope(SCOPE_PROTOTYPE)
+@Scope(value= WebApplicationContext.SCOPE_SESSION,proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Secured({Role.ROLE_ADMIN,Role.ROLE_DIRECTOR})
 @MenuConfig(MenuGroup.TOP)
 @SuppressWarnings("serial")
