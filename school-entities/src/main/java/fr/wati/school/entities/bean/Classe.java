@@ -3,13 +3,14 @@
  */
 package fr.wati.school.entities.bean;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  * @author Rachid Ouattara
@@ -21,12 +22,12 @@ public class Classe extends Entite {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long Id;
+	private Long id;
 	private String code;
 	private String nom;
 	private Integer effectifTotal;
-	@ManyToMany
-	private List<Matiere> matieres;
+	@OneToMany
+	private Set<Matiere> matieres=new HashSet<>();
 	/**
 	 * @return the code
 	 */
@@ -66,14 +67,26 @@ public class Classe extends Entite {
 	/**
 	 * @return the matieres
 	 */
-	public List<Matiere> getMatieres() {
+	public Set<Matiere> getMatieres() {
 		return matieres;
 	}
 	/**
 	 * @param matieres the matieres to set
 	 */
-	public void setMatieres(List<Matiere> matieres) {
+	public void setMatieres(Set<Matiere> matieres) {
 		this.matieres = matieres;
+	}
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 }

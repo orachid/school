@@ -11,10 +11,6 @@ import java.io.Serializable;
  */
 @SuppressWarnings("serial")
 public class Entite implements Serializable {
-
-	
-	protected Long id;
-
 	
 	
 	

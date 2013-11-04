@@ -133,6 +133,18 @@ public class Note extends Entite {
 	public void setExerciseNote(ExerciseNote exerciseNote) {
 		this.exerciseNote = exerciseNote;
 	}
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
 	
 	
 }

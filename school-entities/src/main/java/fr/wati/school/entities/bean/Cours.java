@@ -3,6 +3,8 @@
  */
 package fr.wati.school.entities.bean;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
@@ -23,6 +25,15 @@ public class Cours extends Evenement {
 	private Classe classe;
 	@OneToOne
 	private Periode periode;
+	
+	
+	
+	public Cours() {
+		super();
+	}
+	public Cours(String nom, Date dateDebut, Date dateFin, String commentaire) {
+		super(nom, dateDebut, dateFin, commentaire);
+	}
 	/**
 	 * @return the professeur
 	 */

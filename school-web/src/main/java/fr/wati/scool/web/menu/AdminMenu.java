@@ -36,6 +36,7 @@ public class AdminMenu extends AbstractMenu {
 	public NativeButton getComponent() {
 		if(nativeButton==null){
 			nativeButton=new NativeButton("Admin");
+			nativeButton.setHtmlContentAllowed(true);
 		}
 		return nativeButton;
 	}

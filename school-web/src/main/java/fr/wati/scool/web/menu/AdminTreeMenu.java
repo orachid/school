@@ -15,6 +15,12 @@ import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.ui.Tree;
 
 import fr.wati.school.entities.bean.Role;
+import fr.wati.scool.web.view.admin.AuditView;
+import fr.wati.scool.web.view.admin.BatchEditionView;
+import fr.wati.scool.web.view.admin.ClassesEditionView;
+import fr.wati.scool.web.view.admin.EtablissementEditionView;
+import fr.wati.scool.web.view.admin.MatieresEditionView;
+import fr.wati.scool.web.view.admin.SalleEditionView;
 import fr.wati.scool.web.view.admin.parameters.ConfigurationView;
 import fr.wati.scool.web.view.admin.users.UsersEditionView;
 import fr.wati.scool.web.view.admin.users.UsersRightsManagementView;
@@ -39,47 +45,74 @@ public class AdminTreeMenu extends Tree implements ItemClickListener {
 
 	@PostConstruct
 	public void postConstruct(){
-		if(SpringSecurityHelper.hasAllRoles(Role.ROLE_ADMIN)){
-			addUserAdminNode();
-			addParametersAdminNode();
+		if(SpringSecurityHelper.hasAnyRole(Role.ROLE_ADMIN,Role.ROLE_DIRECTOR)){
+			//Edition
+			Node editionNode=new Node("Edition", null);
+			addItem(editionNode);
+			setChildrenAllowed(editionNode, true);
+				//Users
+			Node usersNode =new Node("Users", UsersEditionView.NAME);
+			addItem(usersNode);
+			setChildrenAllowed(usersNode, false);
+			setParent(usersNode, editionNode);
+				//Right management
+			Node rightManagementNode =new Node("Gestion des droits", UsersRightsManagementView.NAME);
+			addItem(rightManagementNode);
+			setChildrenAllowed(rightManagementNode, false);
+			setParent(rightManagementNode, editionNode);
+				//Classe
+			Node classesNode =new Node("Classes", ClassesEditionView.NAME);
+			addItem(classesNode);
+			setChildrenAllowed(classesNode, false);
+			setParent(classesNode, editionNode);
+				//Matieres
+			Node matieresNode =new Node("Matieres", MatieresEditionView.NAME);
+			addItem(matieresNode);
+			setChildrenAllowed(matieresNode, false);
+			setParent(matieresNode, editionNode);
+				//Salles
+			Node sallesNode =new Node("Salles", SalleEditionView.NAME);
+			addItem(sallesNode);
+			setChildrenAllowed(sallesNode, false);
+			setParent(sallesNode, editionNode);
+				//Etablissement
+			Node etablissementNode =new Node("Etablissement", EtablissementEditionView.NAME);
+			addItem(etablissementNode);
+			setChildrenAllowed(etablissementNode, false);
+			setParent(etablissementNode, editionNode);
+				//Batch
+			Node batchNode =new Node("Batch", BatchEditionView.NAME);
+			addItem(batchNode);
+			setChildrenAllowed(batchNode, false);
+			setParent(batchNode, editionNode);
+			expandItemsRecursively(editionNode);
+			
+			//Parametres
+			Node parametersNode=new Node("Parametres", null);
+			addItem(parametersNode);
+			setChildrenAllowed(parametersNode, true);
+				//Global settings
+			Node globalSettingsNode = new Node("Global settings", ConfigurationView.NAME);
+			addItem(globalSettingsNode);
+			setChildrenAllowed(globalSettingsNode, false);
+			setParent(globalSettingsNode, parametersNode);
+				//Messages
+			Node messagesNode = new Node("Messages", UsersRightsManagementView.NAME);
+			addItem(messagesNode);
+			setChildrenAllowed(messagesNode, false);
+			setParent(messagesNode, parametersNode);
+				//Audit
+			Node auditNode = new Node("Audit", AuditView.NAME);
+			addItem(auditNode);
+			setChildrenAllowed(auditNode, false);
+			setParent(auditNode, parametersNode);
+			
+			expandItemsRecursively(parametersNode);
 		}
 				
 		addItemClickListener(this);
 	}
 
-	private void addUserAdminNode() {
-		Node users=new Node("Utilisateurs", null);
-		addItem(users);
-		setChildrenAllowed(users, true);
-		
-		Node editionNode =new Node("Edition", UsersEditionView.NAME);
-		addItem(editionNode);
-		setChildrenAllowed(editionNode, false);
-		setParent(editionNode, users);
-		
-		Node rightManagementNode =new Node("Gestion des droits", UsersRightsManagementView.NAME);
-		addItem(rightManagementNode);
-		setChildrenAllowed(rightManagementNode, false);
-		setParent(rightManagementNode, users);
-		expandItemsRecursively(users);
-	}
-	
-	private void addParametersAdminNode() {
-		Node parametersNode=new Node("Parametres", null);
-		addItem(parametersNode);
-		setChildrenAllowed(parametersNode, true);
-		Node globalSettingsNode = new Node("Global settings", ConfigurationView.NAME);
-		addItem(globalSettingsNode);
-		setChildrenAllowed(globalSettingsNode, false);
-		setParent(globalSettingsNode, parametersNode);
-		Node messagesNode = new Node("Messages", UsersRightsManagementView.NAME);
-		addItem(messagesNode);
-		setChildrenAllowed(messagesNode, false);
-		setParent(messagesNode, parametersNode);
-		expandItemsRecursively(parametersNode);
-	}
-	
-	
 	
 	public static class Node{
 		private String caption;
@@ -134,6 +167,7 @@ public class AdminTreeMenu extends Tree implements ItemClickListener {
 	/* (non-Javadoc)
 	 * @see com.vaadin.event.ItemClickEvent.ItemClickListener#itemClick(com.vaadin.event.ItemClickEvent)
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	public void itemClick(ItemClickEvent event) {
 		if (event!=null &&  event.getButton() == ItemClickEvent.BUTTON_LEFT && event.getItemId() instanceof Node){

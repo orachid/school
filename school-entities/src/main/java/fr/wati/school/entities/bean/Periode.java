@@ -60,6 +60,18 @@ public class Periode extends Entite {
 	public void setDateFin(Date dateFin) {
 		this.dateFin = dateFin;
 	}
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
 	
 	
 }

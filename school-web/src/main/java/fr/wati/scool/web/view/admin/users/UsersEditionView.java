@@ -3,19 +3,13 @@
  */
 package fr.wati.scool.web.view.admin.users;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.provider.CachingMutableLocalEntityProvider;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.VerticalLayout;
 
 import fr.wati.school.entities.bean.Users;
-import fr.wati.scool.web.addons.SpringSecurityViewProvider;
 import fr.wati.scool.web.addons.ViewDescription;
-import fr.wati.scool.web.components.BasicCRUDView;
+import fr.wati.scool.web.components.CRUDPanelFactory;
 import fr.wati.scool.web.components.DefaultCRUDPanel;
 import fr.wati.scool.web.view.admin.AbstractAdminView;
 
@@ -28,8 +22,9 @@ import fr.wati.scool.web.view.admin.AbstractAdminView;
 public class UsersEditionView extends AbstractAdminView {
 
 	public static final String NAME = "usersEditionView";
-	@PersistenceContext
-	private EntityManager entityManager;
+	
+	@Autowired
+	private CRUDPanelFactory crudPanelFactory;
 
 	/**
 	 * @param navigator
@@ -55,25 +50,10 @@ public class UsersEditionView extends AbstractAdminView {
 	 */
 	@Override
 	public Component getContent() {
-		DefaultCRUDPanel<Users> usersCrudPanel=(DefaultCRUDPanel<Users>) SpringSecurityViewProvider.applicationContext.getBean("defaultCRUDPanel", Users.class,"Utilisateurs","Edition des utilisateurs");
-		usersCrudPanel.setVisibleFormProperties("username","password","enabled");
-		usersCrudPanel.setVisibleTableProperties("id","username","password","enabled");
+		DefaultCRUDPanel<Users> usersCrudPanel=crudPanelFactory.getCRUDPanel(Users.class,"Utilisateurs","Edition des utilisateurs");
+		usersCrudPanel.setVisibleFormProperties("username","password","enabled","roles");
+		usersCrudPanel.setVisibleTableProperties("id","username","password","enabled","roles");
 		return usersCrudPanel;
-	}
-
-	/**
-	 * @return the entityManager
-	 */
-	public EntityManager getEntityManager() {
-		return entityManager;
-	}
-
-	/**
-	 * @param entityManager
-	 *            the entityManager to set
-	 */
-	public void setEntityManager(EntityManager entityManager) {
-		this.entityManager = entityManager;
 	}
 
 }

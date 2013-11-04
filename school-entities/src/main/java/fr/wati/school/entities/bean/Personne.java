@@ -5,14 +5,10 @@ package fr.wati.school.entities.bean;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -23,11 +19,9 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 @SuppressWarnings("serial")
 @Entity
-public class Personne extends Entite {
+public class Personne extends Users {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
+
 	@NotBlank
 	private String nom;
 	@NotBlank
@@ -36,7 +30,7 @@ public class Personne extends Entite {
 	private Date dateNaissance;
 	@Enumerated(EnumType.ORDINAL)
 	private Civilite civilite;
-	@OneToOne(cascade=CascadeType.ALL)
+	@Embedded
 	private Contact contact;
 	/**
 	 * @return the nom

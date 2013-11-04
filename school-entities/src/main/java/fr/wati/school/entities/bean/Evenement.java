@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * @author Rachid Ouattara
@@ -26,11 +28,26 @@ public class Evenement extends Entite {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	protected String nom;
+	@Temporal(TemporalType.TIMESTAMP)
 	protected Date dateDebut;
+	@Temporal(TemporalType.TIMESTAMP)
 	protected Date dateFin;
 	@ManyToOne
 	protected Salle salle;
-	private String commentaire;
+	protected String commentaire;
+	
+	
+	public Evenement() {
+		super();
+	}
+	public Evenement(String nom, Date dateDebut, Date dateFin,
+			String commentaire) {
+		super();
+		this.nom = nom;
+		this.dateDebut = dateDebut;
+		this.dateFin = dateFin;
+		this.commentaire = commentaire;
+	}
 	/**
 	 * @return the nom
 	 */
@@ -90,6 +107,18 @@ public class Evenement extends Entite {
 	 */
 	public void setCommentaire(String commentaire) {
 		this.commentaire = commentaire;
+	}
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 	

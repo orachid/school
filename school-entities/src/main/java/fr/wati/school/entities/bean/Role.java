@@ -4,12 +4,15 @@
 package fr.wati.school.entities.bean;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 /**
  * @author Rachid Ouattara
@@ -40,6 +43,31 @@ public class Role extends Entite {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private  Long id;
 	private String role;
+
+	 @ManyToMany(mappedBy = "roles")
+	 private Set<Users> users=new HashSet<>();
+	
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	/**
+	 * @return the users
+	 */
+	public Set<Users> getUsers() {
+		return users;
+	}
+
+	/**
+	 * @param users the users to set
+	 */
+	public void setUsers(Set<Users> users) {
+		this.users = users;
+	}
 	
 	public Long getId() {
 		return id;
@@ -47,14 +75,6 @@ public class Role extends Entite {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
 	}
 
 }

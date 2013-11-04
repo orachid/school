@@ -34,6 +34,38 @@
 		</property>
 	</bean>
 
+	<!-- Localization Start -->
+	<!-- <bean class="org.springframework.web.servlet.i18n.SessionLocaleResolver"
+		id="localeResolver">
+		<property name="defaultLocale" value="en">
+		</property>
+	</bean>
+
+	<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
+		id="localeChangeInterceptor">
+		<property name="paramName" value="language">
+		</property>
+	</bean>
+
+	<bean
+		class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<ref bean="localeChangeInterceptor"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:messages" />
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean> -->
+
+	<!-- Localization End -->
+
+
+	
+
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
@@ -59,6 +91,9 @@
 			</bean>
 		</property>
 	</bean>
+
+	<bean id="crudEntityManager" class="fr.wati.util.CRUDEntityManagerFactory"
+		factory-method="createEntityManager" />
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	<jpa:repositories base-package="fr.wati.school.services.dao" />

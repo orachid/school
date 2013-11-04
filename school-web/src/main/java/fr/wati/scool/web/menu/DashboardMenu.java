@@ -35,6 +35,7 @@ public class DashboardMenu extends AbstractMenu {
 	public NativeButton getComponent() {
 		if(nativeButton==null){
 			nativeButton=new NativeButton("DashBoard");
+			nativeButton.setHtmlContentAllowed(true);
 		}
 		return nativeButton;
 	}

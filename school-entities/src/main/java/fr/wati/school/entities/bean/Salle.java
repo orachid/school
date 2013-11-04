@@ -3,7 +3,7 @@
  */
 package fr.wati.school.entities.bean;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,8 +24,9 @@ public class Salle extends Entite {
 	private  Long id;
 	private String nom;
 	private String code;
+	private Integer capacity;
 	@OneToMany
-	private List<Evenement> evenements;
+	private Set<Evenement> evenements;
 	
 	/**
 	 * @return the code
@@ -51,4 +52,30 @@ public class Salle extends Entite {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
+	public Integer getCapacity() {
+		return capacity;
+	}
+	public void setCapacity(Integer capacity) {
+		this.capacity = capacity;
+	}
+	public Set<Evenement> getEvenements() {
+		return evenements;
+	}
+	public void setEvenements(Set<Evenement> evenements) {
+		this.evenements = evenements;
+	}
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	
 }

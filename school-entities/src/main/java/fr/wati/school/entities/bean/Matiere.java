@@ -3,13 +3,11 @@
  */
 package fr.wati.school.entities.bean;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 /**
  * @author Rachid Ouattara
@@ -24,9 +22,9 @@ public class Matiere extends Entite {
 	private Long id;
 	private String nom;
 	private String code;
-	@ManyToMany
-	private List<Classe> classes;
-	private Long coefficient;
+	@ManyToOne
+	private Classe classe;
+	private Double coefficient;
 	/**
 	 * @return the nom
 	 */
@@ -40,28 +38,23 @@ public class Matiere extends Entite {
 		this.nom = nom;
 	}
 	
-	/**
-	 * @return the classes
-	 */
-	public List<Classe> getClasse() {
-		return classes;
+	
+	public Classe getClasse() {
+		return classe;
 	}
-	/**
-	 * @param classe the classes to set
-	 */
-	public void setClasse(List<Classe> classes) {
-		this.classes = classes;
+	public void setClasses(Classe classe) {
+		this.classe = classe;
 	}
 	/**
 	 * @return the coefficient
 	 */
-	public Long getCoefficient() {
+	public Double getCoefficient() {
 		return coefficient;
 	}
 	/**
 	 * @param coefficient the coefficient to set
 	 */
-	public void setCoefficient(Long coefficient) {
+	public void setCoefficient(Double coefficient) {
 		this.coefficient = coefficient;
 	}
 	/**
@@ -75,6 +68,18 @@ public class Matiere extends Entite {
 	 */
 	public void setCode(String code) {
 		this.code = code;
+	}
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 	

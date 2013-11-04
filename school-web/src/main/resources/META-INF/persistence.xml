@@ -7,7 +7,22 @@ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
 		transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>fr.wati.school.entities.bean.Users</class>
+		<class>fr.wati.school.entities.bean.Personne</class>
+		<class>fr.wati.school.entities.bean.Etudiant</class>
+		<class>fr.wati.school.entities.bean.Parent</class>
 		<class>fr.wati.school.entities.bean.Role</class>
+		<class>fr.wati.school.entities.bean.Classe</class>
+		<class>fr.wati.school.entities.bean.Matiere</class>
+		<class>fr.wati.school.entities.bean.Salle</class>
+		<class>fr.wati.school.entities.bean.Inscription</class>
+		<class>fr.wati.school.entities.bean.AnneeScolaire</class>
+		<class>fr.wati.school.entities.bean.Cours</class>
+		<class>fr.wati.school.entities.bean.Evenement</class>
+		<class>fr.wati.school.entities.bean.Etablissement</class>
+		<class>fr.wati.school.entities.bean.Reunion</class>
+		<class>fr.wati.school.entities.bean.ConseilleDeClasse</class>
+		<class>fr.wati.school.entities.bean.Professeur</class>
+		<class>fr.wati.school.entities.bean.Periode</class>
 		<properties>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
             <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/school" />

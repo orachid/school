@@ -3,13 +3,17 @@
  */
 package fr.wati.school.entities.bean;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 /**
@@ -18,6 +22,7 @@ import javax.persistence.ManyToMany;
  */
 @SuppressWarnings("serial")
 @Entity
+@Inheritance(strategy=InheritanceType.JOINED)
 public class Users extends Entite {
 
 	@Id
@@ -26,8 +31,11 @@ public class Users extends Entite {
 	private String username;
 	private String password;
 	private boolean enabled;
-	@ManyToMany(fetch=FetchType.LAZY)
-	private Set<Role> roles;
+	@ManyToMany
+    @JoinTable(name = "USER_ROLE", 
+       joinColumns = { @JoinColumn(name = "USER_ID") }, 
+       inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
+	private Set<Role> roles=new HashSet<>();
 	
 	
 	/**
@@ -43,19 +51,6 @@ public class Users extends Entite {
 		this.password = password;
 	}
 	
-	/**
-	 * @return the id
-	 */
-	public Long getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(Long id) {
-		this.id = id;
-	}
 	/**
 	 * @return the username
 	 */
@@ -91,6 +86,14 @@ public class Users extends Entite {
 	 */
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 }

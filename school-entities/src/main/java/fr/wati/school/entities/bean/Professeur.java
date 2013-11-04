@@ -11,7 +11,7 @@ import javax.persistence.Entity;
  */
 @SuppressWarnings("serial")
 @Entity
-public class Professeur extends PersonneAdministrative{
+public class Professeur extends Personne{
 
 	
 }

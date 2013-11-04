@@ -62,6 +62,18 @@ public class Inscription extends Entite {
 	public void setEtudiant(Etudiant etudiant) {
 		this.etudiant = etudiant;
 	}
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
 	
 	
 }

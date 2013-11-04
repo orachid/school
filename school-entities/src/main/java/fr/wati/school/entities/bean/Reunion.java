@@ -3,7 +3,7 @@
  */
 package fr.wati.school.entities.bean;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -17,19 +17,19 @@ import javax.persistence.OneToMany;
 public class Reunion extends Evenement {
 
 	@OneToMany
-	private List<Personne> personnesPresentes;
+	private Set<Personne> personnesPresentes;
 
 	/**
 	 * @return the personnesPresentes
 	 */
-	public List<Personne> getPersonnesPresentes() {
+	public Set<Personne> getPersonnesPresentes() {
 		return personnesPresentes;
 	}
 
 	/**
 	 * @param personnesPresentes the personnesPresentes to set
 	 */
-	public void setPersonnesPresentes(List<Personne> personnesPresentes) {
+	public void setPersonnesPresentes(Set<Personne> personnesPresentes) {
 		this.personnesPresentes = personnesPresentes;
 	}
 	

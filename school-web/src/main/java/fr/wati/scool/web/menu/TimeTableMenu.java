@@ -38,7 +38,8 @@ public class TimeTableMenu extends AbstractMenu {
 	@Override
 	public NativeButton getComponent() {
 		if(nativeButton==null){
-			nativeButton=new NativeButton("Emploie de temps");
+			nativeButton=new NativeButton("Calendrier");
+			nativeButton.setHtmlContentAllowed(true);
 		}
 		return nativeButton;
 	}

@@ -3,13 +3,14 @@
  */
 package fr.wati.school.entities.bean;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 
@@ -26,9 +27,11 @@ public class AnneeScolaire extends Entite {
 	private Long id;
 	private String label;
 	@OneToMany(cascade=CascadeType.ALL)
-	private List<Inscription> inscriptions;
+	private Set<Inscription> inscriptions;
 	@OneToMany(cascade=CascadeType.ALL)
-	private List<Periode> periodes;
+	private Set<Periode> periodes;
+	@ManyToOne
+	private Etablissement etablissement;
 
 	/**
 	 * @return the label
@@ -47,29 +50,57 @@ public class AnneeScolaire extends Entite {
 	/**
 	 * @return the inscriptions
 	 */
-	public List<Inscription> getInscriptions() {
+	public Set<Inscription> getInscriptions() {
 		return inscriptions;
 	}
 
 	/**
 	 * @param inscriptions the inscriptions to set
 	 */
-	public void setInscriptions(List<Inscription> inscriptions) {
+	public void setInscriptions(Set<Inscription> inscriptions) {
 		this.inscriptions = inscriptions;
 	}
 
 	/**
 	 * @return the periodes
 	 */
-	public List<Periode> getPeriodes() {
+	public Set<Periode> getPeriodes() {
 		return periodes;
 	}
 
 	/**
 	 * @param periodes the periodes to set
 	 */
-	public void setPeriodes(List<Periode> periodes) {
+	public void setPeriodes(Set<Periode> periodes) {
 		this.periodes = periodes;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the etablissement
+	 */
+	public Etablissement getEtablissement() {
+		return etablissement;
+	}
+
+	/**
+	 * @param etablissement the etablissement to set
+	 */
+	public void setEtablissement(Etablissement etablissement) {
+		this.etablissement = etablissement;
 	}
 	
 	

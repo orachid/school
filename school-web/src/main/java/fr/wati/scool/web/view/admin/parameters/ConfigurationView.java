@@ -13,6 +13,7 @@ import fr.wati.scool.web.view.admin.AbstractAdminView;
  * @author Rachid Ouattara
  * 
  */
+@SuppressWarnings("serial")
 @ViewDescription(name = ConfigurationView.NAME, requiredPermissions = "isAuthenticated()")
 public class ConfigurationView extends AbstractAdminView {
 
