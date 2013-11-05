@@ -14,12 +14,16 @@ import org.springframework.stereotype.Component;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerItem;
-import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
 import com.vaadin.data.Item;
+import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.data.validator.BeanValidator;
+import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Window;
+
+import fr.wati.scool.web.view.binding.CustomFieldFactory;
 
 /**
  * @author Rachid Ouattara
@@ -31,6 +35,7 @@ import com.vaadin.ui.Window;
 public class EntityEditionWindows<ENTITY> extends Window {
 
 	private Form editionForm;
+	private FieldGroup fieldGroup;
 	private Button commit;
 	private Button discard;
 	private EntityItem<ENTITY> item;
@@ -39,6 +44,7 @@ public class EntityEditionWindows<ENTITY> extends Window {
 	private ENTITY entity;
 	private JPAContainer<ENTITY> jpaContainer;
 	private Object objectId;
+	private Resolution dateResolution=Resolution.DAY;
 	
 
 	/**
@@ -52,6 +58,12 @@ public class EntityEditionWindows<ENTITY> extends Window {
 		this.entity=entity;
 		this.formPropertyIds = formPropertyIds;
 		this.jpaContainer=jpaContainer;
+	}
+	
+	public EntityEditionWindows(String caption, ENTITY entity,
+			Object[] formPropertyIds,JPAContainer<ENTITY> jpaContainer,Resolution dateResolution) {
+		this(caption, entity, formPropertyIds, jpaContainer);
+		this.dateResolution=dateResolution;
 	}
 
 	@PostConstruct
@@ -86,13 +98,16 @@ public class EntityEditionWindows<ENTITY> extends Window {
 		editionForm.setEnabled(true);
 		// set entity item to form and focus it
 		item=jpaContainer.createEntityItem(entity); 
-		final FieldFactory fieldFactory = new FieldFactory();
+		final CustomFieldFactory fieldFactory = new CustomFieldFactory(dateResolution);
 		editionForm.setFormFieldFactory(fieldFactory);
 		editionForm.setItemDataSource(
 				item,
 				formPropertyIds != null ? Arrays.asList(formPropertyIds) : item
 						.getItemPropertyIds());
+		editionForm.setValidationVisibleOnCommit(true);
 		editionForm.focus();
+		
+		
 		center();
 		setModal(true);
 		setClosable(true);

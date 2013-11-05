@@ -12,16 +12,29 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 
 import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.addon.jpacontainer.provider.CachingLocalEntityProvider;
 import com.vaadin.addon.jpacontainer.provider.CachingMutableLocalEntityProvider;
 import com.vaadin.addon.jpacontainer.util.HibernateLazyLoadingDelegate;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.event.Action;
+import com.vaadin.server.Page;
+import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.Calendar;
+import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
+import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventClick;
+import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventClickHandler;
+import com.vaadin.ui.components.calendar.event.BasicEvent;
 
+import fr.wati.school.entities.bean.Classe;
 import fr.wati.school.entities.bean.ConseilleDeClasse;
 import fr.wati.school.entities.bean.Cours;
 import fr.wati.school.entities.bean.Evenement;
@@ -41,6 +54,9 @@ public class TimeTableView extends AbstractView {
 	public static final String NAME="timetable"; 
 	@Resource(name="crudEntityManager")
 	private EntityManager entityManager;
+	private JPAContainer<Evenement> jpaContainer;
+	private Calendar calendar;
+	private HorizontalLayout filterHorizontalLayout;
 	
 	/**
 	 * @param navigator
@@ -51,21 +67,56 @@ public class TimeTableView extends AbstractView {
 
 	@PostConstruct
 	public void postConstruct(){
-		
-		VerticalLayout mainVerticalLayout=new VerticalLayout();
 		Label titleLabel=new Label("Calendier");
 		titleLabel.addStyleName("h4");
+		
+		VerticalLayout mainVerticalLayout=new VerticalLayout();
 		mainVerticalLayout.addComponent(titleLabel);
+		filterHorizontalLayout = buildFilterHorizontal();
+		
+		buildCalendar();
+		
 		HorizontalLayout mainHorizontalLayout=new HorizontalLayout();
-		VerticalLayout leftLayout=new VerticalLayout();
+		VerticalLayout leftLayout=buildLeftFilter();
 		mainHorizontalLayout.addComponent(leftLayout);
 		VerticalLayout rightLayout=new VerticalLayout();
+		rightLayout.addComponent(filterHorizontalLayout);
+		
 		mainHorizontalLayout.addComponent(rightLayout);
-		Calendar calendar=new Calendar();
+		
+		rightLayout.addComponent(calendar);
+		mainVerticalLayout.addComponent(mainHorizontalLayout);
+		mainVerticalLayout.setSizeFull();
+		setCompositionRoot(mainVerticalLayout);
+	}
+
+	/**
+	 * @return
+	 */
+	private VerticalLayout buildLeftFilter() {
+		VerticalLayout layout=new VerticalLayout();
+		//Classe container
+		CachingLocalEntityProvider<Classe> entityProvider = new CachingLocalEntityProvider<Classe>(Classe.class, entityManager);
+		JPAContainer<Classe> classeContainer = new JPAContainer<>(Classe.class);
+		classeContainer.setEntityProvider(entityProvider);
+		HibernateLazyLoadingDelegate hibernateLazyLoadingDelegate = new HibernateLazyLoadingDelegate();
+		entityProvider.setLazyLoadingDelegate(hibernateLazyLoadingDelegate);
+		ComboBox classeComboBox=new ComboBox("Classe");
+		classeComboBox.setContainerDataSource(classeContainer);
+		layout.addComponent(classeComboBox);
+		
+		return layout;
+	}
+
+	/**
+	 * 
+	 */
+	private void buildCalendar() {
+		calendar = new Calendar();
 		CachingMutableLocalEntityProvider<Evenement> entityProvider = new CachingMutableLocalEntityProvider<Evenement>(
 				Evenement.class, entityManager);
 		
-		final JPAContainer<Evenement> jpaContainer=new JPAContainer<>(Evenement.class);
+		jpaContainer = new JPAContainer<>(Evenement.class);
 		jpaContainer.setEntityProvider(entityProvider);
 		
 		HibernateLazyLoadingDelegate hibernateLazyLoadingDelegate = new HibernateLazyLoadingDelegate();
@@ -73,8 +124,10 @@ public class TimeTableView extends AbstractView {
 		calendar.setContainerDataSource(jpaContainer, "nom", "commentaire", "dateDebut", "dateFin", null);
 		calendar.setFirstVisibleHourOfDay(8);
 		calendar.setLastVisibleHourOfDay(19);
+		jpaContainer.sort(new String[]{"dateDebut"},  new boolean[]{true});
 		calendar.addActionHandler(new Action.Handler() {
 			
+			@SuppressWarnings("rawtypes")
 			@Override
 			public void handleAction(Action action, Object sender, Object target) {
 				System.out.println("Action: "+action.getCaption()+" Sender: "+sender+" Target: "+target);
@@ -97,12 +150,47 @@ public class TimeTableView extends AbstractView {
 				return actions.toArray(new Action[actions.size()]);
 			}
 		});
-		rightLayout.addComponent(calendar);
-		mainVerticalLayout.addComponent(mainHorizontalLayout);
-		mainVerticalLayout.setSizeFull();
-		setCompositionRoot(mainVerticalLayout);
+		calendar.setHandler(new EventClickHandler() {
+			 public void eventClick(EventClick event) {
+				 BasicEvent e = (BasicEvent) event.getCalendarEvent();
+				 // Do something with it
+				 new Notification("Event clicked: " + e.getCaption(),
+				 e.getDescription()).show(Page.getCurrent());
+				 }
+				});
+
 	}
 	
+	public HorizontalLayout buildFilterHorizontal(){
+		HorizontalLayout filterHorizontalLayout = new HorizontalLayout();
+		Panel panel=new Panel("Filters..");
+		DateField startDateField=new DateField("From");
+		DateField endDateField=new DateField("To");
+		startDateField.addValueChangeListener(new ValueChangeListener() {
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				if(event!=null && event.getProperty().getValue()!=null && event.getProperty().getValue() instanceof Date){
+					calendar.setStartDate((Date) event.getProperty().getValue());
+				}
+			}
+		});
+		startDateField.setImmediate(true);
+		endDateField.addValueChangeListener(new ValueChangeListener() {
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				if(event!=null && event.getProperty().getValue()!=null && event.getProperty().getValue() instanceof Date){
+					calendar.setEndDate((Date) event.getProperty().getValue());
+				}
+			}
+		});
+		endDateField.setImmediate(true);
+		HorizontalLayout panelContent=new HorizontalLayout();
+		panelContent.addComponent(startDateField);
+		panelContent.addComponent(endDateField);
+		panel.setContent(panelContent);
+		filterHorizontalLayout.addComponent(panel);
+		return filterHorizontalLayout;
+	}
 	
 	/* (non-Javadoc)
 	 * @see fr.wati.scool.web.view.AbstractView#getViewName()
@@ -144,12 +232,13 @@ public class TimeTableView extends AbstractView {
 			calendar.setTime(startDate);
 			calendar.add(java.util.Calendar.HOUR, 1);
 			entity.setDateDebut(startDate);
+			entity.setDateFin(calendar.getTime());
 			//entityId = container.addEntity(entity);
 			
 			@SuppressWarnings("unchecked")
 			final EntityEditionWindows<ENTITY> editionWindows = (EntityEditionWindows<ENTITY>) SpringSecurityViewProvider.applicationContext
 					.getBean("entityEditionWindows", getCaption(),
-							entity, null,container);
+							entity, null,container,Resolution.MINUTE);
 			getUI().addWindow(editionWindows);
 			editionWindows.addCloseListener(new Window.CloseListener() {
 

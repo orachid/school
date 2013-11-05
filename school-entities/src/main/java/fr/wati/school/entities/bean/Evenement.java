@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * @author Rachid Ouattara
  *
@@ -27,6 +29,7 @@ public class Evenement extends Entite {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
+	@NotBlank
 	protected String nom;
 	@Temporal(TemporalType.TIMESTAMP)
 	protected Date dateDebut;

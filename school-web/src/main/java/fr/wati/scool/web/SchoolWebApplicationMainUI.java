@@ -35,7 +35,7 @@ import fr.wati.scool.web.components.TopHorizontalMenuBar;
  * @author Rachid Ouattara
  * 
  */
-@Theme("dashboard")
+//@Theme("dashboard")
 @SuppressWarnings("serial")
 @Component
 @Scope("session")
@@ -72,7 +72,7 @@ public class SchoolWebApplicationMainUI extends UI implements ErrorHandler {
 						.createViewProvider((Authentication) request
 								.getUserPrincipal(),navigator));
 		buildMainLayout();
-		System.out.println(SecurityContextHolder.getContext().getAuthentication());
+		getPage().setTitle("School web app");
 		setContent(mainLayout);
 	}
 
