@@ -9,13 +9,16 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.addon.jpacontainer.JPAContainerItem;
 import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
 import com.vaadin.addon.jpacontainer.provider.CachingMutableLocalEntityProvider;
 import com.vaadin.addon.jpacontainer.util.HibernateLazyLoadingDelegate;
@@ -36,7 +39,8 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
 
 import fr.wati.school.entities.bean.Entite;
-import fr.wati.scool.web.addons.SpringSecurityViewProvider;
+import fr.wati.school.services.utils.AnnationUtils;
+import fr.wati.scool.web.view.binding.CustomFieldFactory;
 import fr.wati.scool.web.view.commons.EntityEditionWindows;
 
 /**
@@ -58,19 +62,29 @@ public class DefaultCRUDPanel<ENTITY extends Entite> extends CustomComponent
 	private Button deleteButton;
 	private Button commit;
 	private Button discard;
-	private Object[] formPropertyIds;
+	private Object[] createFormPropertyIds;
+	private Object[] tablePropertyIds;
 	@Resource(name = "crudEntityManager")
 	private EntityManager entityManager;
+	@Autowired
+	private transient ApplicationContext applicationContext;
 	private HorizontalSplitPanel mainHorizontalLayout;
 	private String entityName;
 	private String title = "";
 
+	public DefaultCRUDPanel(Class<ENTITY> entityClass, String entityName,String title) {
+		this(entityClass, entityName, title, AnnationUtils.getNonJPAPropertiesForCreation(entityClass).toArray(), AnnationUtils.getNonJPAPropertiesForCreation(entityClass).toArray());
+	}
+
 	public DefaultCRUDPanel(Class<ENTITY> entityClass, String entityName,
-			String title) {
+			String title,Object[] createFormPropertyIds, Object[] tablePropertyIds) {
 		super();
 		this.entityClass = entityClass;
 		this.entityName = entityName;
 		this.title = title;
+		this.createFormPropertyIds = createFormPropertyIds;
+		this.tablePropertyIds = tablePropertyIds;
+
 	}
 
 	@PostConstruct
@@ -89,26 +103,20 @@ public class DefaultCRUDPanel<ENTITY extends Entite> extends CustomComponent
 		CachingMutableLocalEntityProvider<ENTITY> entityProvider = new CachingMutableLocalEntityProvider<ENTITY>(
 				getEntityClass(), entityManager);
 		// And there we have it
-		jpaContainer = new JPAContainer<ENTITY>(getEntityClass());
-		jpaContainer.setEntityProvider(entityProvider);
-
-		// We need an entity provider to create a container
-		// EntityProvider entityProvider =(EntityProvider)
-		// SpringSecurityViewProvider.applicationContext.getBean("transactionalCachingMutableLocalEntityProvider",
-		// new Object[]{entityClass});
-		// And there we have it
 		jpaContainer = new JPAContainer<ENTITY>(entityClass);
 		jpaContainer.setEntityProvider(entityProvider);
 		HibernateLazyLoadingDelegate hibernateLazyLoadingDelegate = new HibernateLazyLoadingDelegate();
 		entityProvider.setLazyLoadingDelegate(hibernateLazyLoadingDelegate);
 		entitiesTable.setContainerDataSource(jpaContainer);
+		entitiesTable.setVisibleColumns(tablePropertyIds);
 		// entitiesTable.setFilterBarVisible(true);
 		editionForm = new Form();
 		editionForm.setCaption(getEntityClass().getSimpleName() + " editor");
 		editionForm.addStyleName("bordered"); // Custom style
+		editionForm.setImmediate(true);
 		editionForm.setBuffered(true);
 		editionForm.setEnabled(false);
-		final FieldFactory fieldFactory = new FieldFactory();
+		final CustomFieldFactory fieldFactory = new CustomFieldFactory();
 		editionForm.setFormFieldFactory(fieldFactory);
 
 		commit = new Button("Save", new Button.ClickListener() {
@@ -170,24 +178,26 @@ public class DefaultCRUDPanel<ENTITY extends Entite> extends CustomComponent
 		// modify visibility of form and delete button if an item is selected
 		editionForm.setVisible(entitySelected);
 		deleteButton.setEnabled(entitySelected);
+		
 		if (entitySelected) {
+			Object[] updateFormPropertyIds=AnnationUtils.getNonJPAPropertiesForCreation(((JPAContainerItem) item).getEntity().getClass()).toArray();
 			editionForm.setEnabled(true);
 			// set entity item to form and focus it
-			editionForm.setItemDataSource(item,
-					formPropertyIds != null ? Arrays.asList(formPropertyIds)
-							: item.getItemPropertyIds());
+			CachingMutableLocalEntityProvider entityProvider = new CachingMutableLocalEntityProvider(((JPAContainerItem) item).getEntity().getClass(), entityManager);
+			// And there we have it
+			JPAContainer tempJPAContainer = new JPAContainer(((JPAContainerItem) item).getEntity().getClass());
+			tempJPAContainer.setEntityProvider(entityProvider);
+			HibernateLazyLoadingDelegate hibernateLazyLoadingDelegate = new HibernateLazyLoadingDelegate();
+			entityProvider.setLazyLoadingDelegate(hibernateLazyLoadingDelegate);
+			Item tempItem= tempJPAContainer.createEntityItem(((JPAContainerItem) item).getEntity());
+			editionForm.setItemDataSource(
+					tempItem,
+					updateFormPropertyIds != null ? Arrays
+							.asList(updateFormPropertyIds) : item
+							.getItemPropertyIds());
 			editionForm.focus();
 		}
-	}
-
-	public void setVisibleTableProperties(Object... tablePropertyIds) {
-		entitiesTable.setVisibleColumns(tablePropertyIds);
-	}
-
-	public void setVisibleFormProperties(Object... formPropertyIds) {
-		this.formPropertyIds = formPropertyIds;
-		editionForm.setVisibleItemProperties(formPropertyIds);
-	}
+	}	
 
 	public String getCaption() {
 		return getEntityClass().getSimpleName() + "s";
@@ -211,15 +221,16 @@ public class DefaultCRUDPanel<ENTITY extends Entite> extends CustomComponent
 		try {
 			ENTITY newInstance = newInstance();
 			@SuppressWarnings("unchecked")
-			final EntityEditionWindows<ENTITY> editionWindows = (EntityEditionWindows<ENTITY>) SpringSecurityViewProvider.applicationContext
+			final EntityEditionWindows<ENTITY> editionWindows = (EntityEditionWindows<ENTITY>) applicationContext
 					.getBean("entityEditionWindows", editionForm.getCaption(),
-							newInstance, formPropertyIds,jpaContainer);
+							newInstance, createFormPropertyIds, jpaContainer);
 			getUI().addWindow(editionWindows);
 			editionWindows.addCloseListener(new Window.CloseListener() {
 
 				@Override
 				public void windowClose(CloseEvent e) {
-					if(editionWindows.getItem()!=null && editionWindows.getObjectId()!=null){
+					if (editionWindows.getItem() != null
+							&& editionWindows.getObjectId() != null) {
 						entitiesTable.setValue(editionWindows.getObjectId());
 					}
 				}
