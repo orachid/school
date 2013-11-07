@@ -26,8 +26,7 @@ public abstract class AbstractMenu implements Menu, ClickListener {
 		super();
 		if(getComponent() !=null && getComponent() instanceof Button){
 			((Button)getComponent()).addClickListener(this);
-			getComponent().addStyleName("menu");
-			getComponent().addStyleName("sidebar");
+			getComponent().addStyleName("borderless");
 			
 		}
 		

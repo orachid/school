@@ -26,21 +26,23 @@ public class Etablissement extends Entite {
 	
 	private String nom;
 	private String code;
-	@OneToMany
-	private Set<AnneeScolaire> anneeScolaires=new HashSet<>();
+	@OneToMany(mappedBy="etablissement")
+	private Set<Classe> classes=new HashSet<>();
+
+	
 
 	/**
-	 * @return the anneeScolaires
+	 * @return the classes
 	 */
-	public Set<AnneeScolaire> getAnneeScolaires() {
-		return anneeScolaires;
+	public Set<Classe> getClasses() {
+		return classes;
 	}
 
 	/**
-	 * @param anneeScolaires the anneeScolaires to set
+	 * @param classes the classes to set
 	 */
-	public void setAnneeScolaires(Set<AnneeScolaire> anneeScolaires) {
-		this.anneeScolaires = anneeScolaires;
+	public void setClasses(Set<Classe> classes) {
+		this.classes = classes;
 	}
 
 	/**

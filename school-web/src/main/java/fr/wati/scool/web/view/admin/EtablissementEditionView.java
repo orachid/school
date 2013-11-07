@@ -31,8 +31,6 @@ public class EtablissementEditionView extends AbstractAdminView {
 	@Override
 	public Component getContent() {
 		DefaultCRUDPanel<Etablissement> classesCrudPanel=crudPanelFactory.getCRUDPanel(Etablissement.class,"Etablissement","Edition des etablissement");
-		classesCrudPanel.setVisibleFormProperties("code","nom","anneeScolaires");
-		classesCrudPanel.setVisibleTableProperties("code","nom");
 		return classesCrudPanel;
 	}
 

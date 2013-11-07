@@ -3,18 +3,16 @@
  */
 package fr.wati.scool.web.view.admin;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.MenuBar.MenuItem;
 
-import fr.wati.scool.web.addons.SpringSecurityViewProvider;
-import fr.wati.scool.web.menu.AdminTreeMenu;
+import fr.wati.scool.web.menu.AdminSideMenu;
 import fr.wati.scool.web.view.AbstractView;
 
 /**
@@ -24,9 +22,11 @@ import fr.wati.scool.web.view.AbstractView;
 @SuppressWarnings("serial")
 public abstract class AbstractAdminView extends AbstractView {
 
+	@Autowired
+	private transient ApplicationContext applicationContext;
 	protected MenuItem editUser;
 	protected MenuItem usersRight;
-	private HorizontalSplitPanel mainLayout;
+	private HorizontalLayout mainLayout=new HorizontalLayout();
 	/**
 	 * @param navigator
 	 */
@@ -43,41 +43,22 @@ public abstract class AbstractAdminView extends AbstractView {
 	@PostConstruct
 	@Override
 	protected void postConstruct() {
-		mainLayout=new HorizontalSplitPanel();
-		//mainLayout.setSizeFull();
-		mainLayout.addComponent(SpringSecurityViewProvider.applicationContext.getBean(AdminTreeMenu.class));
+		
+		mainLayout.setSizeFull();
+		AdminSideMenu adminSideMenu=applicationContext.getBean(AdminSideMenu.class);
+		mainLayout.addComponent(adminSideMenu);
+		mainLayout.setExpandRatio(adminSideMenu, 0.16f);
+		Component contentComponent=getContent();
+		mainLayout.addComponent(contentComponent);
+		mainLayout.setExpandRatio(contentComponent, 1f);
 		setCompositionRoot(mainLayout);
-		mainLayout.addComponent(getContent());
-		mainLayout.setSplitPosition(20);
+		
+
 	}
-
-
 
 	/**
 	 * @return
 	 */
 	public abstract Component getContent();
-
-	
-	
-
-//	protected  MenuBar buildMenuBar(){
-//		MenuBar menuBar=new MenuBar();
-//		//Users
-//		MenuItem users=menuBar.addItem("Utilisateurs", null, null);
-//		editUser = users.addItem("Edition utilisateurs", null, this);
-//		menuViewMap.put(editUser, UsersEditionView.NAME);
-//		usersRight = users.addItem("Gestion des droits", null, this);
-//		menuViewMap.put(usersRight, UsersRightsManagementView.NAME);
-//		//parameters
-//		MenuItem parameters=menuBar.addItem("Parametres", null, null);
-//		configuration = parameters.addItem("Configuration", null, this);
-//		menuViewMap.put(configuration, ConfigurationView.NAME);
-//		logs = parameters.addItem("Logs", null, this);
-//		menuViewMap.put(logs, LogView.NAME);
-//		
-//		return menuBar;
-//	}
-
 
 }

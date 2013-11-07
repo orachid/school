@@ -3,12 +3,11 @@
  */
 package fr.wati.scool.web.menu;
 
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.WebApplicationContext;
 
-import com.vaadin.ui.NativeButton;
+import com.vaadin.ui.Button;
 
 import fr.wati.scool.web.annotations.MenuConfig;
 import fr.wati.scool.web.menu.Menu.MenuGroup;
@@ -19,12 +18,12 @@ import fr.wati.scool.web.view.TimeTableView;
  *
  */
 @Component
-@Scope(value= WebApplicationContext.SCOPE_SESSION,proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Scope(value= BeanDefinition.SCOPE_PROTOTYPE)
 @MenuConfig(MenuGroup.TOP)
 @SuppressWarnings("serial")
 public class TimeTableMenu extends AbstractMenu {
 
-	private NativeButton nativeButton;
+	private Button button;
 	/**
 	 * @param navigator
 	 */
@@ -36,12 +35,12 @@ public class TimeTableMenu extends AbstractMenu {
 	 * @see fr.wati.scool.web.menu.Menu#getButton()
 	 */
 	@Override
-	public NativeButton getComponent() {
-		if(nativeButton==null){
-			nativeButton=new NativeButton("Calendrier");
-			nativeButton.setHtmlContentAllowed(true);
+	public Button getComponent() {
+		if(button==null){
+			button=new Button("Calendrier");
+			button.setHtmlContentAllowed(true);
 		}
-		return nativeButton;
+		return button;
 	}
 
 	@Override

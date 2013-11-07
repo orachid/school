@@ -39,7 +39,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
 
 import fr.wati.school.entities.bean.Entite;
-import fr.wati.school.services.utils.AnnationUtils;
+import fr.wati.school.services.utils.AnnotationUtils;
 import fr.wati.scool.web.view.binding.CustomFieldFactory;
 import fr.wati.scool.web.view.commons.EntityEditionWindows;
 
@@ -49,7 +49,7 @@ import fr.wati.scool.web.view.commons.EntityEditionWindows;
  */
 @Component
 @Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
-@SuppressWarnings({ "deprecation", "serial" })
+@SuppressWarnings({ "deprecation", "serial","rawtypes" })
 public class DefaultCRUDPanel<ENTITY extends Entite> extends CustomComponent
 		implements ValueChangeListener, ClickListener {
 
@@ -73,7 +73,7 @@ public class DefaultCRUDPanel<ENTITY extends Entite> extends CustomComponent
 	private String title = "";
 
 	public DefaultCRUDPanel(Class<ENTITY> entityClass, String entityName,String title) {
-		this(entityClass, entityName, title, AnnationUtils.getNonJPAPropertiesForCreation(entityClass).toArray(), AnnationUtils.getNonJPAPropertiesForCreation(entityClass).toArray());
+		this(entityClass, entityName, title, AnnotationUtils.getNonJPAPropertiesForCreation(entityClass).toArray(), AnnotationUtils.getNonJPAPropertiesForCreation(entityClass).toArray());
 	}
 
 	public DefaultCRUDPanel(Class<ENTITY> entityClass, String entityName,
@@ -91,8 +91,10 @@ public class DefaultCRUDPanel<ENTITY extends Entite> extends CustomComponent
 	public void posConstruct() {
 		// entitiesTable = new PagedFilterTable<>(entityName);
 		entitiesTable = new Table(entityName);
+		entitiesTable.addStyleName("striped");
 		entitiesTable.setTableFieldFactory(new FieldFactory());
 		mainHorizontalLayout = new HorizontalSplitPanel();
+		mainHorizontalLayout.addStyleName("small");
 		mainHorizontalLayout.setSizeFull();
 
 		// EntityManagerFactory emf = Persistence
@@ -180,21 +182,12 @@ public class DefaultCRUDPanel<ENTITY extends Entite> extends CustomComponent
 		deleteButton.setEnabled(entitySelected);
 		
 		if (entitySelected) {
-			Object[] updateFormPropertyIds=AnnationUtils.getNonJPAPropertiesForCreation(((JPAContainerItem) item).getEntity().getClass()).toArray();
+			Object[] updatePropertiesId=AnnotationUtils.getNonJPAPropertiesForCreation(((JPAContainerItem)item).getEntity().getClass()).toArray();
 			editionForm.setEnabled(true);
 			// set entity item to form and focus it
-			CachingMutableLocalEntityProvider entityProvider = new CachingMutableLocalEntityProvider(((JPAContainerItem) item).getEntity().getClass(), entityManager);
-			// And there we have it
-			JPAContainer tempJPAContainer = new JPAContainer(((JPAContainerItem) item).getEntity().getClass());
-			tempJPAContainer.setEntityProvider(entityProvider);
-			HibernateLazyLoadingDelegate hibernateLazyLoadingDelegate = new HibernateLazyLoadingDelegate();
-			entityProvider.setLazyLoadingDelegate(hibernateLazyLoadingDelegate);
-			Item tempItem= tempJPAContainer.createEntityItem(((JPAContainerItem) item).getEntity());
-			editionForm.setItemDataSource(
-					tempItem,
-					updateFormPropertyIds != null ? Arrays
-							.asList(updateFormPropertyIds) : item
-							.getItemPropertyIds());
+			editionForm.setItemDataSource(item,
+					updatePropertiesId != null ? Arrays.asList(updatePropertiesId)
+							: item.getItemPropertyIds());
 			editionForm.focus();
 		}
 	}	

@@ -35,31 +35,14 @@
 	</bean>
 
 	<!-- Localization Start -->
-	<!-- <bean class="org.springframework.web.servlet.i18n.SessionLocaleResolver"
-		id="localeResolver">
-		<property name="defaultLocale" value="en">
-		</property>
-	</bean>
 
-	<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
-		id="localeChangeInterceptor">
-		<property name="paramName" value="language">
-		</property>
-	</bean>
+	 <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:/locales/messages"/>
+        <!-- Do not use System Locale file as default. Windows & Linux could have different default locale -->
+        <property name="fallbackToSystemLocale" value="false" />
+    </bean>
 
-	<bean
-		class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping">
-		<property name="interceptors">
-			<list>
-				<ref bean="localeChangeInterceptor"/>
-			</list>
-		</property>
-	</bean>
-	<bean id="messageSource"
-		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-		<property name="basename" value="classpath:messages" />
-		<property name="defaultEncoding" value="UTF-8" />
-	</bean> -->
+    <bean class="ru.xpoft.vaadin.VaadinMessageSource" />
 
 	<!-- Localization End -->
 

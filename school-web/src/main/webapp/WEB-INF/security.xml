@@ -32,8 +32,8 @@
          WHERE USERNAME=?;"
 
 				authorities-by-username-query="
-       SELECT u.USERNAME, r.ROLE FROM USERS u, USER_ROLE ur,ROLE r
-        WHERE u.ID = ur.USER_ID and r.id=ur.role_id
+       SELECT u.USERNAME, r.ROLE FROM USERS u, USERs_ROLEs ur,ROLE r
+        WHERE u.ID = ur.userId and r.id=ur.roleId
         AND u.USERNAME=?;" />
 		</authentication-provider>
 	</authentication-manager>

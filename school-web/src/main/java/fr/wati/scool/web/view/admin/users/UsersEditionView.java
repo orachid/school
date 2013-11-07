@@ -51,8 +51,6 @@ public class UsersEditionView extends AbstractAdminView {
 	@Override
 	public Component getContent() {
 		DefaultCRUDPanel<Users> usersCrudPanel=crudPanelFactory.getCRUDPanel(Users.class,"Utilisateurs","Edition des utilisateurs");
-		usersCrudPanel.setVisibleFormProperties("username","password","enabled","roles");
-		usersCrudPanel.setVisibleTableProperties("id","username","password","enabled");
 		return usersCrudPanel;
 	}
 

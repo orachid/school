@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  * @author Rachid Ouattara
@@ -24,6 +25,8 @@ public class Periode extends Entite {
 	private String nom;
 	private Date dateDebut;
 	private Date dateFin;
+	@ManyToOne
+	private AnneeScolaire anneeScolaire;
 	/**
 	 * @return the nom
 	 */
@@ -71,6 +74,18 @@ public class Periode extends Entite {
 	 */
 	public void setId(Long id) {
 		this.id = id;
+	}
+	/**
+	 * @return the anneeScolaire
+	 */
+	public AnneeScolaire getAnneeScolaire() {
+		return anneeScolaire;
+	}
+	/**
+	 * @param anneeScolaire the anneeScolaire to set
+	 */
+	public void setAnneeScolaire(AnneeScolaire anneeScolaire) {
+		this.anneeScolaire = anneeScolaire;
 	}
 	
 	

@@ -7,10 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.aop.support.AopUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Component;
 
-import fr.wati.scool.web.addons.SpringSecurityViewProvider;
 import fr.wati.scool.web.annotations.MenuConfig;
 import fr.wati.scool.web.menu.Menu.MenuGroup;
 import fr.wati.util.SpringSecurityHelper;
@@ -22,6 +23,8 @@ import fr.wati.util.SpringSecurityHelper;
 @Component
 public class MenuFactory{
 
+	@Autowired
+	private transient ApplicationContext applicationContext;
 
 	public  List<Menu> getTopMenus() {
 		return getMenus(MenuGroup.TOP);
@@ -34,11 +37,11 @@ public class MenuFactory{
 	
 	public List<Menu> getMenus(MenuGroup menuGroup){
 		List<Menu> menus = new ArrayList<>();
-		String[] menuBeanNames = SpringSecurityViewProvider.applicationContext.getBeanNamesForType(Menu.class);
+		String[] menuBeanNames = applicationContext.getBeanNamesForType(Menu.class);
 		
 		for(String beanName:menuBeanNames){
 			MenuConfig menuConfig=null;
-			Object bean = SpringSecurityViewProvider.applicationContext.getBean(beanName);
+			Object bean = applicationContext.getBean(beanName);
 			Class<?> targetClass = AopUtils.getTargetClass(bean);
 			if(targetClass.isAnnotationPresent(MenuConfig.class)){
 					if(targetClass.isAnnotationPresent(Secured.class)){

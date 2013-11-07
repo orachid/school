@@ -3,13 +3,12 @@
  */
 package fr.wati.scool.web.menu;
 
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.WebApplicationContext;
 
-import com.vaadin.ui.NativeButton;
+import com.vaadin.ui.Button;
 
 import fr.wati.school.entities.bean.Role;
 import fr.wati.scool.web.annotations.MenuConfig;
@@ -21,24 +20,24 @@ import fr.wati.scool.web.view.admin.AdminView;
  *
  */
 @Component
-@Scope(value= WebApplicationContext.SCOPE_SESSION,proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Scope(value= BeanDefinition.SCOPE_PROTOTYPE)
 @Secured({Role.ROLE_ADMIN,Role.ROLE_DIRECTOR})
 @MenuConfig(MenuGroup.TOP)
 @SuppressWarnings("serial")
 public class AdminMenu extends AbstractMenu {
 
-	private NativeButton nativeButton;
+	private Button button;
 
 	/* (non-Javadoc)
 	 * @see fr.wati.scool.web.menu.Menu#getButton()
 	 */
 	@Override
-	public NativeButton getComponent() {
-		if(nativeButton==null){
-			nativeButton=new NativeButton("Admin");
-			nativeButton.setHtmlContentAllowed(true);
+	public Button getComponent() {
+		if(button==null){
+			button=new Button("Admin");
+			button.setHtmlContentAllowed(true);
 		}
-		return nativeButton;
+		return button;
 	}
 
 	/* (non-Javadoc)

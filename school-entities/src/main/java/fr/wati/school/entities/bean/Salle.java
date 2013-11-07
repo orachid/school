@@ -25,7 +25,7 @@ public class Salle extends Entite {
 	private String nom;
 	private String code;
 	private Integer capacity;
-	@OneToMany
+	@OneToMany(mappedBy="salle")
 	private Set<Evenement> evenements;
 	
 	/**

@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 
@@ -26,12 +25,8 @@ public class AnneeScolaire extends Entite {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	private String label;
-	@OneToMany(cascade=CascadeType.ALL)
-	private Set<Inscription> inscriptions;
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="anneeScolaire")
 	private Set<Periode> periodes;
-	@ManyToOne
-	private Etablissement etablissement;
 
 	/**
 	 * @return the label
@@ -45,20 +40,6 @@ public class AnneeScolaire extends Entite {
 	 */
 	public void setLabel(String label) {
 		this.label = label;
-	}
-
-	/**
-	 * @return the inscriptions
-	 */
-	public Set<Inscription> getInscriptions() {
-		return inscriptions;
-	}
-
-	/**
-	 * @param inscriptions the inscriptions to set
-	 */
-	public void setInscriptions(Set<Inscription> inscriptions) {
-		this.inscriptions = inscriptions;
 	}
 
 	/**
@@ -88,20 +69,4 @@ public class AnneeScolaire extends Entite {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	/**
-	 * @return the etablissement
-	 */
-	public Etablissement getEtablissement() {
-		return etablissement;
-	}
-
-	/**
-	 * @param etablissement the etablissement to set
-	 */
-	public void setEtablissement(Etablissement etablissement) {
-		this.etablissement = etablissement;
-	}
-	
-	
 }

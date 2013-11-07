@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -26,8 +27,12 @@ public class Classe extends Entite {
 	private String code;
 	private String nom;
 	private Integer effectifTotal;
-	@OneToMany
+	@ManyToOne
+	private Etablissement etablissement;
+	@OneToMany(mappedBy="classe")
 	private Set<Matiere> matieres=new HashSet<>();
+	@OneToMany(mappedBy="classe")
+	private Set<Etudiant> etudiants=new HashSet<>();
 	/**
 	 * @return the code
 	 */
@@ -87,6 +92,18 @@ public class Classe extends Entite {
 	 */
 	public void setId(Long id) {
 		this.id = id;
+	}
+	/**
+	 * @return the etablissement
+	 */
+	public Etablissement getEtablissement() {
+		return etablissement;
+	}
+	/**
+	 * @param etablissement the etablissement to set
+	 */
+	public void setEtablissement(Etablissement etablissement) {
+		this.etablissement = etablissement;
 	}
 	
 }
