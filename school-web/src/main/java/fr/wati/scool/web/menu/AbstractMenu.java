@@ -3,6 +3,7 @@
  */
 package fr.wati.scool.web.menu;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vaadin.ui.Button;
@@ -19,11 +20,13 @@ import fr.wati.scool.web.view.AbstractView;
 public abstract class AbstractMenu implements Menu, ClickListener {
 
 	protected AbstractView abstractView;
+	public static List<AbstractMenu> menus=new ArrayList<>();
 	/**
 	 * 
 	 */
 	public AbstractMenu() {
 		super();
+		menus.add(this);
 		if(getComponent() !=null && getComponent() instanceof Button){
 			((Button)getComponent()).addClickListener(this);
 			getComponent().addStyleName("borderless");
@@ -38,9 +41,11 @@ public abstract class AbstractMenu implements Menu, ClickListener {
 	 */
 	@Override
 	public void buttonClick(ClickEvent event) {
-		if(!hasSubMenu()){//no submenu to show, display view
-			event.getButton().getUI().getNavigator().navigateTo(getViewName());
+		for(Menu menu:menus){
+			menu.getComponent().removeStyleName("selected");
 		}
+		event.getButton().getUI().getNavigator().navigateTo(getViewName());
+		event.getButton().addStyleName("selected");
 	}
 
 	/* (non-Javadoc)

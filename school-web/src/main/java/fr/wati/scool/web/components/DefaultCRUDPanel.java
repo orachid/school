@@ -3,12 +3,15 @@
  */
 package fr.wati.scool.web.components;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.ApplicationContext;
@@ -19,10 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerItem;
-import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
 import com.vaadin.addon.jpacontainer.provider.CachingMutableLocalEntityProvider;
 import com.vaadin.addon.jpacontainer.util.HibernateLazyLoadingDelegate;
 import com.vaadin.data.Item;
+import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.Button;
@@ -38,10 +41,11 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
 
+import fr.wati.school.entities.annotations.ViewCaption;
 import fr.wati.school.entities.bean.Entite;
 import fr.wati.school.services.utils.AnnotationUtils;
 import fr.wati.scool.web.view.binding.CustomFieldFactory;
-import fr.wati.scool.web.view.commons.EntityEditionWindows;
+import fr.wati.scool.web.view.commons.EntityEditionForm;
 
 /**
  * @author Rachid Ouattara
@@ -71,6 +75,7 @@ public class DefaultCRUDPanel<ENTITY extends Entite> extends CustomComponent
 	private HorizontalSplitPanel mainHorizontalLayout;
 	private String entityName;
 	private String title = "";
+	private ClickListener addClickListener;
 
 	public DefaultCRUDPanel(Class<ENTITY> entityClass, String entityName,String title) {
 		this(entityClass, entityName, title, AnnotationUtils.getNonJPAPropertiesForCreation(entityClass).toArray(), AnnotationUtils.getNonJPAPropertiesForCreation(entityClass).toArray());
@@ -90,9 +95,39 @@ public class DefaultCRUDPanel<ENTITY extends Entite> extends CustomComponent
 	@PostConstruct
 	public void posConstruct() {
 		// entitiesTable = new PagedFilterTable<>(entityName);
-		entitiesTable = new Table(entityName);
+		entitiesTable = new Table(entityName){
+
+			/* (non-Javadoc)
+			 * @see com.vaadin.ui.Table#formatPropertyValue(java.lang.Object, java.lang.Object, com.vaadin.data.Property)
+			 */
+			@SuppressWarnings("unchecked")
+			@Override
+			protected String formatPropertyValue(Object rowId, Object colId,
+					Property<?> property) {
+				Class<?> targetClass=property.getType();
+				
+				if (AnnotationUtils.hasAnyOfAnnotation(targetClass, Entity.class) && property.getValue()!=null) {
+					String cationProperty= AnnotationUtils.getFirstPropertyNameWithAnnotation(ViewCaption.class, targetClass);
+					try {
+						if(StringUtils.isNotBlank(cationProperty)){
+							Field field=targetClass.getDeclaredField(cationProperty);
+							field.setAccessible(true);
+							return String.valueOf(field.get(property.getValue()));
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+				 }
+				return super.formatPropertyValue(rowId, colId, property);
+			}
+			
+		};
 		entitiesTable.addStyleName("striped");
-		entitiesTable.setTableFieldFactory(new FieldFactory());
+		entitiesTable.setTableFieldFactory(new CustomFieldFactory());
+		entitiesTable.setColumnCollapsingAllowed(true);
+		
+		
 		mainHorizontalLayout = new HorizontalSplitPanel();
 		mainHorizontalLayout.addStyleName("small");
 		mainHorizontalLayout.setSizeFull();
@@ -203,7 +238,12 @@ public class DefaultCRUDPanel<ENTITY extends Entite> extends CustomComponent
 	@Override
 	public void buttonClick(ClickEvent event) {
 		if (event.getButton() == addButton) {
-			addItem();
+			if(getAddClickListener()!=null){
+				getAddClickListener().buttonClick(event);
+			}else {
+				addItem();
+			}
+			
 		} else if (event.getButton() == deleteButton) {
 			deleteItem(entitiesTable.getValue());
 		}
@@ -214,17 +254,33 @@ public class DefaultCRUDPanel<ENTITY extends Entite> extends CustomComponent
 		try {
 			ENTITY newInstance = newInstance();
 			@SuppressWarnings("unchecked")
-			final EntityEditionWindows<ENTITY> editionWindows = (EntityEditionWindows<ENTITY>) applicationContext
-					.getBean("entityEditionWindows", editionForm.getCaption(),
+			final EntityEditionForm<ENTITY> entityEditionForm = (EntityEditionForm<ENTITY>) applicationContext
+					.getBean("entityEditionForm", editionForm.getCaption(),
 							newInstance, createFormPropertyIds, jpaContainer);
-			getUI().addWindow(editionWindows);
-			editionWindows.addCloseListener(new Window.CloseListener() {
+			final Window window=new Window(editionForm.getCaption(), entityEditionForm);
+			window.center();
+			window.setModal(true);
+			getUI().addWindow(window);
+			entityEditionForm.setOnCommitClick(new Runnable() {
+				@Override
+				public void run() {
+					window.close();
+				}
+			});
+			entityEditionForm.setOnDiscardClick(new Runnable() {
+				@Override
+				public void run() {
+					window.close();
+				}
+			});
+			
+			window.addCloseListener(new Window.CloseListener() {
 
 				@Override
 				public void windowClose(CloseEvent e) {
-					if (editionWindows.getItem() != null
-							&& editionWindows.getObjectId() != null) {
-						entitiesTable.setValue(editionWindows.getObjectId());
+					if (entityEditionForm.getItem() != null
+							&& entityEditionForm.getObjectId() != null) {
+						entitiesTable.setValue(entityEditionForm.getObjectId());
 					}
 				}
 			});
@@ -245,5 +301,17 @@ public class DefaultCRUDPanel<ENTITY extends Entite> extends CustomComponent
 
 	private void deleteItem(Object itemId) {
 		jpaContainer.removeItem(itemId);
+	}
+
+	public ClickListener getAddClickListener() {
+		return addClickListener;
+	}
+
+	public void setAddClickListener(ClickListener addClickListener) {
+		this.addClickListener = addClickListener;
+	}
+	
+	public void refresh(){
+		jpaContainer.refresh();
 	}
 }

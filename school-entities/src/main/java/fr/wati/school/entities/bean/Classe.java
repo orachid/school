@@ -13,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import fr.wati.school.entities.annotations.ViewCaption;
+import fr.wati.school.entities.annotations.ViewItemDescription;
+
 /**
  * @author Rachid Ouattara
  *
@@ -24,7 +27,9 @@ public class Classe extends Entite {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
+	@ViewCaption
 	private String code;
+	@ViewItemDescription
 	private String nom;
 	private Integer effectifTotal;
 	@ManyToOne
@@ -33,6 +38,8 @@ public class Classe extends Entite {
 	private Set<Matiere> matieres=new HashSet<>();
 	@OneToMany(mappedBy="classe")
 	private Set<Etudiant> etudiants=new HashSet<>();
+	@OneToMany(mappedBy="classe")
+	private Set<Cours> cours=new HashSet<>();
 	/**
 	 * @return the code
 	 */
@@ -104,6 +111,30 @@ public class Classe extends Entite {
 	 */
 	public void setEtablissement(Etablissement etablissement) {
 		this.etablissement = etablissement;
+	}
+	/**
+	 * @return the etudiants
+	 */
+	public Set<Etudiant> getEtudiants() {
+		return etudiants;
+	}
+	/**
+	 * @param etudiants the etudiants to set
+	 */
+	public void setEtudiants(Set<Etudiant> etudiants) {
+		this.etudiants = etudiants;
+	}
+	/**
+	 * @return the cours
+	 */
+	public Set<Cours> getCours() {
+		return cours;
+	}
+	/**
+	 * @param cours the cours to set
+	 */
+	public void setCours(Set<Cours> cours) {
+		this.cours = cours;
 	}
 	
 }

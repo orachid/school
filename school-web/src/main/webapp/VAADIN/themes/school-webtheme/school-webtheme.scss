@@ -1,12 +1,26 @@
 /* Import the reindeer theme.*/
 /* This only allows us to use the mixins defined in it and does not add any styles by itself. */
 @import "../chameleon/chameleon.scss";
+@import "components/window.scss";
+@import "components/textfield.scss";
+@import "components/table.scss";
+@import "components/notification.scss";
+@import "components/combobox.scss";
+@import "components/label.scss";
+@import "mixins.scss";
 
 /* This contains all of your theme.*/
 /* If somebody wants to extend the theme she will include this mixin. */
 @mixin school-webtheme {
   /* Include all the styles from the reindeer theme */
   @include chameleon;
+  /*@include school-webtheme-window;*/
+  @include school-webtheme-window;
+  //@include school-webtheme-textfield;
+  //@include school-webtheme-table;
+  @include school-webtheme-notification;
+  //@include school-webtheme-combobox;
+  @include school-webtheme-label;
 
   /* Insert your theme rules here */
   /** 
@@ -18,7 +32,10 @@
 /* Application background */
 &.v-app {
 	background: rgb(249,249,249);
+	margin:5px;
 	}
+
+
 
 .v-window,
 .v-popupview-popup,
@@ -98,6 +115,8 @@ body.v-ie7 .v-menubar-submenu,
 .v-table-scrollposition {
 	
 }
+
+
 /* Base background color */
 .v-button:active,
 .v-ie .v-button.v-pressed,
@@ -174,6 +193,33 @@ td.v-datefield-calendarpanel-month,
 	background-color: rgb(201,201,201);
 	border-color: rgb(129,129,129);
 	}
+
+.v-csslayout-toolbar,
+.v-menubar{
+	background-color: #00b4f0;
+	border: 0;
+	@include border-radius(2px);
+	padding: 7px 7px 7px 7px;
+	font-family:"HelveticaW01-RoundedBd","Helvetica Neue",sans-serif
+}
+
+.v-csslayout-toolbar{
+	color:#ccf0fc;
+}
+.v-csslayout-toolbar .v-button:hover{
+	color:#fff;
+	font-weight : bold;
+}
+
+.v-csslayout-toolbar .v-button{
+	font-size: 15px;
+}
+
+.v-csslayout-toolbar .selected,
+.v-csslayout-toolbar .selected:focus{
+	color:#fff;
+	text-shadow: 0 -1px 0 rgb(46,90,132);
+}
 
 .v-button .v-button-wrap,
 .v-disabled.v-button:focus .v-button-wrap,
@@ -279,6 +325,21 @@ td.v-datefield-calendarpanel-month,
 .sidebar-menu .v-label {
 	color: rgb(40,126,206);
 	}
+.sidebar-menu .v-button,
+.sidebar-menu .v-nativebutton
+{
+	text-align: left !important;
+}
+
+.v-nativebutton {
+	text-align: center;
+	cursor: pointer;
+	white-space: nowrap;
+	margin: 0;
+	color: inherit;
+	font: inherit;
+	line-height: normal;
+}
 
 .v-button-default,
 .v-disabled.v-button-default,
@@ -338,11 +399,13 @@ td.v-datefield-calendarpanel-month,
 .v-panel-caption,
 .v-table-striped .v-table-row-odd,
 .sidebar-menu {
-	background: rgb(220,229,238);
+	background: #ccf0fc;
 	}
 
 .sidebar-menu .tab-selected,
 .sidebar-menu .selected {
 	text-shadow: 0 1px 0 rgb(46,90,132);
 	}
+	
+	
 }

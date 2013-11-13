@@ -3,6 +3,7 @@
  */
 package fr.wati.school.entities.bean;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -26,7 +27,7 @@ public class AnneeScolaire extends Entite {
 	private Long id;
 	private String label;
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="anneeScolaire")
-	private Set<Periode> periodes;
+	private Set<Periode> periodes=new HashSet<>();
 
 	/**
 	 * @return the label
@@ -69,4 +70,5 @@ public class AnneeScolaire extends Entite {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
 }

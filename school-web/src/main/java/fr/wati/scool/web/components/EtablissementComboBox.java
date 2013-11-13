@@ -35,7 +35,8 @@ public class EtablissementComboBox extends ComboBox {
 	 * 
 	 */
 	public EtablissementComboBox() {
-		super("Etablissement");
+		super();
+		setTextInputAllowed(false);
 		setNullSelectionAllowed(false);
 		setItemCaptionMode(ItemCaptionMode.PROPERTY);
 		setItemCaptionPropertyId("code");
@@ -52,6 +53,9 @@ public class EtablissementComboBox extends ComboBox {
 		HibernateLazyLoadingDelegate hibernateLazyLoadingDelegate = new HibernateLazyLoadingDelegate();
 		entityProvider.setLazyLoadingDelegate(hibernateLazyLoadingDelegate);
 		setContainerDataSource(etablissementContainer);
+		if(!etablissementContainer.getItemIds().isEmpty()){
+			select(etablissementContainer.getIdByIndex(0));
+		}
 	}
 
 	/**

@@ -19,4 +19,5 @@ public interface Menu{
 	boolean hasSubMenu();
 	List<Menu> getSubMenus();
 	String getViewName();
+	int getPosition();
 }

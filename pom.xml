@@ -15,6 +15,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.2.0.RELEASE</spring.version>
+		<spring.security.version>3.2.0.M2</spring.security.version>
 		<vaadin.version>7.1.5</vaadin.version>
 		<aspectj.version>1.7.1</aspectj.version>
 		<servlet.version>2.0</servlet.version>
@@ -31,7 +32,7 @@
 		<java.target.version>1.7</java.target.version>
 		<aspectj.source.version>1.6</aspectj.source.version>
 		<aspectj.target.version>1.6</aspectj.target.version>
-		<maven-jetty-plugin.version>7.4.2.v20110526</maven-jetty-plugin.version>
+		<maven-jetty-plugin.version>8.1.13.v20130916</maven-jetty-plugin.version>
 		<tomcat-maven-plugin.version>1.1</tomcat-maven-plugin.version>
 		<aspectj-maven-plugin.version>1.0</aspectj-maven-plugin.version>
 	</properties>

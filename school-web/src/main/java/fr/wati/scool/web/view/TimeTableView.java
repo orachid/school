@@ -24,31 +24,35 @@ import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.event.Action;
-import com.vaadin.server.Page;
 import com.vaadin.shared.ui.datefield.Resolution;
+import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Calendar;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
+import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
-import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventClick;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventClickHandler;
 import com.vaadin.ui.components.calendar.event.BasicEvent;
+import com.vaadin.ui.components.calendar.event.CalendarEvent;
 
 import fr.wati.school.entities.bean.Classe;
 import fr.wati.school.entities.bean.ConseilleDeClasse;
 import fr.wati.school.entities.bean.Cours;
 import fr.wati.school.entities.bean.Evenement;
+import fr.wati.school.entities.bean.Matiere;
 import fr.wati.school.entities.bean.Reunion;
+import fr.wati.school.services.utils.AnnotationUtils;
 import fr.wati.scool.web.addons.ViewDescription;
 import fr.wati.scool.web.components.EtablissementComboBox;
-import fr.wati.scool.web.view.commons.EntityEditionWindows;
+import fr.wati.scool.web.components.EvenementContainerEventProvider;
+import fr.wati.scool.web.components.EventDetailsWindows;
+import fr.wati.scool.web.view.commons.EntityEditionForm;
 
 /**
  * @author Rachid Ouattara
@@ -68,6 +72,13 @@ public class TimeTableView extends AbstractView {
 	private JPAContainer<Evenement> jpaContainer;
 	private Calendar calendar;
 	private HorizontalLayout filterHorizontalLayout;
+	private ComboBox classeComboBox;
+	private JPAContainer<Classe> classeContainer;
+	private EtablissementComboBox etablissementComboBox;
+	private OptionGroup matiereGroup;
+	private JPAContainer<Matiere> matiereContainer;
+	protected Window eventDetailsPopup;
+	private Panel contentPanel;
 
 	/**
 	 * @param navigator
@@ -78,25 +89,26 @@ public class TimeTableView extends AbstractView {
 
 	@PostConstruct
 	public void postConstruct() {
-		Label titleLabel = new Label("Calendier");
-		titleLabel.addStyleName("h4");
-
 		VerticalLayout mainVerticalLayout = new VerticalLayout();
-		mainVerticalLayout.addComponent(titleLabel);
 		buildCalendar();
 		filterHorizontalLayout = buildFilterHorizontal();
-
-		
-
 		HorizontalLayout mainHorizontalLayout = new HorizontalLayout();
 		VerticalLayout leftLayout = buildLeftFilter();
+		
+		//Add Filters
+//		jpaContainer.addContainerFilter(new Compare.Equal(propertyId, value));
+		
+		
 		mainHorizontalLayout.addComponent(leftLayout);
 		VerticalLayout rightLayout = new VerticalLayout();
 		rightLayout.addComponent(filterHorizontalLayout);
 
-		mainHorizontalLayout.addComponent(rightLayout);
+		
 
 		rightLayout.addComponent(calendar);
+		Panel globalLeftPanel=new Panel();
+		globalLeftPanel.setContent(rightLayout);
+		mainHorizontalLayout.addComponent(globalLeftPanel);
 		mainVerticalLayout.addComponent(mainHorizontalLayout);
 		mainVerticalLayout.setSizeFull();
 		setCompositionRoot(mainVerticalLayout);
@@ -107,25 +119,31 @@ public class TimeTableView extends AbstractView {
 	 */
 	private VerticalLayout buildLeftFilter() {
 		VerticalLayout layout = new VerticalLayout();
+		layout.addStyleName("sidebar-menu");
 		// Etablissement
 
-		final EtablissementComboBox etablissementComboBox = applicationContext
+		etablissementComboBox = applicationContext
 				.getBean(EtablissementComboBox.class);
+		etablissementComboBox.setCaption(null);
 		// Classe container
 		CachingLocalEntityProvider<Classe> entityProvider = new CachingLocalEntityProvider<Classe>(
 				Classe.class, entityManager);
-		final JPAContainer<Classe> classeContainer = new JPAContainer<>(
+		classeContainer = new JPAContainer<>(
 				Classe.class);
 		classeContainer.setEntityProvider(entityProvider);
 		HibernateLazyLoadingDelegate hibernateLazyLoadingDelegate = new HibernateLazyLoadingDelegate();
 		entityProvider.setLazyLoadingDelegate(hibernateLazyLoadingDelegate);
-		ComboBox classeComboBox = new ComboBox("Classe");
+		classeComboBox = new ComboBox();
+		classeComboBox.setTextInputAllowed(false);
 		classeComboBox.setNullSelectionAllowed(false);
 		classeComboBox.setItemCaptionMode(ItemCaptionMode.PROPERTY);
 		classeComboBox.setItemCaptionPropertyId("nom");
+		classeComboBox.setImmediate(true);
 		classeContainer.setApplyFiltersImmediately(true);
 		classeComboBox.setContainerDataSource(classeContainer);
-
+		classeContainer.addContainerFilter(new Compare.Equal(
+				"etablissement", etablissementComboBox.getEtablissementContainer()
+						.getItem(etablissementComboBox.getValue()).getEntity()));
 		etablissementComboBox.addValueChangeListener(new ValueChangeListener() {
 			@Override
 			public void valueChange(ValueChangeEvent event) {
@@ -136,11 +154,83 @@ public class TimeTableView extends AbstractView {
 									.getEtablissementContainer()
 									.getItem(event.getProperty().getValue())
 									.getEntity()));
+					classeContainer.applyFilters();
+					classeComboBox.setValue(classeContainer.firstItemId()!=null?classeContainer.firstItemId():null);
+					filterCalendar();
 				}
 			}
 		});
+		classeContainer.applyFilters();
+		classeComboBox.setValue(classeContainer.firstItemId()!=null?classeContainer.firstItemId():null);
+		matiereGroup = new OptionGroup();
+		CachingLocalEntityProvider<Matiere> matiereEntityProvider = new CachingLocalEntityProvider<Matiere>(
+				Matiere.class, entityManager);
+		matiereContainer = new JPAContainer<>(
+				Matiere.class);
+		matiereContainer.setEntityProvider(matiereEntityProvider);
+		HibernateLazyLoadingDelegate matiereHibernateLazyLoadingDelegate = new HibernateLazyLoadingDelegate();
+		matiereEntityProvider.setLazyLoadingDelegate(matiereHibernateLazyLoadingDelegate);
+		matiereGroup.setContainerDataSource(matiereContainer);
+		matiereGroup.setMultiSelect(true);
+		matiereGroup.setImmediate(true);
+		matiereGroup.setItemCaptionMode(ItemCaptionMode.PROPERTY);
+		matiereGroup.setItemCaptionPropertyId("code");
+		final CheckBox selectAllCheckBox=new CheckBox("All");
+		selectAllCheckBox.addValueChangeListener(new ValueChangeListener() {
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				for(Object itemId:matiereGroup.getItemIds()){
+					if(selectAllCheckBox.getValue()){
+						matiereGroup.select(itemId);
+					} else {
+						matiereGroup.unselect(itemId);
+					}
+				}
+				
+			}
+		});
+		selectAllCheckBox.setVisible(false);
+		matiereGroup.addValueChangeListener(new ValueChangeListener() {
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				filterCalendar();
+			}
+		});
+		matiereContainer.addContainerFilter(new Compare.Equal(
+				"classe", classeContainer.getItem(classeComboBox.getValue())!=null?classeContainer.getItem(classeComboBox.getValue()).getEntity():null));
+		classeComboBox.addValueChangeListener(new ValueChangeListener() {
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				if (event != null && event.getProperty() != null) {
+					matiereContainer.removeAllContainerFilters();
+					matiereContainer.addContainerFilter(new Compare.Equal(
+							"classe", classeContainer.getItem(event.getProperty().getValue()).getEntity()));
+					matiereContainer.applyFilters();
+					if(!matiereContainer.getItemIds().isEmpty()){
+						selectAllCheckBox.setVisible(true);
+						selectAllCheckBox.setValue(true);
+					}else{
+						selectAllCheckBox.setVisible(false);
+						selectAllCheckBox.setValue(false);
+					}
+					filterCalendar();
+				}
+			}
+		});
+		matiereContainer.applyFilters();
+		
+		Label matiereLabel=new Label("Matieres");
+		Label etablissementLabel=new Label("Etablissements");
+		Label classeLabel=new Label("Classes");
+		
+		
+		layout.addComponent(etablissementLabel);
 		layout.addComponent(etablissementComboBox);
+		layout.addComponent(classeLabel);
 		layout.addComponent(classeComboBox);
+		layout.addComponent(matiereLabel);
+		layout.addComponent(selectAllCheckBox);
+		layout.addComponent(matiereGroup);
 
 		return layout;
 	}
@@ -148,8 +238,14 @@ public class TimeTableView extends AbstractView {
 	/**
 	 * 
 	 */
+	protected void filterCalendar() {
+	}
+
+	/**
+	 * 
+	 */
 	private void buildCalendar() {
-		calendar = new Calendar();
+		
 		CachingMutableLocalEntityProvider<Evenement> entityProvider = new CachingMutableLocalEntityProvider<Evenement>(
 				Evenement.class, entityManager);
 
@@ -158,8 +254,9 @@ public class TimeTableView extends AbstractView {
 
 		HibernateLazyLoadingDelegate hibernateLazyLoadingDelegate = new HibernateLazyLoadingDelegate();
 		entityProvider.setLazyLoadingDelegate(hibernateLazyLoadingDelegate);
-		calendar.setContainerDataSource(jpaContainer, "nom", "commentaire",
-				"dateDebut", "dateFin", null);
+		calendar = new Calendar(new EvenementContainerEventProvider(jpaContainer));
+		calendar.setWidth("100%");
+		calendar.setHeight("600px");
 		calendar.setFirstVisibleHourOfDay(8);
 		calendar.setLastVisibleHourOfDay(19);
 		jpaContainer.sort(new String[] { "dateDebut" }, new boolean[] { true });
@@ -198,16 +295,27 @@ public class TimeTableView extends AbstractView {
 			public void eventClick(EventClick event) {
 				BasicEvent e = (BasicEvent) event.getCalendarEvent();
 				// Do something with it
-				new Notification("Event clicked: " + e.getCaption(), e
-						.getDescription()).show(Page.getCurrent());
+				
+				getUI().removeWindow(eventDetailsPopup);
+                buildEventDetailsPopup(event.getCalendarEvent());
+                getUI().addWindow(eventDetailsPopup);
+                eventDetailsPopup.focus();
 			}
 		});
 
 	}
 
+	/**
+	 * @param calendarEvent
+	 */
+	protected void buildEventDetailsPopup(CalendarEvent calendarEvent) {
+		eventDetailsPopup=new EventDetailsWindows(calendarEvent);
+	}
+
 	public HorizontalLayout buildFilterHorizontal() {
 		HorizontalLayout filterHorizontalLayout = new HorizontalLayout();
-		Panel panel = new Panel("Filters..");
+		contentPanel = new Panel("Filters..");
+		contentPanel.addStyleName("light");
 		DateField startDateField = new DateField("From");
 		startDateField.setValue(calendar.getStartDate());
 		DateField endDateField = new DateField("To");
@@ -235,8 +343,8 @@ public class TimeTableView extends AbstractView {
 		HorizontalLayout panelContent = new HorizontalLayout();
 		panelContent.addComponent(startDateField);
 		panelContent.addComponent(endDateField);
-		panel.setContent(panelContent);
-		filterHorizontalLayout.addComponent(panel);
+		contentPanel.setContent(panelContent);
+		filterHorizontalLayout.addComponent(contentPanel);
 		return filterHorizontalLayout;
 	}
 
@@ -285,21 +393,27 @@ public class TimeTableView extends AbstractView {
 			// entityId = container.addEntity(entity);
 
 			@SuppressWarnings("unchecked")
-			final EntityEditionWindows<ENTITY> editionWindows = (EntityEditionWindows<ENTITY>) applicationContext
-					.getBean("entityEditionWindows", getCaption(), entity,
-							null, container, Resolution.MINUTE);
-			getUI().addWindow(editionWindows);
-			editionWindows.addCloseListener(new Window.CloseListener() {
-
+			final EntityEditionForm<ENTITY> editionForm = (EntityEditionForm<ENTITY>) applicationContext
+					.getBean("entityEditionForm", getCaption(), entity,
+							AnnotationUtils.getNonJPAPropertiesForCreation(entity.getClass()).toArray(), null, Resolution.MINUTE);
+			final Window window=new Window(getCaption());
+			window.setContent(editionForm);
+			window.setModal(true);
+			window.center();
+			editionForm.setOnCommitClick(new Runnable() {
 				@Override
-				public void windowClose(CloseEvent e) {
-					// if(editionWindows.getItem()!=null &&
-					// editionWindows.getObjectId()!=null){
-					// entitiesTable.setValue(editionWindows.getObjectId());
-					// }
+				public void run() {
+					jpaContainer.addEntity(editionForm.getJpaContainer().getItem(editionForm.getObjectId()).getEntity());
+					window.close();
 				}
 			});
-
+			editionForm.setOnDiscardClick(new Runnable() {
+				@Override
+				public void run() {
+					window.close();
+				}
+			});
+			getUI().addWindow(window);
 		}
 
 		/**
@@ -309,7 +423,7 @@ public class TimeTableView extends AbstractView {
 		public void setStartDate(Date startDate) {
 			this.startDate = startDate;
 		}
-
 	}
+	
 
 }

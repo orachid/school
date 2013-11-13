@@ -90,7 +90,7 @@ public class MainView extends CustomComponent implements View {
 		globalVerticalLayout.addComponent(content);
 		// globalVerticalLayout.setExpandRatio(content, 7.5f);
 		// Status bar
-		globalVerticalLayout.addComponent(mainStatusBar);
+		//globalVerticalLayout.addComponent(mainStatusBar);
 		// globalVerticalLayout.setExpandRatio(mainStatusBar, 0.5f);
 
 		return globalVerticalLayout;

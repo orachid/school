@@ -1,7 +1,0 @@
-@import "../chameleon/chameleon";
-@import "colors";
-
-.school {
-  @include chameleon;
-  @include colors;
-}

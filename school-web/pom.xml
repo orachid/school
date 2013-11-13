@@ -12,8 +12,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.version>3.1.2.RELEASE</spring.version>
-		<vaadin.version>7.1.0</vaadin.version>
+		<spring.version>3.2.0.RELEASE</spring.version>
+		<vaadin.version>7.1.2</vaadin.version>
 		<spring.vaadin.version>2.0.1</spring.vaadin.version>
 		<versions.aspectj>1.7.3</versions.aspectj>
 	</properties>
@@ -79,7 +79,7 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>${spring.version}</version>
+			<version>${spring.security.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>spring-core</artifactId>
@@ -106,7 +106,7 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
-			<version>${spring.version}</version>
+			<version>${spring.security.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>spring-core</artifactId>
@@ -129,7 +129,7 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
-			<version>${spring.version}</version>
+			<version>${spring.security.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>spring-jdbc</artifactId>
@@ -189,12 +189,6 @@
 		</dependency>
 
 		<!-- Web API -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
-			<scope>provided</scope>
-		</dependency>
 
 		<!-- Login page -->
 		<!-- Spring MVC -->
@@ -288,6 +282,11 @@
 			<version>3.1.0</version>
 		</dependency>
 		<dependency>
+   			<groupId>org.vaadin.addons</groupId>
+   			<artifactId>pagedtable</artifactId>
+   			<version>0.6.5</version>
+		</dependency>
+		<dependency>
 			<groupId>hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<version>1.8.0.10</version>
@@ -296,6 +295,17 @@
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.8.3</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 	<build>
@@ -306,8 +316,11 @@
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>${maven-jetty-plugin.version}</version>
-				<!-- <configuration> <webAppConfig> <contextPath>/${project.name}</contextPath> 
-					</webAppConfig> </configuration> -->
+				<!-- <configuration> 
+					<webApp> 
+						<contextPath>/school-web</contextPath> 
+					</webApp> 
+				</configuration> -->
 			</plugin>
 			<!-- To launch embded tomcat server -->
 			<plugin>
@@ -351,6 +364,12 @@
 			<name>SpringSource Enterprise Bundle Repository - External Bundle Milestones</name>
 			<url>http://repository.springsource.com/maven/bundles/milestone</url>
 		</repository>
+		<repository>
+			<id>maven.springframework.org.milestone</id>
+			<name>SpringSource milestone</name>
+			<url>http://maven.springframework.org/milestone</url>
+		</repository>
+		
 	</repositories>
 
 </project>

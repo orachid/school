@@ -8,9 +8,10 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-	<!-- <context:annotation-config/> <context:load-time-weaver/> -->
+	<context:annotation-config/> 
+	<!-- <context:load-time-weaver/> -->
 	<context:spring-configured />
-	<context:component-scan base-package="fr.wati.scool.web">
+	<context:component-scan base-package="fr.wati.scool.web, fr.wati.scool.services">
 	</context:component-scan>
 
 	<import resource="security.xml" />
@@ -34,6 +35,9 @@
 		</property>
 	</bean>
 
+<bean class="fr.wati.school.services.documents.DocumentManager">
+	<property name="rootDocumentFolder" value="${document.root.folder}"/>
+</bean>
 	<!-- Localization Start -->
 
 	 <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">

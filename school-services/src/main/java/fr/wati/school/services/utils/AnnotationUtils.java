@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
 
+import fr.wati.school.entities.annotations.ViewCaption;
+import fr.wati.school.entities.bean.Etablissement;
 import fr.wati.school.entities.bean.Etudiant;
 
 /**
@@ -70,7 +72,38 @@ public class AnnotationUtils {
 		return false;
 	}
 
+	@SuppressWarnings("unchecked")
+	public static boolean hasAnyOfAnnotation(Class<?> targetClass,
+			Class<? extends Annotation>... annotationClasses) {
+		for (Class<? extends Annotation> currentAnnotation : annotationClasses) {
+			if (targetClass.getAnnotation(currentAnnotation) != null) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public static void main(String[] args) {
 		System.out.println(getNonJPAPropertiesForCreation(Etudiant.class));
+		System.out.println(getFirstPropertyNameWithAnnotation(
+				ViewCaption.class, Etablissement.class));
+	}
+
+	public static String getFirstPropertyNameWithAnnotation(
+			final Class<? extends Annotation> annotationClass,
+			Class<?> targetClass) {
+		final List<String> properties = new ArrayList<>();
+		ReflectionUtils.doWithFields(targetClass, new FieldCallback() {
+			@Override
+			public void doWith(Field field) throws IllegalArgumentException,
+					IllegalAccessException {
+				List<Class<? extends Annotation>> annotations = new ArrayList<>();
+				annotations.add(annotationClass);
+				if (hasAnyOfAnnotation(field, annotations)) {
+					properties.add(field.getName());
+				}
+			}
+		});
+		return !properties.isEmpty() ? properties.get(0) : null;
 	}
 }

@@ -2,4 +2,35 @@
 /* Do not manually edit this file. */
 
 /* Import and include this mixin into your project theme to include the addon themes */
-@mixin addons {}
+@mixin addons {
+
+
+.v-verticallayout,
+.v-horizontallayout {
+	padding: 5px 5px 5px 5px;
+}
+
+.v-label.h4 {
+		font-weight: bold;
+		text-transform: uppercase;
+		color: #349aff;
+	}
+	
+	.v-calendar .v-calendar-event-cours {
+		background: blue;
+		color: white;
+	}
+	.v-calendar .v-calendar-event-reunion {
+		background: green;
+		color: white;
+	}
+	.v-calendar .v-calendar-event-evenement {
+		background: fuchsia;
+		color: white;
+	}
+	.v-calendar .v-calendar-event-conseille {
+		background: red;
+		color: white;
+		}
+
+}

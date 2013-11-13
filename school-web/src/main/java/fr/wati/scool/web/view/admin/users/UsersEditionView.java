@@ -4,8 +4,12 @@
 package fr.wati.scool.web.view.admin.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Window;
 
 import fr.wati.school.entities.bean.Users;
 import fr.wati.scool.web.addons.ViewDescription;
@@ -25,6 +29,9 @@ public class UsersEditionView extends AbstractAdminView {
 	
 	@Autowired
 	private CRUDPanelFactory crudPanelFactory;
+	
+	@Autowired
+	private transient ApplicationContext applicationContext;
 
 	/**
 	 * @param navigator
@@ -50,7 +57,36 @@ public class UsersEditionView extends AbstractAdminView {
 	 */
 	@Override
 	public Component getContent() {
-		DefaultCRUDPanel<Users> usersCrudPanel=crudPanelFactory.getCRUDPanel(Users.class,"Utilisateurs","Edition des utilisateurs");
+		final DefaultCRUDPanel<Users> usersCrudPanel=crudPanelFactory.getCRUDPanel(Users.class,"Utilisateurs","Edition des utilisateurs");
+		usersCrudPanel.setAddClickListener(new ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				UserCreationView userCreationView=applicationContext.getBean(UserCreationView.class);
+				final Window window=new Window("Create user wizard", userCreationView);
+				userCreationView.setOnStepChangedRunnable(new Runnable() {
+					@Override
+					public void run() {
+						window.center();
+					}
+				});
+				userCreationView.setOnFinishRunnable(new Runnable() {
+					@Override
+					public void run() {
+						usersCrudPanel.refresh();
+						window.close();
+					}
+				});
+				userCreationView.setOnCancelRunnable(new Runnable() {
+					@Override
+					public void run() {
+						window.close();
+					}
+				});
+				window.center();
+				window.setModal(true);
+				getUI().addWindow(window);
+			}
+		});
 		return usersCrudPanel;
 	}
 

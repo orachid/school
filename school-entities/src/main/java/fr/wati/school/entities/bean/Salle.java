@@ -11,6 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import fr.wati.school.entities.annotations.ViewCaption;
+import fr.wati.school.entities.annotations.ViewItemDescription;
+
 /**
  * @author Rachid Ouattara
  *
@@ -22,7 +25,9 @@ public class Salle extends Entite {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private  Long id;
+	@ViewItemDescription
 	private String nom;
+	@ViewCaption
 	private String code;
 	private Integer capacity;
 	@OneToMany(mappedBy="salle")

@@ -25,7 +25,10 @@ import fr.wati.scool.web.view.admin.AuditView;
 import fr.wati.scool.web.view.admin.BatchEditionView;
 import fr.wati.scool.web.view.admin.ClassesEditionView;
 import fr.wati.scool.web.view.admin.EtablissementEditionView;
+import fr.wati.scool.web.view.admin.MatieresEditionView;
 import fr.wati.scool.web.view.admin.SalleEditionView;
+import fr.wati.scool.web.view.admin.parameters.ConfigurationView;
+import fr.wati.scool.web.view.admin.parameters.LogView;
 import fr.wati.scool.web.view.admin.users.UsersEditionView;
 import fr.wati.util.SpringSecurityHelper;
 
@@ -48,6 +51,8 @@ public class AdminSideMenu extends CustomComponent implements ClickListener {
 	private NativeButton auditButton;
 	private NativeButton sallesButton;
 	private Map<NativeButton, String> buttonMap=new HashMap<>();
+	private NativeButton matieresButton;
+	private NativeButton logsButton;
 
 	/**
 	 * @param caption
@@ -76,15 +81,21 @@ public class AdminSideMenu extends CustomComponent implements ClickListener {
 			buttonMap.put(userButton, UsersEditionView.NAME);
 			verticalLayout.addComponent(rightManagementButton);
 			
+			etablissementButton = new NativeButton("Etablissement");
+			etablissementButton.addClickListener(this);
+			buttonMap.put(etablissementButton, EtablissementEditionView.NAME);
+			verticalLayout.addComponent(etablissementButton);
+			
 			classesButton = new NativeButton("Classes");
 			classesButton.addClickListener(this);
 			buttonMap.put(classesButton, ClassesEditionView.NAME);
 			verticalLayout.addComponent(classesButton);
 			
-			etablissementButton = new NativeButton("Etablissement");
-			etablissementButton.addClickListener(this);
-			buttonMap.put(etablissementButton, EtablissementEditionView.NAME);
-			verticalLayout.addComponent(etablissementButton);
+			matieresButton = new NativeButton("Matieres");
+			matieresButton.addClickListener(this);
+			buttonMap.put(matieresButton, MatieresEditionView.NAME);
+			verticalLayout.addComponent(matieresButton);
+			
 			
 			sallesButton = new NativeButton("Salles");
 			sallesButton.addClickListener(this);
@@ -101,7 +112,7 @@ public class AdminSideMenu extends CustomComponent implements ClickListener {
 			
 			globalSettingsButton = new NativeButton("Global settings");
 			globalSettingsButton.addClickListener(this);
-			buttonMap.put(globalSettingsButton, UsersEditionView.NAME);
+			buttonMap.put(globalSettingsButton, ConfigurationView.NAME);
 			verticalLayout.addComponent(globalSettingsButton);
 			
 			messagesButton = new NativeButton("Messages");
@@ -113,6 +124,11 @@ public class AdminSideMenu extends CustomComponent implements ClickListener {
 			auditButton.addClickListener(this);
 			buttonMap.put(auditButton, AuditView.NAME);;
 			verticalLayout.addComponent(auditButton);
+			
+			logsButton = new NativeButton("Logs");
+			logsButton.addClickListener(this);
+			buttonMap.put(logsButton, LogView.NAME);;
+			verticalLayout.addComponent(logsButton);
 			
 			
 			setCompositionRoot(verticalLayout);

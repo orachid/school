@@ -1,0 +1,44 @@
+@mixin school-webtheme-window {
+	
+	.v-window {
+		@include fade-in;
+		@include box-shadow(0 4px 20px rgba(0,0,0,.5));
+	}
+	
+	.v-shadow-window {
+		display: none;
+	}
+	
+	.v-ie8 & .v-shadow-window {
+		display: block;
+	}
+	
+	.v-window-outerheader {
+		padding: 0.5em 20px;
+		height: 1.7em;
+		font-weight: 300;
+		font-size: 20px;
+	}
+	
+	.v-window-header {
+		font-weight: inherit;
+	}
+	
+	.dialog.v-window {
+		color: #a6a9aa;
+		font-size: 13px;
+		
+		.v-window-header {
+			text-align: center;
+			color: #fff;
+			font-size: 16px;
+			font-weight: 400;
+		}
+	}
+	
+	.v-window .footer {
+		background: #eee;
+		border-top: 1px solid #e0e0e0;
+	}
+
+}

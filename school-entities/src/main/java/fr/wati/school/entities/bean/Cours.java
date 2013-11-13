@@ -6,7 +6,7 @@ package fr.wati.school.entities.bean;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 
 /**
@@ -17,16 +17,12 @@ import javax.persistence.OneToOne;
 @Entity
 public class Cours extends Evenement {
 
-	@OneToOne
+	@ManyToOne
 	private Professeur professeur;
-	@OneToOne
+	@ManyToOne
 	private Matiere matiere;
-	@OneToOne
+	@ManyToOne
 	private Classe classe;
-	@OneToOne
-	private Periode periode;
-	
-	
 	
 	public Cours() {
 		super();
@@ -70,17 +66,5 @@ public class Cours extends Evenement {
 	public void setClasse(Classe classe) {
 		this.classe = classe;
 	}
-	/**
-	 * @return the periode
-	 */
-	public Periode getPeriode() {
-		return periode;
-	}
-	/**
-	 * @param periode the periode to set
-	 */
-	public void setPeriode(Periode periode) {
-		this.periode = periode;
-	}	
 	
 }

@@ -4,6 +4,8 @@
 package fr.wati.scool.web.menu;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.aop.support.AopUtils;
@@ -60,7 +62,16 @@ public class MenuFactory{
 					}
 			}
 		}
+		Collections.sort(menus, new MenuComparator());
 		return menus;
 	}
 
+	class MenuComparator implements Comparator<Menu>{
+
+		@Override
+		public int compare(Menu menu1, Menu menu2) {
+			return Integer.compare(menu1.getPosition(), menu2.getPosition());
+		}
+		
+	}
 }

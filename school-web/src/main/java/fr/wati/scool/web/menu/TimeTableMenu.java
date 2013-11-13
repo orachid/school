@@ -3,9 +3,9 @@
  */
 package fr.wati.scool.web.menu;
 
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.vaadin.ui.Button;
 
@@ -18,7 +18,7 @@ import fr.wati.scool.web.view.TimeTableView;
  *
  */
 @Component
-@Scope(value= BeanDefinition.SCOPE_PROTOTYPE)
+@Scope(value= WebApplicationContext.SCOPE_SESSION)
 @MenuConfig(MenuGroup.TOP)
 @SuppressWarnings("serial")
 public class TimeTableMenu extends AbstractMenu {
@@ -46,6 +46,11 @@ public class TimeTableMenu extends AbstractMenu {
 	@Override
 	public String getViewName() {
 		return TimeTableView.NAME;
+	}
+
+	@Override
+	public int getPosition() {
+		return 1;
 	}
 
 }
