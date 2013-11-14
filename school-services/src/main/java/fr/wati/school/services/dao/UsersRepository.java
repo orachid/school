@@ -13,4 +13,5 @@ import fr.wati.school.entities.bean.Users;
  */
 public interface UsersRepository extends JpaRepository<Users, Long>{
 
+	Users findByUsername(String username);
 }

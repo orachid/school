@@ -5,22 +5,20 @@ package fr.wati.scool.web.view.documents;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.BeanUtilsBean;
-import org.apache.commons.beanutils.BeanUtilsBean2;
-
 import com.vaadin.data.Container.Hierarchical;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.MethodProperty;
+import com.vaadin.data.util.ObjectProperty;
+import com.vaadin.server.ThemeResource;
 
 import fr.wati.school.entities.bean.Document;
+import fr.wati.util.IconProvider;
 
 /**
  * @author Rachid Ouattara
@@ -30,6 +28,7 @@ import fr.wati.school.entities.bean.Document;
 public class DocumentHierarchicalContainer implements Hierarchical {
 
 	private Document rootDocument;
+	public static final String ICON_PROPERTY="iconProperty"; 
 	
 	
 	
@@ -53,8 +52,11 @@ public class DocumentHierarchicalContainer implements Hierarchical {
 	 * @see com.vaadin.data.Container#getContainerPropertyIds()
 	 */
 	@Override
-	public Collection<?> getContainerPropertyIds() {
-		return null;
+	public Collection<String> getContainerPropertyIds() {
+		List<String> properties=new ArrayList<>();
+		properties.add("name");
+		properties.add(ICON_PROPERTY);
+		return properties;
 	}
 
 	/* (non-Javadoc)
@@ -73,6 +75,19 @@ public class DocumentHierarchicalContainer implements Hierarchical {
 	public Property getContainerProperty(Object itemId, Object propertyId) {
 		if(itemId!=null && itemId instanceof Document){
 			Document document=(Document) itemId;
+			if(ICON_PROPERTY.equals(propertyId)){
+				if(document.equals(rootDocument)){
+					return new ObjectProperty<ThemeResource>(IconProvider.getIcone16X16("diskdrive.png"));
+				}
+				if(document.isDirectory()){
+					return new ObjectProperty<ThemeResource>(IconProvider.getIcone16X16("folder.png"));
+				}else {
+					return new ObjectProperty<ThemeResource>(IconProvider.getIcone16X16("page.png"));
+				}
+			}
+			if(document.equals(rootDocument) && "name".equals(propertyId)){
+				return new ObjectProperty<String>(document.getUserFullName());
+			}
 			PropertyDescriptor propertyDescriptor;
 			try {
 				propertyDescriptor = new PropertyDescriptor(String.valueOf(propertyId), Document.class);
@@ -91,6 +106,9 @@ public class DocumentHierarchicalContainer implements Hierarchical {
 	 */
 	@Override
 	public Class<?> getType(Object propertyId) {
+		if(ICON_PROPERTY.equals(propertyId)){
+			return ThemeResource.class;
+		}
 		return null;
 	}
 
@@ -258,52 +276,4 @@ public class DocumentHierarchicalContainer implements Hierarchical {
 		return false;
 	}
 
-	public class DocumentItem implements Item{
-
-		private Document document;
-		
-		
-		/**
-		 * @param document
-		 */
-		public DocumentItem(Document document) {
-			super();
-			this.document = document;
-		}
-
-		/* (non-Javadoc)
-		 * @see com.vaadin.data.Item#getItemProperty(java.lang.Object)
-		 */
-		@Override
-		public Property getItemProperty(Object id) {
-			return null;
-		}
-
-		/* (non-Javadoc)
-		 * @see com.vaadin.data.Item#getItemPropertyIds()
-		 */
-		@Override
-		public Collection<?> getItemPropertyIds() {
-			return null;
-		}
-
-		/* (non-Javadoc)
-		 * @see com.vaadin.data.Item#addItemProperty(java.lang.Object, com.vaadin.data.Property)
-		 */
-		@Override
-		public boolean addItemProperty(Object id, Property property)
-				throws UnsupportedOperationException {
-			return false;
-		}
-
-		/* (non-Javadoc)
-		 * @see com.vaadin.data.Item#removeItemProperty(java.lang.Object)
-		 */
-		@Override
-		public boolean removeItemProperty(Object id)
-				throws UnsupportedOperationException {
-			return false;
-		}
-		
-	}
 }

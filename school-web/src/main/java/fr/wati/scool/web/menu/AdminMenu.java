@@ -14,13 +14,14 @@ import fr.wati.school.entities.bean.Role;
 import fr.wati.scool.web.annotations.MenuConfig;
 import fr.wati.scool.web.menu.Menu.MenuGroup;
 import fr.wati.scool.web.view.admin.AdminView;
+import fr.wati.util.IconProvider;
 
 /**
  * @author Rachid Ouattara
  *
  */
 @Component
-@Scope(value= WebApplicationContext.SCOPE_SESSION)
+@Scope(WebApplicationContext.SCOPE_SESSION)
 @Secured({Role.ROLE_ADMIN,Role.ROLE_DIRECTOR})
 @MenuConfig(MenuGroup.TOP)
 @SuppressWarnings("serial")
@@ -36,6 +37,7 @@ public class AdminMenu extends AbstractMenu {
 		if(button==null){
 			button=new Button("Admin");
 			button.setHtmlContentAllowed(true);
+			button.setIcon(IconProvider.getIcone32X32("process.png"));
 		}
 		return button;
 	}

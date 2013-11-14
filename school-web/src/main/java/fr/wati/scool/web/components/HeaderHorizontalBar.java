@@ -16,6 +16,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Link;
 
+import fr.wati.school.entities.bean.Personne;
 import fr.wati.util.SpringSecurityHelper;
 
 /**
@@ -42,7 +43,7 @@ public class HeaderHorizontalBar extends CustomComponent {
 		Label logo = new Label("SCHOOL");
 		horizontalLayout.addComponent(logo);
 		horizontalLayout.setComponentAlignment(logo, Alignment.MIDDLE_LEFT);
-		Label userName=new Label(SpringSecurityHelper.getUser().getUsername());
+		Label userName=new Label(((Personne)SpringSecurityHelper.getApplicationConnectedUser()).getFullName());
 		horizontalLayout.addComponent(userName);
 		horizontalLayout.setComponentAlignment(userName, Alignment.MIDDLE_RIGHT);
 		Link logoutLink = new Link("Logout", new ExternalResource("/j_spring_security_logout"));

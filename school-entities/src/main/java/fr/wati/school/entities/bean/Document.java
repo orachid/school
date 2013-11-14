@@ -20,6 +20,7 @@ public class Document {
 	private long size;
 	private transient String documentPath;
 	private Date lastModificationDate;
+	private String userFullName;
 	
 	
 	public void addDocument(Document document){
@@ -119,6 +120,20 @@ public class Document {
 	 */
 	public void setDocumentPath(String documentPath) {
 		this.documentPath = documentPath;
+	}
+
+	/**
+	 * @return the userFullName
+	 */
+	public String getUserFullName() {
+		return userFullName;
+	}
+
+	/**
+	 * @param userFullName the userFullName to set
+	 */
+	public void setUserFullName(String userFullName) {
+		this.userFullName = userFullName;
 	}
 	
 	

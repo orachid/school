@@ -9,9 +9,9 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.WebApplicationContext;
 
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -37,7 +37,7 @@ import fr.wati.util.SpringSecurityHelper;
  *
  */
 @Component
-@Scope(value= WebApplicationContext.SCOPE_SESSION)
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 @SuppressWarnings("serial")
 public class AdminSideMenu extends CustomComponent implements ClickListener {
 

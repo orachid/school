@@ -9,24 +9,26 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 
 import fr.wati.school.entities.bean.Document;
+import fr.wati.school.entities.bean.Personne;
 import fr.wati.school.entities.bean.Users;
+import fr.wati.school.services.dao.UsersRepository;
 
 /**
  * @author Rachid Ouattara
  * 
  */
 
-public class DocumentManager implements ApplicationContextAware{
+public class DocumentManager{
 
 	@Value("${document.root.folder}")
 	private String rootDocumentFolder;
 
+	@Autowired
+	private UsersRepository usersRepository;
 	
 	
 	/**
@@ -49,9 +51,11 @@ public class DocumentManager implements ApplicationContextAware{
 		Document root = new Document();
 		root.setDirectory(true);
 		root.setLastModificationDate(new Date(userRootFile.lastModified()));
-		root.setName("png");
+		Users currentUsers=usersRepository.findByUsername(userName);
+		root.setName(userName);
 		root.setDocumentPath(userRootFilePath);
 		root.setDocuments(getSubStucture(root));
+		root.setUserFullName(((Personne)currentUsers).getFullName());
 		return root;
 	}
 
@@ -63,6 +67,8 @@ public class DocumentManager implements ApplicationContextAware{
 			for(File file:listFiles){
 				Document currentDocument = new Document();
 				currentDocument.setName(file.getName());
+				currentDocument.setLastModificationDate(new Date(file.lastModified()));
+				currentDocument.setSize(file.getTotalSpace());
 				currentDocument.setDirectory(file.isDirectory());
 				currentDocument.setDocumentPath(file.getPath());
 				currentDocument.setParent(document);
@@ -98,12 +104,4 @@ public class DocumentManager implements ApplicationContextAware{
 		System.out.println(documentManager.getUserDocument("png"));
 	}
 
-	/* (non-Javadoc)
-	 * @see org.springframework.context.ApplicationContextAware#setApplicationContext(org.springframework.context.ApplicationContext)
-	 */
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext)
-			throws BeansException {
-		System.out.println();
-	}
 }

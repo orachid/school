@@ -12,13 +12,14 @@ import com.vaadin.ui.Button;
 import fr.wati.scool.web.annotations.MenuConfig;
 import fr.wati.scool.web.menu.Menu.MenuGroup;
 import fr.wati.scool.web.view.messagerie.MessagerieView;
+import fr.wati.util.IconProvider;
 
 /**
  * @author Rachid Ouattara
  *
  */
 @Component
-@Scope(value= WebApplicationContext.SCOPE_SESSION)
+@Scope(WebApplicationContext.SCOPE_SESSION)
 @MenuConfig(MenuGroup.TOP)
 @SuppressWarnings("serial")
 public class MessagerieMenu extends AbstractMenu {
@@ -33,6 +34,7 @@ public class MessagerieMenu extends AbstractMenu {
 		if(button==null){
 			button=new Button("Messagerie");
 			button.setHtmlContentAllowed(true);
+			button.setIcon(IconProvider.getIcone32X32("mail.png"));
 		}
 		return button;
 	}

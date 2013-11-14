@@ -93,5 +93,7 @@ public class Personne extends Users {
 		this.contact = contact;
 	}
 	
-	
+	public String getFullName(){
+		return String.format("%s %s",prenom,nom);
+	}
 }
