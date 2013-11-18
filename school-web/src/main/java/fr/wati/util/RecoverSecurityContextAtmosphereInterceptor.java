@@ -27,7 +27,9 @@ public class RecoverSecurityContextAtmosphereInterceptor implements AtmosphereIn
 	public Action inspect(AtmosphereResource atmosphereResource) {
 		logger.debug("Recover SecurityContext in SecurityContextHolder");
 		SecurityContext context = (SecurityContext) atmosphereResource.getRequest().getSession().getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
-		SecurityContextHolder.setContext(context);
+		if(context!=null){
+			SecurityContextHolder.setContext(context);
+		}
 		return Action.CONTINUE;
 	}
 

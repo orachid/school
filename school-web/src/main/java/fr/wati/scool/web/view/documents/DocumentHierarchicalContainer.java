@@ -109,7 +109,7 @@ public class DocumentHierarchicalContainer implements Hierarchical {
 		if(ICON_PROPERTY.equals(propertyId)){
 			return ThemeResource.class;
 		}
-		return null;
+		return String.class;
 	}
 
 	/* (non-Javadoc)
@@ -139,10 +139,11 @@ public class DocumentHierarchicalContainer implements Hierarchical {
 				if(documentToFind.equals(document)){
 					return true;
 				}
-				return contentDocument(document,documentToFind);
+				if(contentDocument(document,documentToFind)){
+					return true;
+				}
 			}
 		}
-		
 		return false;
 	}
 	/* (non-Javadoc)

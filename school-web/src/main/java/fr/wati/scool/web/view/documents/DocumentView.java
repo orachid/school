@@ -4,6 +4,8 @@
 package fr.wati.scool.web.view.documents;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -11,8 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.FilesystemContainer;
+import com.vaadin.event.Action;
+import com.vaadin.event.Action.Handler;
+import com.vaadin.event.ItemClickEvent;
+import com.vaadin.event.ItemClickEvent.ItemClickListener;
+import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -20,7 +28,6 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 
 import fr.wati.school.entities.bean.Document;
 import fr.wati.school.services.documents.DocumentManager;
@@ -42,6 +49,8 @@ public class DocumentView extends AbstractView implements ValueChangeListener{
 	@Autowired
 	private DocumentManager documentManager;
 	private BeanItemContainer<Document> documentContainer;
+	private Tree myDocumentsTree;
+	private Table folderContentTable;
 	
 	/* (non-Javadoc)
 	 * @see fr.wati.scool.web.view.AbstractView#postConstruct()
@@ -54,13 +63,18 @@ public class DocumentView extends AbstractView implements ValueChangeListener{
 		VerticalLayout browserVerticalLayout=new VerticalLayout();
 		browserVerticalLayout.addStyleName("sidebar-menu");
 		browserVerticalLayout.addComponent(new Label("My documents"));
-		Tree myDocumentsTree=new Tree();
-		myDocumentsTree.setContainerDataSource(new DocumentHierarchicalContainer(documentManager.getUserDocument(SpringSecurityHelper.getUser().getUsername())));
+		myDocumentsTree = new Tree();
+		Document userDocumentRoot = documentManager.getUserDocument(SpringSecurityHelper.getUser().getUsername());
+		DocumentHierarchicalContainer documentHierarchicalContainer = new DocumentHierarchicalContainer(userDocumentRoot);
+		myDocumentsTree.setContainerDataSource(documentHierarchicalContainer);
 		myDocumentsTree.setItemCaptionMode(ItemCaptionMode.PROPERTY);
 		myDocumentsTree.setItemCaptionPropertyId("name");
 		myDocumentsTree.setImmediate(true);
 		myDocumentsTree.addValueChangeListener(this);
 		myDocumentsTree.setItemIconPropertyId(DocumentHierarchicalContainer.ICON_PROPERTY);
+		documentContainer = new BeanItemContainer<>(Document.class);
+		//select by default
+		myDocumentsTree.setValue(userDocumentRoot);
 		
 		browserVerticalLayout.addComponent(myDocumentsTree);
 		browserVerticalLayout.addComponent(new Label("Available documents"));
@@ -78,11 +92,41 @@ public class DocumentView extends AbstractView implements ValueChangeListener{
 		addFolderButton.setIcon(IconProvider.getIcone24X24(""));
 		toolBarHorizontalLayout.addComponent(addFolderButton);
 		contentVerticalLayout.addComponent(toolBarHorizontalLayout);
-		documentContainer = new BeanItemContainer<>(Document.class);
-		Table folderContentTable=new Table("", documentContainer);
-		folderContentTable.setPageLength(documentContainer.size());
+		
+		folderContentTable = new Table("", documentContainer);
+		folderContentTable.setSelectable(true);
 		folderContentTable.setVisibleColumns(new Object[]{"name", "directory","size","lastModificationDate"});
 		folderContentTable.setImmediate(true);
+		folderContentTable.addActionHandler(new Handler() {
+			
+			@Override
+			public void handleAction(Action action, Object sender, Object target) {
+				System.out.println(action+" "+sender+" "+target);
+			}
+			
+			@Override
+			public Action[] getActions(Object target, Object sender) {
+				List<Action> actions=new ArrayList<>();
+				actions.add(new Action("Delete"));
+				return actions.toArray(new Action[actions.size()]);
+			}
+		});
+		folderContentTable.addItemClickListener(new ItemClickListener() {
+			
+			@SuppressWarnings("rawtypes")
+			@Override
+			public void itemClick(ItemClickEvent event) {
+				//Double Click
+				if(event.isDoubleClick()){
+					if(event.getItem()!=null && (event.getItem() instanceof BeanItem) && (((BeanItem)event.getItem()).getBean()!=null)){
+						Document selectedDocument=(Document) ((BeanItem)event.getItem()).getBean();
+						if(selectedDocument.isDirectory()){
+							myDocumentsTree.setValue(selectedDocument);
+						}
+					}
+				}
+			}
+		});
 		contentVerticalLayout.addComponent(folderContentTable);
 		Panel sidePanel=new Panel(browserVerticalLayout);
 		horizontalLayout.addComponent(sidePanel);
@@ -105,7 +149,9 @@ public class DocumentView extends AbstractView implements ValueChangeListener{
 	 */
 	@Override
 	public void valueChange(ValueChangeEvent event) {
-		documentContainer.removeAllItems();
+		if(documentContainer!=null){
+			documentContainer.removeAllItems();
+		}	
 		if(event.getProperty() !=null &&event.getProperty().getValue()!=null && event.getProperty().getValue() instanceof Document){
 			Document selectedDocumentInTree=(Document) event.getProperty().getValue();
 			if(selectedDocumentInTree.isDirectory()){
@@ -113,7 +159,6 @@ public class DocumentView extends AbstractView implements ValueChangeListener{
 				return;
 			}
 		}
-		System.out.println(event.getProperty().getValue());
 	}
 
 }
