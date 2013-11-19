@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import fr.wati.school.web.rebirth.commons.Breadcrumbs;
 import fr.wati.school.web.rebirth.commons.Layout;
+import fr.wati.school.web.rebirth.commons.navigation.SideNavItem;
 import fr.wati.school.web.rebirth.commons.navigation.SideNavItemsFactory;
 import fr.wati.school.web.rebirth.utils.ImprovedMustacheTemplateLoader;
 
@@ -31,7 +32,7 @@ public class DefaultPageController extends AbstractPageController {
 	private SideNavItemsFactory sideNavItemsFactory;
 	
 	@RequestMapping(value = "/")
-	public ModelAndView login() {
+	public ModelAndView render() {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("/layouts/default");
@@ -39,26 +40,38 @@ public class DefaultPageController extends AbstractPageController {
 		modelAndView.addObject("layout.topbar_tasks.count", 5);
 		Breadcrumbs breadcrumbs=new Breadcrumbs();
 		modelAndView.addObject("breadcrumbs", breadcrumbs);
-		Layout layout=new Layout();
-		layout.setSidenav_navList(sideNavItemsFactory.getSideNavItems());
-		modelAndView.addObject("layout", layout);
 		improvedMustacheTemplateLoader.getIncludedTemplatePath().get().put("page.content", "pages/blank");
 		improvedMustacheTemplateLoader.getIncludedTemplatePath().get().put("layout.settings", "layouts/partials/_shared/settings");
 		improvedMustacheTemplateLoader.getIncludedTemplatePath().get().put("layout._template.jquery", "layouts/partials/_shared/_template/jquery");
 		improvedMustacheTemplateLoader.getIncludedTemplatePath().get().put("layout.topbar.user_menu", "layouts/partials/default/topbar/user_menu");
-		improvedMustacheTemplateLoader.getIncludedTemplatePath().get().put("layout.sidenav.items", "layouts/partials/_shared/sidenav/items");
-		improvedMustacheTemplateLoader.getIncludedTemplatePath().get().put("layout.topbar", "layouts/partials/_shared/topbar");
+		//improvedMustacheTemplateLoader.getIncludedTemplatePath().get().put("layout.topbar", TopBarController.VIEW_NAME);
+		improvedMustacheTemplateLoader.getIncludedTemplatePath().get().put("layout.topbar", "/layouts/partials/_shared/topbar");
 		improvedMustacheTemplateLoader.getIncludedTemplatePath().get().put("layout.topbar.tasks", "layouts/partials/_shared/topbar/tasks");
 		improvedMustacheTemplateLoader.getIncludedTemplatePath().get().put("layout.topbar.notifications", "layouts/partials/_shared/topbar/notifications");
 		improvedMustacheTemplateLoader.getIncludedTemplatePath().get().put("layout.topbar.messages", "layouts/partials/_shared/topbar/messages");
-		improvedMustacheTemplateLoader.getIncludedTemplatePath().get().put("layout.topbar.user_menu", "layouts/partials/default/topbar/user_menu");
 		improvedMustacheTemplateLoader.getIncludedTemplatePath().get().put("layout._template.fonts", "layouts/partials/_shared/_template/fonts");
+		//improvedMustacheTemplateLoader.getIncludedTemplatePath().get().put("layoutsidenav", SideNavBarController.VIEW_NAME);
 		improvedMustacheTemplateLoader.getIncludedTemplatePath().get().put("layout.sidenav", "layouts/partials/_shared/sidenav");
-		improvedMustacheTemplateLoader.getIncludedTemplatePath().get().put("layout.sidenav.shortcuts", "layouts/partials/_shared/sidenav/shortcuts");
 		improvedMustacheTemplateLoader.getIncludedTemplatePath().get().put("layout.breadcrumbs", "layouts/partials/default/breadcrumbs");
 		
+		//TopBar
 		
+		improvedMustacheTemplateLoader.getIncludedTemplatePath().get().put("layout.topbar.user_menu", "layouts/partials/default/topbar/user_menu");
+		improvedMustacheTemplateLoader.getIncludedTemplatePath().get().put("layout.sidenav.items", "layouts/partials/_shared/sidenav/items");
+		improvedMustacheTemplateLoader.getIncludedTemplatePath().get().put("layout.sidenav.shortcuts", "layouts/partials/_shared/sidenav/shortcuts");
+		improvedMustacheTemplateLoader.getIncludedTemplatePath().get().put("layout.topbar.tasks", "/layouts/partials/_shared/topbar/tasks");
+		improvedMustacheTemplateLoader.getIncludedTemplatePath().get().put("layout.topbar.notifications", "/layouts/partials/_shared/topbar/notifications");
+		improvedMustacheTemplateLoader.getIncludedTemplatePath().get().put("layout.topbar.messages", "/layouts/partials/_shared/topbar/messages");
 		
+		//TopBarTask
+		modelAndView.addObject("layouttopbar_taskscount", 5);
+		modelAndView.addObject("layouttopbar_notificationscount", 5);
+		modelAndView.addObject("layouttopbar_messagescount", 5);
+		
+		//SideNav
+		Layout layout=new Layout();
+		layout.setSidenav_navList(sideNavItemsFactory.getSideNavItems().toArray(new SideNavItem[sideNavItemsFactory.getSideNavItems().size()]));
+		modelAndView.addObject("layout", layout);
 		
 		return modelAndView;
 	}

@@ -12,17 +12,17 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 public class SideNavItem {
 
-    private String link;
-    private String title;
-    private String icon;
+	public String link;
+    public String title;
+    public String icon;
     @Valid
-    private List<SideNavItem> submenu = new ArrayList<SideNavItem>();
-    private String badge;
-    private String badge_class;
-    private String tooltip;
-    private String tooltip_class;
-    private boolean level1;
-    private boolean level2;
+    public SideNavItem[] submenu;;
+    public String badge;
+    public String badge_class;
+    public String tooltip;
+    public String tooltip_class;
+    public boolean level1;
+    public boolean level2;
     
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -65,15 +65,15 @@ public class SideNavItem {
         return this;
     }
 
-    public List<SideNavItem> getSubmenu() {
+    public SideNavItem[] getSubmenu() {
         return submenu;
     }
 
-    public void setSubmenu(List<SideNavItem> submenu) {
+    public void setSubmenu(SideNavItem[] submenu) {
         this.submenu = submenu;
     }
 
-    public SideNavItem withSubmenu(List<SideNavItem> submenu) {
+    public SideNavItem withSubmenu(SideNavItem[] submenu) {
         this.submenu = submenu;
         return this;
     }

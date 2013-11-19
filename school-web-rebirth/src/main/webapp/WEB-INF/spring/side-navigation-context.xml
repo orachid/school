@@ -8,21 +8,59 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-<!-- Side Menu items definition-->		
+	<!-- Side Menu items definition -->
 
-<bean id="menuItem" class="fr.wati.school.web.rebirth.commons.navigation.SideNavItem" abstract="true">
-	<property name="level1" value="true"/>
-</bean>
+	<bean id="menuItem"
+		class="fr.wati.school.web.rebirth.commons.navigation.SideNavItem"
+		abstract="true">
+		<property name="level1" value="true" />
+	</bean>
 
-<bean id="dashBoard" parent="menuItem">
-	<property name="title" value="DashBoard" />
-	<property name="icon" value="icon-dashboard"/>
-</bean>
+	<bean id="submenuItem"
+		class="fr.wati.school.web.rebirth.commons.navigation.SideNavItem"
+		abstract="true">
+		<property name="level2" value="true" />
+	</bean>
 
-<bean id="admin" parent="menuItem">
-	<property name="title" value="Admin" />
-	<property name="icon" value="icon-admin"/>
-</bean>
+	<!-- Dashboard -->
+	<bean id="dashBoard" parent="menuItem">
+		<property name="title" value="DashBoard" />
+		<property name="icon" value="icon-dashboard" />
+	</bean>
+
+	<!-- Admin -->
+	<bean id="admin" parent="menuItem">
+		<property name="title" value="Admin" />
+		<property name="icon" value="icon-admin" />
+		<property name="submenu">
+			<list>
+				<bean id="adminEdition" parent="submenuItem">
+					<property name="title" value="Edition" />
+					<property name="level1" value="true" />
+					<property name="level2" value="false" />
+					<property name="submenu">
+						<list>
+							<bean id="usersEdition" parent="submenuItem">
+								<property name="title" value="Users Edition" />
+								<property name="icon" value="icon-admin" />
+								<property name="submenu">
+									<list>
+										<bean id="matieresEdition" parent="submenuItem">
+										<property name="title" value="Matieres Edition" />
+										<property name="icon" value="icon-admin" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+							
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Admin-Edition -->
 
 
 </beans>

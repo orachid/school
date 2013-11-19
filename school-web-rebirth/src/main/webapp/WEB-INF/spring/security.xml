@@ -13,7 +13,7 @@
 	<beans:bean
 		class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler" />
 	<http security="none" pattern="/favicon.ico" />
-	<http security="none" pattern="/resources/" />
+	<http security="none" pattern="/resources/**" />
 
 	<http auto-config='true'>
 		<intercept-url pattern="/login/" access="IS_AUTHENTICATED_ANONYMOUSLY" />

@@ -45,5 +45,22 @@
 	<script src="{{{path.assets}}}/js/html5shiv.js"></script>
 	<script src="{{{path.assets}}}/js/respond.min.js"></script>
 	<![endif]-->
+	<script type="text/javascript">
+        function doAjaxPost(divJQuerySelector, url) {
+
+                    // get the form values
+                    $.ajax({
+                    	type: "POST",
+                    	url: url,
+                    	success: function(response){
+                    				// we have the response
+                    				$("#"+divJQuerySelector).html(response);
+              					},
+           				error: function(e){
+             				alert('Error: ' + e);
+           						}	
+         			});
+       }
+    </script>
 
 </head>
