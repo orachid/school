@@ -241,6 +241,11 @@
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.4</version>
 		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.13</version>
+		</dependency>
     </dependencies>
 
     <repositories>
@@ -252,7 +257,7 @@
     </repositories>
 
     <build>
-        <finalName>MvcMustache-N</finalName>
+        <finalName>school-web</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

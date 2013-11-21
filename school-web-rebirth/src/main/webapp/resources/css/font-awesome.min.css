@@ -243,7 +243,9 @@ a .icon-rotate-90:before,a .icon-rotate-180:before,a .icon-rotate-270:before,a .
 .icon-rotate-left:before,.icon-undo:before{content:"\f0e2";}
 .icon-legal:before{content:"\f0e3";}
 .icon-dashboard:before{content:"\f0e4";}
-.icon-admin:before{content:"\f006";}
+.icon-admin:before{content:"\f005";}
+.icon-mail:before{content:"\f0e0";}
+.icon-admin-sub:before{content:"\f006";}
 .icon-comment-alt:before{content:"\f0e5";}
 .icon-comments-alt:before{content:"\f0e6";}
 .icon-bolt:before{content:"\f0e7";}

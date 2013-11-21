@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.wati.school.web.rebirth.commons.Breadcrumbs;
 import fr.wati.school.web.rebirth.commons.Page;
 import fr.wati.school.web.rebirth.commons.Paths;
 import fr.wati.school.web.rebirth.commons.Site;
@@ -25,12 +26,18 @@ public abstract class AbstractPageController {
 		modelAndView.addObject("page", getPage());
 		modelAndView.addObject("path", new Paths());
 		modelAndView.addObject("site", new Site());
+		modelAndView.addObject("breadcrumbs", getBreadcrumbs());
+		
 	}
 	
-	abstract ResourceLoader getResourceLoader();
-	abstract String getTitle();
-	abstract String getDescription();
-	abstract String getContent();
+	public abstract ResourceLoader getResourceLoader();
+	public abstract String getTitle();
+	public abstract String getDescription();
+	public abstract String getContent();
+	public abstract Breadcrumbs getBreadcrumbs();
+	public abstract String[] getScripts();
+	public abstract String[] getIe_scripts();
+	public abstract String[] getStyles();
 	
 	/**
 	 * paths comma "," separated to js resource
@@ -41,7 +48,7 @@ public abstract class AbstractPageController {
 	
 	public Page getPage(){
 		//getResourceContent(getContentPath())
-		return new Page(getTitle(), getDescription(),getInline_script_Content(),getContent());
+		return new Page(getTitle(), getDescription(),getInline_script_Content(),getContent(),getScripts(),getIe_scripts(),getStyles());
 	}
 	
 	public String getInline_script_Content(){

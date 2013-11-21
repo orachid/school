@@ -1,6 +1,6 @@
 <div class="alert alert-block alert-success">
 	<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
-	<i class="icon-ok green"></i> Welcome to <strong class="green">Ace <small>(v{{site.version}})</small></strong>,
+	<i class="icon-ok green"></i> Welcome to <strong class="green">Ace <small>(v{{! site.version}})</small></strong>,
 	the lightweight, feature-rich and easy to use admin template.
 </div>
 
@@ -9,13 +9,13 @@
  <div class="space-6"></div>
 
  <div class="col-sm-7 infobox-container">
-	{{#page.stats1}}
-	 {{> page.infobox}}
-	{{/page.stats1}}
+	{{! #page.stats1}}
+	 {{! > page.infobox}}
+	{{! /page.stats1}}
 	<div class="space-6"></div>
-	{{#page.stats2}}
-	 {{> page.infobox}}
-	{{/page.stats2}}
+	{{! #page.stats2}}
+	 {{! > page.infobox}}
+	{{!/page.stats2}}
  </div>
 
  <div class="vspace-sm"></div>
@@ -92,7 +92,7 @@
 			
 			<div class="widget-body">
 			 <div class="widget-main no-padding">
-				{{> page.domains}}
+				{{! > page.domains}}
 			 </div><!--/widget-main-->
 			</div><!--/widget-body-->
 		</div><!--/widget-box-->
@@ -146,17 +146,17 @@
 			<div class="tab-content padding-8 overflow-visible">{{! overflow visible for when dragging tasks around }}
 				<div id="task-tab" class="tab-pane active">
 					<h4 class="smaller lighter green"><i class="icon-list"></i> Sortable Lists</h4>
-					{{> page.tasks}}
+					{{!> page.tasks}}
 				</div>
 
 
 				<div id="member-tab" class="tab-pane">
-					{{> page.members}}
+					{{! > page.members}}
 				</div><!-- member-tab -->
 
 
 				<div id="comment-tab" class="tab-pane">
-					{{> page.comments}}
+					{{! > page.comments}}
 				</div>
 			</div>
 		 </div><!--/widget-main-->
@@ -175,7 +175,7 @@
 		
 		<div class="widget-body">
 		 <div class="widget-main no-padding">
-			{{> page.conversations}}
+			{{! > page.conversations}}
 		 </div><!--/widget-main-->
 		</div><!--/widget-body-->
 		

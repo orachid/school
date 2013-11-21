@@ -1,8 +1,10 @@
 /**
  * 
  */
-package fr.wati.school.services.dao;
+package fr.wati.school.dao;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import fr.wati.school.entities.bean.Users;
@@ -14,4 +16,5 @@ import fr.wati.school.entities.bean.Users;
 public interface UsersRepository extends JpaRepository<Users, Long>{
 
 	Users findByUsername(String username);
+	Page<Users> findByUsernameLike(String username, Pageable pageable);
 }

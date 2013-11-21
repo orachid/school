@@ -11,7 +11,7 @@
 	<context:annotation-config/> 
 	<!-- <context:load-time-weaver/> -->
 	<context:spring-configured />
-	<context:component-scan base-package="fr.wati.scool.web, fr.wati.scool.services">
+	<context:component-scan base-package="fr.wati.school.services">
 	</context:component-scan>
 
 	<import resource="security.xml" />
@@ -84,7 +84,7 @@
 		factory-method="createEntityManager" /> -->
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
-	<jpa:repositories base-package="fr.wati.school.services.dao" />
+	<jpa:repositories base-package="fr.wati.school.dao" />
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManager" />
 	</bean>

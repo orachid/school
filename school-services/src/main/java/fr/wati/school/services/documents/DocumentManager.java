@@ -12,10 +12,10 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import fr.wati.school.dao.UsersRepository;
 import fr.wati.school.entities.bean.Document;
 import fr.wati.school.entities.bean.Personne;
 import fr.wati.school.entities.bean.Users;
-import fr.wati.school.services.dao.UsersRepository;
 
 /**
  * @author Rachid Ouattara

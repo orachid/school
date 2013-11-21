@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.wati.school.web.rebirth.commons.Breadcrumbs;
 import fr.wati.school.web.rebirth.utils.ImprovedMustacheTemplateLoader;
 
 /**
@@ -42,7 +43,7 @@ public class LoginController extends AbstractPageController {
 	 * fr.wati.school.web.rebirth.controller.AbstractPageController#getTitle()
 	 */
 	@Override
-	String getTitle() {
+	public String getTitle() {
 		return "Login page";
 	}
 
@@ -54,7 +55,7 @@ public class LoginController extends AbstractPageController {
 	 * ()
 	 */
 	@Override
-	String getDescription() {
+	public String getDescription() {
 		return "School WebAPP";
 	}
 
@@ -65,7 +66,7 @@ public class LoginController extends AbstractPageController {
 	 * getInline_scripts()
 	 */
 	@Override
-	String getInline_scripts() {
+	public String getInline_scripts() {
 		return "views/assets/scripts/login.js";
 	}
 
@@ -73,7 +74,7 @@ public class LoginController extends AbstractPageController {
 	 * @see fr.wati.school.web.rebirth.controller.AbstractPageController#getResourceLoader()
 	 */
 	@Override
-	ResourceLoader getResourceLoader() {
+	public ResourceLoader getResourceLoader() {
 		return resourceLoader;
 	}
 
@@ -81,7 +82,30 @@ public class LoginController extends AbstractPageController {
 	 * @see fr.wati.school.web.rebirth.controller.AbstractPageController#getContent()
 	 */
 	@Override
-	String getContent() {
+	public String getContent() {
 		return "views/pages/login";
+	}
+
+	@Override
+	public Breadcrumbs getBreadcrumbs() {
+		return null;
+	}
+
+	@Override
+	public String[] getScripts() {
+		return null;
+	}
+
+	@Override
+	public String[] getIe_scripts() {
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.wati.school.web.rebirth.controller.AbstractPageController#getStyles()
+	 */
+	@Override
+	public String[] getStyles() {
+		return null;
 	}
 }

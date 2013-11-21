@@ -13,7 +13,7 @@
 	<context:property-placeholder
     location="classpath:*-school.properties" />
 	<tx:annotation-driven transaction-manager="transactionManager" />
-	<jpa:repositories base-package="fr.wati.school.services.dao" />
+	<jpa:repositories base-package="fr.wati.school.dao" />
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="schoolTestDataSource"></property>

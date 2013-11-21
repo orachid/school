@@ -1,9 +1,7 @@
 
 package fr.wati.school.web.rebirth.commons.navigation;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -13,13 +11,16 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class SideNavItem {
 
 	public String link;
+	public boolean haslink;
     public String title;
     public String icon;
     @Valid
-    public SideNavItem[] submenu;;
+    public SideNavItem[] submenu;
+    public boolean hassubmenu;
     public String badge;
     public String badge_class;
     public String tooltip;
+    private String clazz;
     public String tooltip_class;
     public boolean level1;
     public boolean level2;
@@ -125,7 +126,21 @@ public class SideNavItem {
         this.tooltip_class = tooltip_class;
     }
 
-    public SideNavItem withTooltip_class(String tooltip_class) {
+    /**
+	 * @return the clazz
+	 */
+	public String getClazz() {
+		return clazz;
+	}
+
+	/**
+	 * @param clazz the clazz to set
+	 */
+	public void setClazz(String clazz) {
+		this.clazz = clazz;
+	}
+
+	public SideNavItem withTooltip_class(String tooltip_class) {
         this.tooltip_class = tooltip_class;
         return this;
     }
@@ -169,6 +184,22 @@ public class SideNavItem {
 	 */
 	public void setLevel2(boolean level2) {
 		this.level2 = level2;
+	}
+
+	public boolean isHassubmenu() {
+		return hassubmenu;
+	}
+
+	public void setHassubmenu(boolean hassubmenu) {
+		this.hassubmenu = hassubmenu;
+	}
+
+	public boolean isHaslink() {
+		return haslink;
+	}
+
+	public void setHaslink(boolean haslink) {
+		this.haslink = haslink;
 	}
 
 }

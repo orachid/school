@@ -8,8 +8,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
-import fr.wati.school.entities.bean.Users;
-import fr.wati.school.services.dao.UsersRepository;
+import fr.wati.school.entities.bean.Personne;
+import fr.wati.school.services.PersonService;
 
 /**
  * @author Rachid-home
@@ -45,8 +45,8 @@ public class SecurityUtils implements ApplicationContextAware{
 		return user;
 	}
 	
-	public static Users getApplicationConnectedUser(){
-		return applicationContext.getBean(UsersRepository.class).findByUsername(getUser().getUsername());
+	public static Personne getConnectedUser(){
+		return applicationContext.getBean(PersonService.class).findByUsername(getUser().getUsername());
 	}
 
 	/* (non-Javadoc)

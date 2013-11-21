@@ -15,7 +15,7 @@ import org.springframework.web.servlet.view.mustache.MustacheViewResolver;
 import fr.wati.school.web.rebirth.utils.ImprovedMustacheTemplateLoader;
 
 @Configuration
-@ComponentScan(basePackages = "fr.wati.school.web")
+@ComponentScan(basePackages = "fr.wati.school")
 @EnableWebMvc
 public class MvcConfiguration extends WebMvcConfigurerAdapter {
 

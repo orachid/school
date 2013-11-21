@@ -4,8 +4,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
+import fr.wati.school.dao.UsersRepository;
 import fr.wati.school.entities.bean.Users;
-import fr.wati.school.services.dao.UsersRepository;
 import fr.wati.scool.web.addons.SpringSecurityViewProvider;
 
 /**

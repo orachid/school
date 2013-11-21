@@ -26,41 +26,106 @@
 	<bean id="dashBoard" parent="menuItem">
 		<property name="title" value="DashBoard" />
 		<property name="icon" value="icon-dashboard" />
+		<property name="hassubmenu" value="false" />
 	</bean>
 
 	<!-- Admin -->
 	<bean id="admin" parent="menuItem">
 		<property name="title" value="Admin" />
 		<property name="icon" value="icon-admin" />
+		<property name="hassubmenu" value="true" />
 		<property name="submenu">
 			<list>
-				<bean id="adminEdition" parent="submenuItem">
-					<property name="title" value="Edition" />
+				<ref bean="adminEdition" />
+
+				<bean id="rightManagement" parent="submenuItem">
+					<property name="title" value="Right management" />
 					<property name="level1" value="true" />
 					<property name="level2" value="false" />
-					<property name="submenu">
-						<list>
-							<bean id="usersEdition" parent="submenuItem">
-								<property name="title" value="Users Edition" />
-								<property name="icon" value="icon-admin" />
-								<property name="submenu">
-									<list>
-										<bean id="matieresEdition" parent="submenuItem">
-										<property name="title" value="Matieres Edition" />
-										<property name="icon" value="icon-admin" />
-										</bean>
-									</list>
-								</property>
-							</bean>
-							
-						</list>
-					</property>
+					<property name="hassubmenu" value="false" />
+				</bean>
+				<bean id="batchEdition" parent="submenuItem">
+					<property name="title" value="Batch operation" />
+					<property name="level1" value="true" />
+					<property name="level2" value="false" />
+					<property name="hassubmenu" value="false" />
+				</bean>
+				<bean id="globalSettings" parent="submenuItem">
+					<property name="title" value="Global settings" />
+					<property name="icon" value="icon-gear" />
+					<property name="level1" value="true" />
+					<property name="level2" value="false" />
+					<property name="hassubmenu" value="false" />
+				</bean>
+				<bean id="audit" parent="submenuItem">
+					<property name="title" value="Audit" />
+					<property name="level1" value="true" />
+					<property name="level2" value="false" />
+					<property name="hassubmenu" value="false" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="adminEdition" parent="submenuItem">
+		<property name="title" value="Edition" />
+		<property name="level1" value="true" />
+		<property name="level2" value="false" />
+		<property name="hassubmenu" value="true" />
+		<property name="submenu">
+			<list>
+				<ref bean="usersEdition" />
+
+				<bean id="etablissementEdition" parent="submenuItem">
+					<property name="title" value="Etablissement Edition" />
+					<property name="icon" value="icon-admin-sub" />
+					<property name="hassubmenu" value="false" />
+				</bean>
+				<bean id="matieresEdition" parent="submenuItem">
+					<property name="title" value="Matieres Edition" />
+					<property name="icon" value="icon-admin-sub" />
+					<property name="hassubmenu" value="false" />
+				</bean>
+				<bean id="classesEdition" parent="submenuItem">
+					<property name="title" value="Classes Edition" />
+					<property name="icon" value="icon-admin-sub" />
+					<property name="hassubmenu" value="false" />
+				</bean>
+				<bean id="sallesEdition" parent="submenuItem">
+					<property name="title" value="Salles Edition" />
+					<property name="icon" value="icon-admin-sub" />
+					<property name="hassubmenu" value="false" />
 				</bean>
 			</list>
 		</property>
 	</bean>
 
-	<!-- Admin-Edition -->
-
-
+	<bean id="usersEdition" parent="submenuItem">
+		<property name="title" value="Users Edition" />
+		<property name="icon" value="icon-admin-sub" />
+		<property name="hassubmenu" value="false" />
+		<property name="link" value="/users" />
+		<property name="haslink" value="true" />
+	</bean>
+	<!-- Calendar -->
+	<bean id="timeSchedule" parent="menuItem">
+		<property name="title" value="Emploie de temps" />
+		<property name="icon" value="icon-calendar" />
+		<property name="hassubmenu" value="false" />
+	</bean>
+	<!-- Messagerie -->
+	<bean id="messagerie" parent="menuItem">
+		<property name="title" value="Messagerie" />
+		<property name="icon" value="icon-mail" />
+		<property name="hassubmenu" value="false" />
+	</bean>
+	<bean id="document" parent="menuItem">
+		<property name="title" value="Documents" />
+		<property name="icon" value="icon-folder-close" />
+		<property name="hassubmenu" value="false" />
+	</bean>
+	<bean id="biblio" parent="menuItem">
+		<property name="title" value="Bibliotheque" />
+		<property name="icon" value="icon-admin" />
+		<property name="hassubmenu" value="false" />
+	</bean>
 </beans>
