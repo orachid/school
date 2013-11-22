@@ -24,16 +24,13 @@ import fr.wati.school.services.UserService;
 import fr.wati.school.web.rebirth.commons.Breadcrumbs;
 import fr.wati.school.web.rebirth.commons.Breadcrumbs.Link;
 import fr.wati.school.web.rebirth.commons.Layout;
-import fr.wati.school.web.rebirth.commons.navigation.SideNavItem;
-import fr.wati.school.web.rebirth.commons.navigation.SideNavItemsFactory;
 import fr.wati.school.web.rebirth.controller.response.JqgridResponse;
 import fr.wati.school.web.rebirth.controller.response.StatusResponse;
 import fr.wati.school.web.rebirth.domain.UserDto;
+import fr.wati.school.web.rebirth.utils.DtoMapper;
 import fr.wati.school.web.rebirth.utils.ImprovedMustacheTemplateLoader;
 import fr.wati.school.web.rebirth.utils.JqgridFilter;
 import fr.wati.school.web.rebirth.utils.JqgridObjectMapper;
-import fr.wati.school.web.rebirth.utils.SecurityUtils;
-import fr.wati.school.web.rebirth.utils.UserMapper;
 
 @Controller
 @RequestMapping("/users")
@@ -43,8 +40,6 @@ public class UsersController extends AbstractDefaultPageController {
 	private UserService userService;
 	@Autowired
 	private UsersRepository usersRepository;
-	@Autowired
-	private SideNavItemsFactory sideNavItemsFactory;
 	@Autowired
 	private ImprovedMustacheTemplateLoader improvedMustacheTemplateLoader;
 
@@ -59,16 +54,11 @@ public class UsersController extends AbstractDefaultPageController {
 		modelAndView.addObject("addUrl", "/users/create");
 		modelAndView.addObject("editUrl", "/users/update");
 		modelAndView.addObject("deleteUrl", "/users/delete");
+		
 		//SideNav
-		Layout layout=new Layout();
-		SideNavItem admin=(SideNavItem) SecurityUtils.applicationContext.getBean("admin");
-		admin.setClazz("open");
-		SideNavItem adminEdition=(SideNavItem) SecurityUtils.applicationContext.getBean("adminEdition");
-		adminEdition.setClazz("open");
-		SideNavItem userEdition=(SideNavItem) SecurityUtils.applicationContext.getBean("usersEdition");
-		userEdition.setClazz("active");
-		layout.setSidenav_navList(sideNavItemsFactory.getSideNavItems().toArray(new SideNavItem[sideNavItemsFactory.getSideNavItems().size()]));
-		modelAndView.addObject("layout", layout);
+		Layout layout=Layout.buildLayoutDefault();
+		Layout.active("/users");
+		modelAndView.addObject("layout",layout );
 		return modelAndView;
 	}
 
@@ -135,7 +125,7 @@ public class UsersController extends AbstractDefaultPageController {
 		} 
 			
 		Page<Users> users = usersRepository.findAll(pageRequest);
-		List<UserDto> userDtos = UserMapper.map(users);
+		List<UserDto> userDtos = DtoMapper.mapUsers(users);
 		
 		JqgridResponse<UserDto> response = new JqgridResponse<UserDto>();
 		response.setRows(userDtos);
@@ -166,7 +156,7 @@ public class UsersController extends AbstractDefaultPageController {
 		if (qUsername != null) 
 			users = usersRepository.findByUsernameLike("%"+qUsername+"%", pageRequest);
 		
-		List<UserDto> userDtos = UserMapper.map(users);
+		List<UserDto> userDtos = DtoMapper.mapUsers(users);
 		JqgridResponse<UserDto> response = new JqgridResponse<UserDto>();
 		response.setRows(userDtos);
 		response.setRecords(Long.valueOf(users.getTotalElements()).toString());
@@ -178,7 +168,7 @@ public class UsersController extends AbstractDefaultPageController {
 	
 	@RequestMapping(value="/get", produces="application/json")
 	public @ResponseBody UserDto get(@RequestBody UserDto user) {
-		return UserMapper.map(usersRepository.findByUsername(user.getUsername()));
+		return DtoMapper.map(usersRepository.findByUsername(user.getUsername()));
 	}
 
 	@RequestMapping(value="/create", produces="application/json", method=RequestMethod.POST)

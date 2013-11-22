@@ -27,7 +27,19 @@ public class SideNavItem {
     
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public String getLink() {
+    
+    
+    public SideNavItem(String title, String link, String icon,
+			boolean hassubmenu, boolean haslink) {
+		super();
+		this.title = title;
+		this.link = link;
+		this.icon = icon;
+		this.hassubmenu = hassubmenu;
+		this.haslink = haslink;
+	}
+
+	public String getLink() {
         return link;
     }
 

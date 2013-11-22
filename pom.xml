@@ -9,8 +9,7 @@
 	<modules>
 		<module>school-entities</module>
 		<module>school-services</module>
-		<module>school-web</module>
-    <module>school-web-rebirth</module>
+   		<module>school-web-rebirth</module>
   </modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

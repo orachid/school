@@ -3,15 +3,12 @@
  */
 package fr.wati.school.web.rebirth.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.wati.school.web.rebirth.commons.Breadcrumbs;
 import fr.wati.school.web.rebirth.commons.Layout;
-import fr.wati.school.web.rebirth.commons.navigation.SideNavItem;
 import fr.wati.school.web.rebirth.commons.navigation.SideNavItemsFactory;
 import fr.wati.school.web.rebirth.utils.ImprovedMustacheTemplateLoader;
 import fr.wati.school.web.rebirth.utils.SecurityUtils;
@@ -67,9 +64,7 @@ public class AbstractDefaultPageController extends AbstractPageController {
 		modelAndView.addObject("layouttopbar_messagescount", 5);
 		
 		//SideNav
-		Layout layout=new Layout();
-		layout.setSidenav_navList(sideNavItemsFactory.getSideNavItems().toArray(new SideNavItem[sideNavItemsFactory.getSideNavItems().size()]));
-		modelAndView.addObject("layout", layout);
+		modelAndView.addObject("layout", Layout.buildLayoutDefault());
 		
 		return modelAndView;
 	}
