@@ -84,6 +84,9 @@ public class Personne extends Users {
 	 * @return the contact
 	 */
 	public Contact getContact() {
+		if(contact==null){
+			contact=new Contact();
+		}
 		return contact;
 	}
 	/**

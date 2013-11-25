@@ -88,7 +88,7 @@ $(function() {
 		}
 	};
 
-	var URL = 'rest/salles';
+	var URL = 'rest/classes';
 	var options = {
 		url : URL,
 		editurl : URL,
@@ -122,8 +122,8 @@ $(function() {
 				required : true
 			}
 		} ],
-		caption:"Matieres Records",
-		emptyrecords: "No salles found from server",
+		caption:"Classes Records",
+		emptyrecords: "No classe found from server",
 		pager : '#pager',
 		height : 'auto',
 		ondblClickRow : function(id) {

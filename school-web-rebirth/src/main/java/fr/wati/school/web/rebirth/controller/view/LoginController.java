@@ -1,12 +1,16 @@
 /**
  * 
  */
-package fr.wati.school.web.rebirth.controller;
+package fr.wati.school.web.rebirth.controller.view;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.wati.school.web.rebirth.commons.Breadcrumbs;
@@ -26,16 +30,35 @@ public class LoginController extends AbstractPageController {
 	private ResourceLoader resourceLoader;
 
 	@RequestMapping(value = "/login")
-	public ModelAndView login() {
+	public ModelAndView login(@RequestParam(value="error",defaultValue="false",required=false) boolean error,HttpSession httpSession) {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("/layouts/login");
 		super.processModelAndView(modelAndView);
 		modelAndView.addObject("pageContent", "pages/login");
+		if(error){
+			modelAndView.addObject("error", true);
+			String exeptionMessage=null;
+			if(httpSession!=null){
+				if(httpSession.getAttribute("SPRING_SECURITY_LAST_EXCEPTION") instanceof Exception){
+					exeptionMessage=((Exception)httpSession.getAttribute("SPRING_SECURITY_LAST_EXCEPTION")).getMessage();
+					modelAndView.addObject("errorMessage", exeptionMessage);
+				}
+				
+			}
+		}
 		improvedMustacheTemplateLoader.getIncludedTemplatePath().get().put("pageContent", "pages/login");
 		return modelAndView;
 	}
 
+	
+	@RequestMapping(value="/loginfailed", method = RequestMethod.GET)
+	public String loginerror(ModelAndView modelAndView) {
+		modelAndView.addObject("error", "true");
+		modelAndView.addObject("errorMessage", "true");
+		return "login";
+ 
+	}
 	/*
 	 * (non-Javadoc)
 	 * 

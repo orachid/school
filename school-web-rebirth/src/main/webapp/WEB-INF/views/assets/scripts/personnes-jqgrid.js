@@ -3,35 +3,35 @@ $(function() {
 	$.extend($.jgrid.defaults, {
 		datatype : 'json',
 		jsonReader : {
-	        root: "rows",
-	        page: "page",
-	        total: "total",
-	        records: "records",
-	        repeatitems: false,
-	        cell: "cell",
-	        id: "id"
-	    },
+			root : "rows",
+			page : "page",
+			total : "total",
+			records : "records",
+			repeatitems : false,
+			cell : "cell",
+			id : "id"
+		},
 
 		sortname : 'code',
 		sortorder : 'asc',
 		height : 'auto',
-		autowidth: true,
+		autowidth : true,
 		viewrecords : true,
 		rowList : [ 10, 20, 50, 100 ],
 		altRows : true,
 		loadError : function(xhr, status, error) {
 			alert(error);
 		},
-		loadComplete: function() {
-	    	var table = this;
-			setTimeout(function(){
+		loadComplete : function() {
+			var table = this;
+			setTimeout(function() {
 				styleCheckbox(table);
-				
+
 				updateActionIcons(table);
 				updatePagerIcons(table);
 				enableTooltips(table);
 			}, 0);
-	    }
+		}
 	});
 
 	$.extend($.jgrid.edit, {
@@ -54,8 +54,8 @@ $(function() {
 	});
 
 	var editOptions = {
-			recreateForm: true,
-			beforeShowForm : function(e) {
+		recreateForm : true,
+		beforeShowForm : function(e) {
 			var form = $(e[0]);
 			form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar')
 					.wrapInner('<div class="widget-header" />')
@@ -69,26 +69,29 @@ $(function() {
 		mtype : "POST",
 		beforeShowForm : function(e) {
 			var form = $(e[0]);
-			form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+			form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar')
+					.wrapInner('<div class="widget-header" />')
 			style_edit_form(form);
 		}
 	};
 	var delOptions = {
-			beforeShowForm : function(e) {
-				var form = $(e[0]);
-				if(form.data('styled')) return false;
-				
-				form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
-				style_delete_form(form);
-				
-				form.data('styled', true);
-			},
+		beforeShowForm : function(e) {
+			var form = $(e[0]);
+			if (form.data('styled'))
+				return false;
+
+			form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar')
+					.wrapInner('<div class="widget-header" />')
+			style_delete_form(form);
+
+			form.data('styled', true);
+		},
 		onclickSubmit : function(params, postdata) {
 			params.url = URL + '/' + postdata;
 		}
 	};
 
-	var URL = 'rest/salles';
+	var URL = 'rest/users';
 	var options = {
 		url : URL,
 		editurl : URL,
@@ -104,26 +107,66 @@ $(function() {
 				size : 5
 			}
 		}, {
-			name : 'code',
-			label : 'Code',
-			index : 'code',
+			name : 'nom',
+			label : 'Nom',
+			index : 'nom',
 			width : 300,
 			editable : true,
 			editrules : {
 				required : true
 			}
 		}, {
-			name : 'nom',
-			label : 'Nom',
-			index : 'nom',
+			name : 'prenom',
+			label : 'Prenom',
+			index : 'prenom',
+			width : 200,
+			editable : true,
+			editrules : {
+				required : true
+			}
+		}, {
+			name : 'username',
+			label : 'Username',
+			index : 'username',
+			width : 200,
+			editable : true,
+			editrules : {
+				required : true
+			}
+		}, {
+			name : 'civilite',
+			label : 'Civilite',
+			index : 'civilite',
+			width : 200,
+			edittype:"select",
+			editoptions: {value:"HOMME:HOMME;FEMME:FEMME"},
+			editable : true,
+			editrules : {
+				required : true
+			}
+		}, {
+			name : 'dateNaissance',
+			label : 'Date de naissance',
+			index : 'dateNaissance',
+			width : 200,
+			sorttype:"date",
+			unformat: pickDate,
+			editable : true,
+			editrules : {
+				required : true
+			}
+		}, {
+			name : 'email',
+			label : 'Email',
+			index : 'email',
 			width : 200,
 			editable : true,
 			editrules : {
 				required : true
 			}
 		} ],
-		caption:"Matieres Records",
-		emptyrecords: "No salles found from server",
+		caption : "Matieres Records",
+		emptyrecords : "No salles found from server",
 		pager : '#pager',
 		height : 'auto',
 		ondblClickRow : function(id) {
@@ -168,18 +211,24 @@ $(function() {
 			} // search options
 	);
 
+	//enable datepicker
+	function pickDate( cellvalue, options, cell ) {
+		setTimeout(function(){
+			$(cell) .find('input[type=text]')
+					.datepicker({format:'yyyy-mm-dd' , autoclose:true}); 
+		}, 0);
+	}
 	function style_edit_form(form) {
 		// enable datepicker on "sdate" field and switches for "stock" field
-		// form.find('input[name=sdate]').datepicker({format:'yyyy-mm-dd' ,
-		// autoclose:true})
-		// .end().find('input[name=stock]')
-		// .addClass('ace ace-switch ace-switch-5').wrap('<label class="inline"
-		// />').after('<span class="lbl"></span>');
+		form.find('input[name=dateNaissance]').datepicker({format:'yyyy-mm-dd' , autoclose:true})
+//		.end().find('input[name=stock]')
+//			  .addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>')
+			  ;
 
 		// update buttons classes
 		var buttons = form.next().find('.EditButton .fm-button');
 		buttons.addClass('btn btn-sm').find('[class*="-icon"]').remove();// ui-icon,
-																			// s-icon
+		// s-icon
 		buttons.eq(0).addClass('btn-primary')
 				.prepend('<i class="icon-ok"></i>');
 		buttons.eq(1).prepend('<i class="icon-remove"></i>');
@@ -193,7 +242,7 @@ $(function() {
 	function style_delete_form(form) {
 		var buttons = form.next().find('.EditButton .fm-button');
 		buttons.addClass('btn btn-sm').find('[class*="-icon"]').remove();// ui-icon,
-																			// s-icon
+		// s-icon
 		buttons.eq(0).addClass('btn-danger').prepend(
 				'<i class="icon-trash"></i>');
 		buttons.eq(1).prepend('<i class="icon-remove"></i>');

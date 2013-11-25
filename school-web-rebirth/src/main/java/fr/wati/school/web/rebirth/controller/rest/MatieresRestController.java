@@ -30,7 +30,7 @@ import fr.wati.school.web.rebirth.utils.JqgridObjectMapper;
 
 @Controller
 @RequestMapping(value = "/rest/matieres")
-public class MatieresRestController {
+public class MatieresRestController implements RestCrudController<Matiere, MatiereDto>{
 
 	@Autowired
 	private MatiereService matiereService;
@@ -60,7 +60,7 @@ public class MatieresRestController {
 		}
 
 		Page<Matiere> matieres = matiereRepository.findAll(pageRequest);
-		List<MatiereDto> dtos=DtoMapper.mapMatiere(matieres);
+		List<MatiereDto> dtos=DtoMapper.mapMatieres(matieres);
 		JqgridResponse<MatiereDto> response = new JqgridResponse<MatiereDto>();
 		response.setRows(dtos);
 		response.setRecords(Long.valueOf(matieres.getTotalElements()).toString());
@@ -94,7 +94,7 @@ public class MatieresRestController {
 			matieres = matiereRepository.findByCodeLike("%" + qcode + "%",
 					pageRequest);
 
-		List<MatiereDto> matieresDtos = DtoMapper.mapMatiere(matieres);
+		List<MatiereDto> matieresDtos = DtoMapper.mapMatieres(matieres);
 		JqgridResponse<MatiereDto> response = new JqgridResponse<MatiereDto>();
 		response.setRows(matieresDtos);
 		response.setRecords(Long.valueOf(matieres.getTotalElements()).toString());
@@ -105,15 +105,25 @@ public class MatieresRestController {
   
   @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void updateBook(@PathVariable("id") long id, @RequestBody MatiereDto matiereDto) {
+  public void update(@PathVariable("id") long id, @RequestBody MatiereDto matiereDto) {
 	  Matiere matiere = matiereRepository.findOne(id);
 	  matiere.setCode(matiereDto.getCode());
 	  matiere.setNom(matiereDto.getNom());
 	  matiereService.save(matiere);
   }
 
+  @RequestMapping(value = "/list", method = RequestMethod.GET)
+	public @ResponseBody
+	ResponseEntity<List<MatiereDto>> list() {
+		List<Matiere> matieres = matiereRepository.findAll();
+		List<MatiereDto> matiereDtos = DtoMapper
+				.mapMatieres(matieres);
+		return new ResponseEntity<List<MatiereDto>>(matiereDtos,
+				HttpStatus.OK);
+	}
+  
   @RequestMapping(method = RequestMethod.POST)
-  public ResponseEntity<String> createBook(HttpServletRequest request, @RequestBody MatiereDto matiereDto) {
+  public ResponseEntity<String> create(HttpServletRequest request, @RequestBody MatiereDto matiereDto) {
 	  Matiere matiere = new Matiere();
 	  matiere.setCode(matiereDto.getCode());
 	  matiere.setNom(matiereDto.getNom());
@@ -123,7 +133,7 @@ public class MatieresRestController {
 
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void deleteBook(@PathVariable("id") long id) {
+  public void delete(@PathVariable("id") long id) {
 	  matiereService.delete(id);
   }
 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package fr.wati.school.web.rebirth.controller;
+package fr.wati.school.web.rebirth.controller.view;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;

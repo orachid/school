@@ -1,7 +1,7 @@
 /**
  * 
  */
-package fr.wati.school.web.rebirth.controller;
+package fr.wati.school.web.rebirth.controller.view;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package fr.wati.school.web.rebirth.controller;
+package fr.wati.school.web.rebirth.controller.view;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +30,23 @@ public class CalendarController extends AbstractDefaultPageController {
 	}
 
 	@Override
+	public String getTitle() {
+		return "Agenda";
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.wati.school.web.rebirth.controller.view.AbstractDefaultPageController
+	 * #getDescription()
+	 */
+	@Override
+	public String getDescription() {
+		return "Follow event";
+	}
+
+	@Override
 	public Breadcrumbs getBreadcrumbs() {
 		List<Link> links = new ArrayList<>();
 		links.add(new Link("#", "Admin"));
@@ -40,7 +57,7 @@ public class CalendarController extends AbstractDefaultPageController {
 
 	@Override
 	public String getInline_scripts() {
-		return "views/assets/scripts/calendar.js";
+		return "views/assets/scripts/calendar.js,views/assets/scripts/evenement.js,views/assets/scripts/referentials.js";
 	}
 
 	@Override
@@ -51,7 +68,13 @@ public class CalendarController extends AbstractDefaultPageController {
 	@Override
 	public String[] getScripts() {
 		return new String[] { "jquery-ui-1.10.3.custom.min.js",
-				"jquery.ui.touch-punch.min.js","fullcalendar.min.js","bootbox.min.js" };
+				"jquery.ui.touch-punch.min.js", "fullcalendar.min.js",
+				"bootbox.min.js", "date-time/daterangepicker.min.js",
+				"chosen.jquery.min.js",
+				"date-time/bootstrap-datepicker.min.js",
+				"date-time/bootstrap-timepicker.min.js",
+				"date-time/moment.min.js", "ajax-chosen.js",
+				"bootstrap-datetimepicker.min.js"};
 	}
 
 	/*
@@ -64,6 +87,8 @@ public class CalendarController extends AbstractDefaultPageController {
 	@Override
 	public String[] getStyles() {
 		return new String[] { "fullcalendar.css", "ui.jqgrid.css",
-				"datepicker.css" };
+				"datepicker.css", "daterangepicker.css",
+				"jquery-ui-1.10.3.custom.min.css", "chosen.css",
+				"bootstrap-timepicker.css", "colorpicker.css","bootstrap-datetimepicker.min.css" };
 	}
 }

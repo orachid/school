@@ -5,7 +5,12 @@
 		<h4 class="header blue lighter bigger"><i class="icon-coffee green"></i> Please Enter Your Information</h4>
 		
 		<div class="space-6"></div>
-		
+		{{#error}}
+			<div class="alert alert-danger alert-dismissable">
+	  			<a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>
+	  			{{#errorMessage}}{{errorMessage}}{{/errorMessage}}
+			</div>
+		{{/error}}
 		<form  method="post" action="/j_spring_security_check">
 			 <fieldset>
 				<label class="block clearfix">

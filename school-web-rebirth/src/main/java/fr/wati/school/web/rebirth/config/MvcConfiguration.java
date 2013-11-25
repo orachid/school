@@ -1,10 +1,14 @@
 package fr.wati.school.web.rebirth.config;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -12,6 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.mustache.MustacheTemplateLoader;
 import org.springframework.web.servlet.view.mustache.MustacheViewResolver;
 
+import fr.wati.school.web.rebirth.utils.CustomObjectMapper;
 import fr.wati.school.web.rebirth.utils.ImprovedMustacheTemplateLoader;
 
 @Configuration
@@ -44,4 +49,13 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("*/resources/**").addResourceLocations("/resources/");
     }
 
+	@Override
+	public void configureMessageConverters(
+			List<HttpMessageConverter<?>> converters) {
+		MappingJacksonHttpMessageConverter mappingJacksonHttpMessageConverter = new MappingJacksonHttpMessageConverter();
+		mappingJacksonHttpMessageConverter.setObjectMapper(new CustomObjectMapper());
+		converters.add(mappingJacksonHttpMessageConverter);
+	}
+
+    
 }

@@ -30,6 +30,10 @@ public class Layout {
 	private static SideNavItem dashboardNavItem;
 	private static SideNavItem batchNavItem;
 	private static SideNavItem appSettingsNavItem;
+	private static SideNavItem mailNavItem;
+	private static SideNavItem chatNavItem;
+	private static SideNavItem myDocumentsNavItem;
+	private static SideNavItem publicDocumentsNavItem;
 
 	/**
 	 * @return the sidenav_navList
@@ -49,7 +53,7 @@ public class Layout {
 		Layout layout=new Layout();
 		List<SideNavItem> superNavItems=new ArrayList<>();
 		
-		dashboardNavItem = new SideNavItem("DashBoard", "/", "icon-dashboard", false, true);
+		dashboardNavItem = new SideNavItem("DashBoard", "/", "icon-home", false, true);
 		dashboardNavItem.setLevel1(true);
 		dashboardNavItem.setLevel2(false);
 		superNavItems.add(dashboardNavItem);
@@ -108,15 +112,34 @@ public class Layout {
 		calendarNavItem.setLevel1(true);
 		calendarNavItem.setLevel2(false);
 		superNavItems.add(calendarNavItem);
-		
-		messagerieNavItem = new SideNavItem("Messages", "/messages", "icon-mail", false, true);
+		//Messagerie
+		messagerieNavItem = new SideNavItem("Messages", "#", "icon-mail", true, false);
 		messagerieNavItem.setLevel1(true);
 		messagerieNavItem.setLevel2(false);
+		//Mail menu
+		mailNavItem = new SideNavItem("Mail", "/mails", "icon-mail", false, true);
+		mailNavItem.setLevel1(false);
+		mailNavItem.setLevel2(true);
+		//chat menu
+		chatNavItem = new SideNavItem("Chat", "/chat", "icon-comments", false, true);
+		chatNavItem.setLevel1(false);
+		chatNavItem.setLevel2(true);
+		messagerieNavItem.setSubmenu(new SideNavItem[]{mailNavItem,chatNavItem});
 		superNavItems.add(messagerieNavItem);
-		
-		documentNavItem = new SideNavItem("Documents", "/documents", "icon-folder-close", false, true);
+		//Documents
+		documentNavItem = new SideNavItem("Documents", "#", "icon-folder-close", true, false);
 		documentNavItem.setLevel1(true);
 		documentNavItem.setLevel2(false);
+		//myDocuments
+		myDocumentsNavItem= new SideNavItem("My documents", "/mydocuments", null, false, true);
+		myDocumentsNavItem.setLevel1(false);
+		myDocumentsNavItem.setLevel2(true);
+		//public documents
+		publicDocumentsNavItem= new SideNavItem("Public documents", "/publicdocuments", null, false, true);
+		publicDocumentsNavItem.setLevel1(false);
+		publicDocumentsNavItem.setLevel2(true);
+		
+		documentNavItem.setSubmenu(new SideNavItem[]{myDocumentsNavItem,publicDocumentsNavItem});
 		superNavItems.add(documentNavItem);
 		
 		biblioNavItem = new SideNavItem("Bibliotheque", "/biblio", "icon-admin", false, true);
@@ -130,6 +153,9 @@ public class Layout {
 	
 	public static void active(String activeItem){
 		switch (activeItem) {
+		case "/":
+			dashboardNavItem.setClazz("active");
+			break;
 		case "/users":
 			userEditionItem.setClazz("active");
 			adminEditionNavItem.setClazz("active open");
@@ -165,6 +191,22 @@ public class Layout {
 		case "/app-settings":
 			appSettingsNavItem.setClazz("active");
 			adminNavItem.setClazz("active open");
+			break;
+		case "/mails":
+			mailNavItem.setClazz("active");
+			messagerieNavItem.setClazz("active open");
+			break;
+		case "/chat":
+			chatNavItem.setClazz("active");
+			messagerieNavItem.setClazz("active open");
+			break;
+		case "/mydocuments":
+			myDocumentsNavItem.setClazz("active");
+			documentNavItem.setClazz("active open");
+			break;
+		case "/publicdocuments":
+			publicDocumentsNavItem.setClazz("active");
+			documentNavItem.setClazz("active open");
 			break;
 		default:
 			break;
