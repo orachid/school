@@ -101,7 +101,7 @@ public class DtoMapper {
 		dto.setUsername(personne.getUsername());
 		dto.setNom(personne.getNom());
 		dto.setPrenom(personne.getPrenom());
-		dto.setCivilite(personne.getCivilite().name());
+		dto.setCivilite(personne.getCivilite());
 		dto.setCodePostal(personne.getContact().getAdresse().getCodePostal());
 		dto.setEmail(personne.getContact().getEmail());
 		dto.setRue(personne.getContact().getAdresse().getRue());
@@ -144,12 +144,12 @@ public class DtoMapper {
 
 	public static CalendarEventDto map(Evenement evenement) {
 		CalendarEventDto dto = new CalendarEventDto();
-		dto.setId(Long.valueOf(evenement.getId().toString()));
+		//dto.setId(Long.valueOf(evenement.getId().toString()));
 		dto.setTitle(evenement.getNom());
-		dto.setAllDay(false);
+		//dto.setAllDay(false);
 		dto.setStart(evenement.getDateDebut());
 		dto.setEnd(evenement.getDateFin());
-		dto.setEditable(true);
+		//dto.setEditable(true);
 		return dto;
 	}
 

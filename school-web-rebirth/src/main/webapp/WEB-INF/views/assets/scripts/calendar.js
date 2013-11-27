@@ -36,7 +36,8 @@ jQuery(function($) {
 
 	
 	var calendar = $('#calendar').fullCalendar({
-		 buttonText: {
+		defaultView: 'agendaWeek',
+		buttonText: {
 			prev: '<i class="icon-chevron-left"></i>',
 			next: '<i class="icon-chevron-right"></i>'
 		},
@@ -88,19 +89,10 @@ jQuery(function($) {
 		selectHelper: true,
 		select: function(start, end, allDay) {
 			
-			bootbox.prompt("New Event Title:", function(title) {
-				if (title !== null) {
-					calendar.fullCalendar('renderEvent',
-						{
-							title: title,
-							start: start,
-							end: end,
-							allDay: allDay
-						},
-						true // make the event "stick"
-					);
-				}
-			});
+			
+			$("#start-date-date").val(start);
+			$("#end-date-date").val(end);
+			$('#add-event-modal-form').modal('show');
 			
 
 			calendar.fullCalendar('unselect');

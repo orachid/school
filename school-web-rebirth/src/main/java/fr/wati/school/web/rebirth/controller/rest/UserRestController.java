@@ -110,6 +110,9 @@ public class UserRestController implements RestCrudController<Personne, Personne
 	  personne.setPrenom(personneDto.getPrenom());
 	  personne.setNom(personneDto.getNom());
 	  personne.setUsername(personneDto.getUsername());
+	  personne.setCivilite(personneDto.getCivilite());
+	  personne.setDateNaissance(personneDto.getDateNaissance());
+	  personne.getContact().setEmail(personneDto.getEmail());
 	  personneService.save(personne);
   }
 
@@ -119,6 +122,9 @@ public class UserRestController implements RestCrudController<Personne, Personne
 	  personne.setPrenom(personneDto.getPrenom());
 	  personne.setNom(personneDto.getNom());
 	  personne.setUsername(personneDto.getUsername());
+	  personne.setCivilite(personneDto.getCivilite());
+	  personne.setDateNaissance(personneDto.getDateNaissance());
+	  personne.getContact().setEmail(personneDto.getEmail());
 	  personneService.save(personne);
 	  return new ResponseEntity<String>(personneDto.getNom()+" created", HttpStatus.CREATED);
   }

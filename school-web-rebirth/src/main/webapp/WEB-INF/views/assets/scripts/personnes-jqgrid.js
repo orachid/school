@@ -43,6 +43,8 @@ $(function() {
 		mtype : 'PUT',
 		serializeEditData : function(data) {
 			delete data.oper;
+			var date=JSON.stringify(new Date(data.dateNaissance));
+			data.dateNaissance= date.substring(1,date.length-1);
 			return JSON.stringify(data);
 		}
 	});

@@ -33,4 +33,19 @@ jQuery(function($) {
 		    });
 		});
 	});
+	
+	 $('#add-event-form').on('submit', function() {
+		 alert($(this).serialize());
+	            // appel Ajax
+	            $.ajax({
+	                url: $(this).attr('action'), // le nom du fichier indiqué dans le formulaire
+	                type: 'Post', // la méthode indiquée dans le formulaire (get ou post)
+	                contentType: 'application/json',
+	                data: JSON.stringify($(this).serialize()), // je sérialise les données (voir plus loin), ici les $_POST
+	                success: function(html) { // je récupère la réponse du fichier PHP
+	                    alert(html); // j'affiche cette réponse
+	                }
+	            });
+	        return false; // j'empêche le navigateur de soumettre lui-même le formulaire
+	    });
 });

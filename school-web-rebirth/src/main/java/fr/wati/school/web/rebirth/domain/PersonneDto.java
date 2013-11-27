@@ -2,13 +2,15 @@ package fr.wati.school.web.rebirth.domain;
 
 import java.util.Date;
 
+import fr.wati.school.entities.bean.Civilite;
+
 @SuppressWarnings("serial")
 public class PersonneDto extends UserDto {
 
 	private String nom;
 	private String prenom;
 	private Date dateNaissance;
-	private String civilite;
+	private Civilite civilite;
 	private String email;
 	private String numeroTelephone;
 	private String rue;
@@ -34,10 +36,10 @@ public class PersonneDto extends UserDto {
 	public void setDateNaissance(Date dateNaissance) {
 		this.dateNaissance = dateNaissance;
 	}
-	public String getCivilite() {
+	public Civilite getCivilite() {
 		return civilite;
 	}
-	public void setCivilite(String civilite) {
+	public void setCivilite(Civilite civilite) {
 		this.civilite = civilite;
 	}
 	public String getEmail() {
