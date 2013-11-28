@@ -33,7 +33,7 @@ public class LoginController extends AbstractPageController {
 	public ModelAndView login(@RequestParam(value="error",defaultValue="false",required=false) boolean error,HttpSession httpSession) {
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("/layouts/login");
+		modelAndView.setViewName("layouts/login");
 		super.processModelAndView(modelAndView);
 		modelAndView.addObject("pageContent", "pages/login");
 		if(error){

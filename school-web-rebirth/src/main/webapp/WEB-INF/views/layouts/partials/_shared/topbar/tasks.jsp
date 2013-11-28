@@ -1,12 +1,12 @@
 <li class="grey">
 	<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 		<i class="icon-tasks"></i>
-		<span class="badge badge-grey">{{layouttopbar_taskscount}}</span>
+		<span class="badge badge-grey">${layouttopbar_taskscount}</span>
 	</a>
 
 	<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
 		<li class="dropdown-header">
-			<i class="icon-ok"></i> {{layouttopbar_taskscount}} Tasks to complete
+			<i class="icon-ok"></i> ${layouttopbar_taskscount} Tasks to complete
 		</li>
 
 		{{#layout.topbar_tasks.latest}}

@@ -16,6 +16,7 @@ public class Page {
 	private String[] scripts;
 	private String[] ie_scripts;
 	private String[] styles;
+	private String[] inline_styles;
 
 	/**
 	 * @param title
@@ -124,6 +125,14 @@ public class Page {
 	 */
 	public void setStyles(String[] styles) {
 		this.styles = styles;
+	}
+
+	public String[] getInline_styles() {
+		return inline_styles;
+	}
+
+	public void setInline_styles(String[] inline_styles) {
+		this.inline_styles = inline_styles;
 	}
 
 }

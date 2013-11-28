@@ -13,8 +13,8 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.view.mustache.MustacheTemplateLoader;
-import org.springframework.web.servlet.view.mustache.MustacheViewResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 
 import fr.wati.school.web.rebirth.utils.CustomObjectMapper;
 import fr.wati.school.web.rebirth.utils.ImprovedMustacheTemplateLoader;
@@ -29,19 +29,25 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
 	
 	@Bean
     public ViewResolver getViewResolver(ResourceLoader resourceLoader) {
-        MustacheViewResolver mustacheViewResolver = new MustacheViewResolver();
-        mustacheViewResolver.setPrefix("/WEB-INF/views/");
-        mustacheViewResolver.setSuffix(".mustache");
-        mustacheViewResolver.setCache(false);
-        mustacheViewResolver.setContentType("text/html;charset=utf-8");
-
-        MustacheTemplateLoader mustacheTemplateLoader = new MustacheTemplateLoader();
-        mustacheTemplateLoader.setResourceLoader(resourceLoader);
-
-        improvedMustacheTemplateLoader.setResourceLoader(resourceLoader);
         
-        mustacheViewResolver.setTemplateLoader(improvedMustacheTemplateLoader);
-        return mustacheViewResolver;
+		InternalResourceViewResolver  internalResourceViewResolver=new InternalResourceViewResolver();
+		internalResourceViewResolver.setViewClass(JstlView.class);
+		internalResourceViewResolver.setPrefix("/WEB-INF/views/");
+		internalResourceViewResolver.setSuffix(".jsp");
+		
+//		MustacheViewResolver mustacheViewResolver = new MustacheViewResolver();
+//        mustacheViewResolver.setPrefix("/WEB-INF/views/");
+//        mustacheViewResolver.setSuffix(".mustache");
+//        mustacheViewResolver.setCache(false);
+//        mustacheViewResolver.setContentType("text/html;charset=utf-8");
+//
+//        MustacheTemplateLoader mustacheTemplateLoader = new MustacheTemplateLoader();
+//        mustacheTemplateLoader.setResourceLoader(resourceLoader);
+//
+//        improvedMustacheTemplateLoader.setResourceLoader(resourceLoader);
+//        
+//        mustacheViewResolver.setTemplateLoader(improvedMustacheTemplateLoader);
+        return internalResourceViewResolver;
     }
 
     @Override

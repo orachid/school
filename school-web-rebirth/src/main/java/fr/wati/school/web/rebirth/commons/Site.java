@@ -13,6 +13,8 @@ public class Site {
 	private String brand_icon="school-icon";
 	private String brand_text="Beyond education";
 	private String protocol="http:";
+	private boolean remote_fonts;
+	private boolean remote_jquery;
 
 	/**
 	 * @return the title
@@ -68,6 +70,22 @@ public class Site {
 	 */
 	public void setProtocol(String protocol) {
 		this.protocol = protocol;
+	}
+
+	public boolean isRemote_fonts() {
+		return remote_fonts;
+	}
+
+	public void setRemote_fonts(boolean remote_fonts) {
+		this.remote_fonts = remote_fonts;
+	}
+
+	public boolean isRemote_jquery() {
+		return remote_jquery;
+	}
+
+	public void setRemote_jquery(boolean remote_jquery) {
+		this.remote_jquery = remote_jquery;
 	}
 	
 	

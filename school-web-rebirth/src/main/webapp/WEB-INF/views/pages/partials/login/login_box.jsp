@@ -1,3 +1,5 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div id="login-box" class="login-box visible widget-box no-border">
 
 	<div class="widget-body">
@@ -5,12 +7,14 @@
 		<h4 class="header blue lighter bigger"><i class="icon-coffee green"></i> Please Enter Your Information</h4>
 		
 		<div class="space-6"></div>
-		{{#error}}
+		<c:if test="${error==true}">
 			<div class="alert alert-danger alert-dismissable">
 	  			<a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>
-	  			{{#errorMessage}}{{errorMessage}}{{/errorMessage}}
+	  			<c:if test="${not empty errorMessage}">
+	  				${errorMessage}	
+	  			</c:if>
 			</div>
-		{{/error}}
+		</c:if>
 		<form  method="post" action="/j_spring_security_check">
 			 <fieldset>
 				<label class="block clearfix">
