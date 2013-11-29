@@ -35,13 +35,23 @@ jQuery(function($) {
 	});
 	
 	 $('#add-event-form').on('submit', function() {
-		 alert($(this).serialize());
-	            // appel Ajax
+		 var datas=	JSON.stringify({
+        	 title: $('#title').val(), 
+             start: $('#start-date-date').val(),
+             end: $('#end-date-date').val()
+        	});
+//		 alert(new Date($('#start-date-date').val()).format("YYYY-MM-DDTHH:mm:ssZZ"));
+		 // appel Ajax
 	            $.ajax({
-	                url: $(this).attr('action'), // le nom du fichier indiqué dans le formulaire
-	                type: 'Post', // la méthode indiquée dans le formulaire (get ou post)
-	                contentType: 'application/json',
-	                data: JSON.stringify($(this).serialize()), // je sérialise les données (voir plus loin), ici les $_POST
+	                url: "/rest/calendar", // le nom du fichier indiqué dans le formulaire
+	                type: "POST", // la méthode indiquée dans le formulaire (get ou post)
+	                contentType: 'application/json', 
+	                dataType: 'json',
+	                data: JSON.stringify({
+	                	 title: $('#title').val(), 
+	                     start: formatDate($('#start-date-date').val()),
+	                     end: formatDate($('#end-date-date').val())
+	                	}), // je sérialise les données (voir plus loin), ici les $_POST
 	                success: function(html) { // je récupère la réponse du fichier PHP
 	                    alert(html); // j'affiche cette réponse
 	                }

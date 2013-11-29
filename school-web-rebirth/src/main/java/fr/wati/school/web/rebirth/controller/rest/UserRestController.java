@@ -2,8 +2,6 @@ package fr.wati.school.web.rebirth.controller.rest;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -117,7 +115,7 @@ public class UserRestController implements RestCrudController<Personne, Personne
   }
 
   @RequestMapping(method = RequestMethod.POST)
-  public ResponseEntity<String> create(HttpServletRequest request, @RequestBody PersonneDto personneDto) {
+  public ResponseEntity<String> create(@RequestBody PersonneDto personneDto) {
 	  Personne personne=new Personne();
 	  personne.setPrenom(personneDto.getPrenom());
 	  personne.setNom(personneDto.getNom());

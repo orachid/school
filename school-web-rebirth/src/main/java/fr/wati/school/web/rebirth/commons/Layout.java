@@ -34,6 +34,9 @@ public class Layout {
 	private static SideNavItem chatNavItem;
 	private static SideNavItem myDocumentsNavItem;
 	private static SideNavItem publicDocumentsNavItem;
+	private static SideNavItem scolariteNavItem;
+	private static SideNavItem evaluationsNavItem;
+	private static SideNavItem absencesNavItem;
 
 	/**
 	 * @return the sidenav_navList
@@ -107,7 +110,23 @@ public class Layout {
 				
 		//Add Admin sub menus
 		adminNavItem.setSubmenu(adminSubItems.toArray(new SideNavItem[adminSubItems.size()]));
+		//scolarite
+		scolariteNavItem = new SideNavItem("Scolarite", "#", "icon-suitcase", true, false);
+		scolariteNavItem.setLevel1(true);
+		scolariteNavItem.setLevel2(false);
+		List<SideNavItem> scolariteSubmenus=new ArrayList<>();
+		evaluationsNavItem = new SideNavItem("Evaluation", "/evaluation", null, false, true);
+		evaluationsNavItem.setLevel1(false);
+		evaluationsNavItem.setLevel2(true);
+		absencesNavItem = new SideNavItem("Absences", "/absences", null, false, true);
+		absencesNavItem.setLevel1(false);
+		absencesNavItem.setLevel2(true);
+		scolariteSubmenus.add(evaluationsNavItem);
+		scolariteSubmenus.add(absencesNavItem);
+		scolariteNavItem.setSubmenu(scolariteSubmenus.toArray(new SideNavItem[scolariteSubmenus.size()]));
 		
+		superNavItems.add(scolariteNavItem);
+		//emploie de temps
 		calendarNavItem = new SideNavItem("Emploie de temps", "/calendar", "icon-calendar", false, true);
 		calendarNavItem.setLevel1(true);
 		calendarNavItem.setLevel2(false);
@@ -142,7 +161,7 @@ public class Layout {
 		documentNavItem.setSubmenu(new SideNavItem[]{myDocumentsNavItem,publicDocumentsNavItem});
 		superNavItems.add(documentNavItem);
 		
-		biblioNavItem = new SideNavItem("Bibliotheque", "/biblio", "icon-admin", false, true);
+		biblioNavItem = new SideNavItem("Bibliotheque", "/bibliotheque", "icon-admin", false, true);
 		biblioNavItem.setLevel1(true);
 		biblioNavItem.setLevel2(false);
 		superNavItems.add(biblioNavItem);
@@ -208,6 +227,16 @@ public class Layout {
 			publicDocumentsNavItem.setClazz("active");
 			documentNavItem.setClazz("active open");
 			break;
+		case "/absences":
+			absencesNavItem.setClazz("active");
+			scolariteNavItem.setClazz("active open");
+			break;
+		case "/evaluation":
+			evaluationsNavItem.setClazz("active");
+			scolariteNavItem.setClazz("active open");
+			break;
+		case "/bibliotheque":
+			biblioNavItem.setClazz("active");
 		default:
 			break;
 		}

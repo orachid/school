@@ -2,8 +2,6 @@ package fr.wati.school.web.rebirth.controller.rest;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -140,7 +138,7 @@ public class SallesRestController implements RestCrudController<Salle,SalleDto> 
  */
 @Override
 @RequestMapping(method = RequestMethod.POST)
-  public ResponseEntity<String> create(HttpServletRequest request, @RequestBody SalleDto salleDto) {
+  public ResponseEntity<String> create(@RequestBody SalleDto salleDto) {
 	  Salle salle = new Salle();
 	  salle.setCode(salleDto.getCode());
 	  salle.setNom(salleDto.getNom());

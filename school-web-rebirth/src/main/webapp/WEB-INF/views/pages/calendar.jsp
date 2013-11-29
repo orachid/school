@@ -58,7 +58,7 @@
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 				<h4 class="blue bigger">Please fill the following form fields</h4>
 			</div>
-			<form id="add-event-form" method="post" action="/rest/calendar">
+			<form id="add-event-form">
 				<div class="modal-body overflow-visible">
 					<!-- Event type -->
 					<div class="form-group">

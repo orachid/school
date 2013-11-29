@@ -165,8 +165,7 @@ public class ClassesRestController implements
 	 */
 	@Override
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<String> create(HttpServletRequest request,
-			@RequestBody ClasseDto classeDto) {
+	public ResponseEntity<String> create(@RequestBody ClasseDto classeDto) {
 		Classe classe = new Classe();
 		classe.setCode(classeDto.getCode());
 		classe.setNom(classeDto.getNom());

@@ -2,8 +2,6 @@ package fr.wati.school.web.rebirth.controller.rest;
 
 import java.io.Serializable;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
@@ -23,7 +21,7 @@ public interface RestCrudController<T, DTO extends Serializable> {
 
 	void update(long id, DTO dto);
 
-	ResponseEntity<String> create(HttpServletRequest request, DTO dto);
+	ResponseEntity<String> create(DTO dto);
 
 	void delete(long id);
 

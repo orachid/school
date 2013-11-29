@@ -10,10 +10,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -157,8 +154,7 @@ public class CalendarRestController implements
 	 * javax.servlet.http.HttpServletRequest, java.io.Serializable)
 	 */
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<String> create(HttpServletRequest request,
-			@RequestBody CalendarEventDto calendarEventDto) {
+	public ResponseEntity<String> create(@RequestBody CalendarEventDto calendarEventDto) {
 		Evenement evenement = new Evenement();
 		evenement.setNom(calendarEventDto.getTitle());
 		evenement.setDateDebut(calendarEventDto.getStart());

@@ -2,8 +2,6 @@ package fr.wati.school.web.rebirth.controller.rest;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -134,8 +132,7 @@ public class EtablissementRestController implements
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<String> create(HttpServletRequest request,
-			@RequestBody EtablissementDto etablissementDto) {
+	public ResponseEntity<String> create(@RequestBody EtablissementDto etablissementDto) {
 		Etablissement etablissement = new Etablissement();
 		etablissement.setCode(etablissementDto.getCode());
 		etablissement.setNom(etablissementDto.getNom());
