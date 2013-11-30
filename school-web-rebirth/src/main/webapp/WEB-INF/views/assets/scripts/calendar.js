@@ -89,13 +89,9 @@ jQuery(function($) {
 		selectHelper: true,
 		select: function(start, end, allDay) {
 			
-			alert(new Date(start));
-			alert(formatDate(start));
-			$("#start-date-date").val($.fullCalendar.parseDate(start));
+			$("#start-date-date").val(start);
 			$("#end-date-date").val(end);
 			$('#add-event-modal-form').modal('show');
-			
-
 			calendar.fullCalendar('unselect');
 			
 		}
@@ -116,7 +112,7 @@ jQuery(function($) {
 						"callback": function() {
 							calendar.fullCalendar('removeEvents' , function(ev){
 								return (ev._id == calEvent._id);
-							})
+							});
 						}
 					} ,
 					"close" : {

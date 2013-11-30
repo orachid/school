@@ -8,10 +8,10 @@ public class CalendarEventDto implements Serializable{
 
 	//private Long id;
 	private String title;
-	//private boolean allDay;
+	private boolean allDay;
 	private Date start;
 	private Date end;
-	//private boolean editable;
+	private boolean editable;
 	
 	public CalendarEventDto() {
 	}
@@ -37,14 +37,14 @@ public class CalendarEventDto implements Serializable{
 	}
 
 
-//	public boolean isAllDay() {
-//		return allDay;
-//	}
-//
-//
-//	public void setAllDay(boolean allDay) {
-//		this.allDay = allDay;
-//	}
+	public boolean isAllDay() {
+		return allDay;
+	}
+
+
+	public void setAllDay(boolean allDay) {
+		this.allDay = allDay;
+	}
 
 
 	public Date getStart() {
@@ -67,14 +67,14 @@ public class CalendarEventDto implements Serializable{
 	}
 
 
-//	public boolean isEditable() {
-//		return editable;
-//	}
-//
-//
-//	public void setEditable(boolean editable) {
-//		this.editable = editable;
-//	}
+	public boolean isEditable() {
+		return editable;
+	}
+
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
 
 	
 }

@@ -2,8 +2,6 @@ package fr.wati.school.web.rebirth.controller.rest;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,11 +19,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import fr.wati.school.dao.ClasseRepository;
 import fr.wati.school.entities.bean.Classe;
-import fr.wati.school.entities.bean.Etablissement;
 import fr.wati.school.services.ClasseService;
 import fr.wati.school.web.rebirth.controller.response.JqgridResponse;
 import fr.wati.school.web.rebirth.domain.ClasseDto;
-import fr.wati.school.web.rebirth.domain.EtablissementDto;
 import fr.wati.school.web.rebirth.utils.DtoMapper;
 import fr.wati.school.web.rebirth.utils.JqgridFilter;
 import fr.wati.school.web.rebirth.utils.JqgridObjectMapper;

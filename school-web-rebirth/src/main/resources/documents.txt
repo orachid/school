@@ -1,0 +1,9 @@
+{"status":"OK","
+    data":[
+           {"id":1,"name":"label 1","type":"folder","additionalParameters":     
+                      {"id":1,"children":true,"itemSelected":false}},
+           {"id":2,"name":"label 2","type":"item","additionalParameters":        
+                     {"id":2,"children":false,"itemSelected":false}},
+           {"id":3,"name":"label 3","type":"item","additionalParameters":      
+                    {"id":3,"children":false,"itemSelected":false}}
+            ]}

@@ -35,12 +35,6 @@ jQuery(function($) {
 	});
 	
 	 $('#add-event-form').on('submit', function() {
-		 var datas=	JSON.stringify({
-        	 title: $('#title').val(), 
-             start: $('#start-date-date').val(),
-             end: $('#end-date-date').val()
-        	});
-//		 alert(new Date($('#start-date-date').val()).format("YYYY-MM-DDTHH:mm:ssZZ"));
 		 // appel Ajax
 	            $.ajax({
 	                url: "/rest/calendar", // le nom du fichier indiqué dans le formulaire
@@ -49,11 +43,13 @@ jQuery(function($) {
 	                dataType: 'json',
 	                data: JSON.stringify({
 	                	 title: $('#title').val(), 
-	                     start: formatDate($('#start-date-date').val()),
-	                     end: formatDate($('#end-date-date').val())
+	                     start: schoolUtils.formatDate($.fullCalendar.parseDate($('#start-date-date').val())),
+	                     end: schoolUtils.formatDate( $.fullCalendar.parseDate($('#end-date-date').val()))
 	                	}), // je sérialise les données (voir plus loin), ici les $_POST
 	                success: function(html) { // je récupère la réponse du fichier PHP
 	                    alert(html); // j'affiche cette réponse
+	                    $('#add-event-modal-form').modal('hide');
+	                    $('#calendar').fullCalendar( 'refetchEvents' );
 	                }
 	            });
 	        return false; // j'empêche le navigateur de soumettre lui-même le formulaire

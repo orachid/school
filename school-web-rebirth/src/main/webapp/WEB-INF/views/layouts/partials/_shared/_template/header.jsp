@@ -49,7 +49,8 @@
 
 	<!-- ace settings handler -->
 	<script src="${path.assets}/js/ace-extra.min.js"></script>
-
+	<!-- school Utils -->
+	<script src="${path.assets}/js/utils.js"></script>
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
 	<script src="${path.assets}/js/html5shiv.js"></script>

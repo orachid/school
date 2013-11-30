@@ -1,9 +1,11 @@
+function schoolUtils() {
+};
 function getGMTOffset(localDate) {
     var positive = (localDate.getTimezoneOffset() > 0);
     var aoff = Math.abs(localDate.getTimezoneOffset());
     var hours = Math.floor(aoff / 60);
     var mins = aoff % 60;
-    var offsetTz = padzero_(hours) + ':' + padzero_(mins);
+    var offsetTz = padzero(hours) + ':' + padzero(mins);
     // getTimezoneOffset() method returns difference between (GMT) and local time, in minutes.
     // example, If your time zone is GMT+2, -120 will be returned.
     // This is why we are inverting sign
@@ -26,7 +28,7 @@ function padzero(n) {
     return n < 10 ? '0' + n : n.toString();
 }
 
-function formatDate(date)  {
+schoolUtils.formatDate=function(date)  {
   if (date) {
     return (date.getFullYear()) +
            '-' + padzero((date.getMonth() + 1)) +
@@ -38,4 +40,4 @@ function formatDate(date)  {
            getGMTOffset(date);
   }
   return '';
-}
+};

@@ -45,7 +45,7 @@ public class MyDocumentsPageController extends AbstractDefaultPageController {
 	
 	@Override
 	public String getInline_scripts() {
-		return "views/assets/scripts/classes-jqgrid.js";
+		return "views/assets/scripts/documents.js";
 	}
 
 	@Override
@@ -63,8 +63,7 @@ public class MyDocumentsPageController extends AbstractDefaultPageController {
 
 	@Override
 	public String[] getScripts() {
-		return new String[] { "jqGrid/jquery.jqGrid.min.js",
-				"jqGrid/i18n/grid.locale-en.js" };
+		return new String[] { "fuelux/fuelux.tree.min.js","ace-elements.min.js"};
 	}
 
 	/*
@@ -76,7 +75,6 @@ public class MyDocumentsPageController extends AbstractDefaultPageController {
 	 */
 	@Override
 	public String[] getStyles() {
-		return new String[] { "jquery-ui-1.10.3.full.min.css", "ui.jqgrid.css",
-				"datepicker.css" };
+		return new String[] {};
 	}
 }
