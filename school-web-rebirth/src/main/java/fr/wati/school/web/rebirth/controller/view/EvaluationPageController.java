@@ -27,4 +27,32 @@ public class EvaluationPageController extends AbstractDefaultPageController {
 		modelAndView.addObject("layout", layout);
 		return modelAndView;
 	}
+
+	@Override
+	public String getContent() {
+		return "/pages/evaluation";
+	}
+
+	@Override
+	public String[] getScripts() {
+		return new String[] {"jquery.tooltipster.min.js"};
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.wati.school.web.rebirth.controller.AbstractDefaultPageController#getStyles
+	 * ()
+	 */
+	@Override
+	public String[] getStyles() {
+		return new String[] {"tooltipster.css" };
+	}
+
+	@Override
+	public String getInline_scripts() {
+		return "views/assets/scripts/evaluation.js";
+	}
+	
 }

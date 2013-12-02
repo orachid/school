@@ -74,7 +74,7 @@ public class CalendarController extends AbstractDefaultPageController {
 				"date-time/bootstrap-datepicker.min.js",
 				"date-time/bootstrap-timepicker.min.js",
 				"date-time/moment.min.js", "ajax-chosen.js",
-				"bootstrap-datetimepicker.min.js"};
+				"bootstrap-datetimepicker.min.js","jquery.tooltipster.min.js"};
 	}
 
 	/*
@@ -89,6 +89,6 @@ public class CalendarController extends AbstractDefaultPageController {
 		return new String[] { "fullcalendar.css", "ui.jqgrid.css",
 				"datepicker.css", "daterangepicker.css",
 				"jquery-ui-1.10.3.custom.min.css", "chosen.css",
-				"bootstrap-timepicker.css", "colorpicker.css","bootstrap-datetimepicker.min.css" };
+				"bootstrap-timepicker.css", "colorpicker.css","bootstrap-datetimepicker.min.css","tooltipster.css" };
 	}
 }

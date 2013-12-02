@@ -10,7 +10,10 @@ jQuery(function($) {
 	}).next().on(ace.click_event, function() {
 		$(this).prev().focus();
 	});
-
+	
+	//tooltipster
+	$('.tooltip').tooltipster();
+	
 	$("#event-type").chosen();
 	// chosen plugin inside a modal will have a zero width because the select
 	// element is originally hidden
