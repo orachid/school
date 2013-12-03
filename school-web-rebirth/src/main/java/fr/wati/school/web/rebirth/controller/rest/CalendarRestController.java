@@ -1,10 +1,5 @@
 package fr.wati.school.web.rebirth.controller.rest;
 
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyEditor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -15,8 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,6 +22,7 @@ import fr.wati.school.entities.bean.Evenement;
 import fr.wati.school.entities.bean.EvenementType;
 import fr.wati.school.entities.bean.Role;
 import fr.wati.school.web.rebirth.controller.response.JqgridResponse;
+import fr.wati.school.web.rebirth.domain.CalendarEventDetailDto;
 import fr.wati.school.web.rebirth.domain.CalendarEventDto;
 import fr.wati.school.web.rebirth.utils.DtoMapper;
 import fr.wati.school.web.rebirth.utils.SecurityUtils;
@@ -97,6 +92,17 @@ public class CalendarRestController implements
 				HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/eventDetails/{id}", method = RequestMethod.GET)
+	public ResponseEntity<CalendarEventDetailDto> getEventDetails(@PathVariable("id") Long id){
+		Evenement evenement=evenementRepository.findOne(id);
+		if(evenement!=null){
+			CalendarEventDetailDto calendarEventDetailDto=DtoMapper.mapForDetails(evenement);
+			return new ResponseEntity<CalendarEventDetailDto>(calendarEventDetailDto, HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -173,67 +179,6 @@ public class CalendarRestController implements
 	 */
 	@Override
 	public void delete(long id) {
-	}
-
-	@InitBinder
-	public void initBinder(WebDataBinder binder) {
-		binder.registerCustomEditor(CalendarEventDto.class,new PropertyEditor() {
-			
-			@Override
-			public boolean supportsCustomEditor() {
-				return false;
-			}
-			
-			@Override
-			public void setValue(Object value) {
-			}
-			
-			@Override
-			public void setAsText(String text) throws IllegalArgumentException {
-			}
-			
-			@Override
-			public void removePropertyChangeListener(PropertyChangeListener listener) {
-			}
-			
-			@Override
-			public void paintValue(Graphics gfx, Rectangle box) {
-			}
-			
-			@Override
-			public boolean isPaintable() {
-				return false;
-			}
-			
-			@Override
-			public Object getValue() {
-				return null;
-			}
-			
-			@Override
-			public String[] getTags() {
-				return null;
-			}
-			
-			@Override
-			public String getJavaInitializationString() {
-				return null;
-			}
-			
-			@Override
-			public Component getCustomEditor() {
-				return null;
-			}
-			
-			@Override
-			public String getAsText() {
-				return null;
-			}
-			
-			@Override
-			public void addPropertyChangeListener(PropertyChangeListener listener) {
-			}
-		});
 	}
 
 }

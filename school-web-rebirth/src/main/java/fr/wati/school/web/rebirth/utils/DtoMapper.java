@@ -6,12 +6,14 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 
 import fr.wati.school.entities.bean.Classe;
+import fr.wati.school.entities.bean.Cours;
 import fr.wati.school.entities.bean.Etablissement;
 import fr.wati.school.entities.bean.Evenement;
 import fr.wati.school.entities.bean.Matiere;
 import fr.wati.school.entities.bean.Personne;
 import fr.wati.school.entities.bean.Salle;
 import fr.wati.school.entities.bean.Users;
+import fr.wati.school.web.rebirth.domain.CalendarEventDetailDto;
 import fr.wati.school.web.rebirth.domain.CalendarEventDto;
 import fr.wati.school.web.rebirth.domain.ClasseDto;
 import fr.wati.school.web.rebirth.domain.EtablissementDto;
@@ -144,12 +146,29 @@ public class DtoMapper {
 
 	public static CalendarEventDto map(Evenement evenement) {
 		CalendarEventDto dto = new CalendarEventDto();
-		//dto.setId(Long.valueOf(evenement.getId().toString()));
+		dto.setId(Long.valueOf(evenement.getId().toString()));
 		dto.setTitle(evenement.getNom());
-		//dto.setAllDay(false);
+		dto.setAllDay(false);
 		dto.setStart(evenement.getDateDebut());
 		dto.setEnd(evenement.getDateFin());
 		//dto.setEditable(true);
+		return dto;
+	}
+	
+	public static CalendarEventDetailDto mapForDetails(Evenement evenement) {
+		CalendarEventDetailDto dto = new CalendarEventDetailDto();
+		dto.setId(Long.valueOf(evenement.getId().toString()));
+		dto.setTitle(evenement.getNom());
+		dto.setAllDay(false);
+		dto.setStart(evenement.getDateDebut());
+		dto.setEnd(evenement.getDateFin());
+		if(evenement instanceof Cours){
+			dto.setSalle(((Cours)evenement).getSalle().getCode());
+			dto.setMatiere(((Cours)evenement).getMatiere().getCode());
+			dto.setProfesseur(((Cours)evenement).getProfesseur().getFullName());
+			dto.setClasse(((Cours)evenement).getClasse().getCode());
+		}
+		
 		return dto;
 	}
 

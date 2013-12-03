@@ -6,7 +6,7 @@ import java.util.Date;
 @SuppressWarnings("serial")
 public class CalendarEventDto implements Serializable{
 
-	//private Long id;
+	private Long id;
 	private String title;
 	private boolean allDay;
 	private Date start;
@@ -17,14 +17,14 @@ public class CalendarEventDto implements Serializable{
 	}
 
 
-//	public Long getId() {
-//		return id;
-//	}
-//
-//
-//	public void setId(Long id) {
-//		this.id = id;
-//	}
+	public Long getId() {
+		return id;
+	}
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 
 	public String getTitle() {

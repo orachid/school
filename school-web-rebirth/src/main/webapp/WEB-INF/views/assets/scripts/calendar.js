@@ -108,12 +108,36 @@ jQuery(function($) {
 
 						},
 						eventRender: function(event, element) {
-							/*$(element).addClass('tooltip');
-							$(element).attr('title', 'hello from tooltip' );*/
+							
 							
 					    },
 						eventMouseover : function(event, jsEvent, view) {
-							alert('double click!' + event.title);
+							$(".fc-event-inner").addClass('tooltip');
+							url='rest/calendar/eventDetails/'+event.id;
+							$('.tooltip').tooltipster({
+								   content: 'Loading event datas...',
+								   functionBefore: function(origin, continueTooltip) {
+								   
+									   var finalUrl=url;
+								      // we'll make this function asynchronous and allow the tooltip to go ahead and show the loading notification while fetching our data
+								      continueTooltip();							
+								      // next, we want to check if our data has already been cached
+								      //if (origin.data('ajax') !== 'cached') {
+								         $.ajax({
+								            type: 'GET',
+								            url: finalUrl,
+								            success: function(data) {
+								               // update our tooltip content with our returned data and cache it
+								              	d=document.createElement('div');
+								            	$( "#event-details-template" ).tmpl( data ).appendTo($(d));
+								            	origin.tooltipster('update',$(d).html());
+								            }
+								         });
+								      //}
+								   }
+								});
+							
+							$( ".fc-event-inner" ).css( "opacity", "1" );
 						},
 						eventClick : function(calEvent, jsEvent, view) {
 

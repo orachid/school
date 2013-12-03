@@ -1,3 +1,17 @@
+<!-- jquery template for event details -->
+<script id="event-details-template" type="text/x-jquery-tmpl">
+  <table class="table">
+	<tbody>
+		<tr><td>Title</td><td>${id}</td></tr>
+		<tr><td>Classe</td><td>${classe}</td></tr>
+		<tr><td>Date de début</td><td>23332</td></tr>
+		<tr><td>Date de fin</td><td>23332</td></tr>
+		<tr><td>Proffesseur</td><td>Salle1</td></tr>
+		<tr><td>Salle</td><td>Salle1</td></tr>
+		<tr><td>Matiere</td><td>Salle1</td></tr>
+	</tbody>
+</table>
+</script>
 <label for="id-date-range-picker-1">Calendar date range</label>
 <div class="row">
 	<div class="col-xs-8 col-sm-11">
