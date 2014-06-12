@@ -7,8 +7,8 @@
 	try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
 	</script>
 	
-	<jsp:include
-	page="/WEB-INF/views/layouts/partials/_shared/sidenav/shortcuts.jsp"/>
+	<%-- <jsp:include
+	page="/WEB-INF/views/layouts/partials/_shared/sidenav/shortcuts.jsp"/> --%>
 
 	<ul class="nav nav-list">
 		
