@@ -136,6 +136,14 @@ public class DtoMapper {
 		return dtos;
 	}
 	
+	public static List<CalendarEventDto> mapEvenement(Page<Evenement> evenements) {
+		List<CalendarEventDto> dtos = new ArrayList<CalendarEventDto>();
+		for (Evenement evenement : evenements) {
+			dtos.add(map(evenement));
+		}
+		return dtos;
+	}
+	
 	public static List<ClasseDto> mapClasses(List<Classe> classes) {
 		List<ClasseDto> dtos = new ArrayList<ClasseDto>();
 		for (Classe classe : classes) {

@@ -4,7 +4,7 @@
 
 
 
-<div class="widget-box">
+<!-- <div class="widget-box">
 	<div class="widget-header header-color-green2">
 		<h4 class="lighter smaller">Browse private Files</h4>
 	</div>
@@ -27,4 +27,6 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
+<!-- Element where elFinder will be created (REQUIRED) -->
+		<div id="elfinder"></div>

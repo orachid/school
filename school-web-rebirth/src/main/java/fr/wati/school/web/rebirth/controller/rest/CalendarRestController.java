@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -181,4 +182,10 @@ public class CalendarRestController implements
 	public void delete(long id) {
 	}
 
+	@Override
+	@RequestMapping(value="/all",method=RequestMethod.GET)
+	public @ResponseBody List<CalendarEventDto> getAll() {
+		Pageable pageRequest = new PageRequest(0, 100);
+		return DtoMapper.mapEvenement(evenementRepository.findAll(pageRequest));
+	}
 }

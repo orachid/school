@@ -34,7 +34,6 @@ public class ExceptionHandlerController extends AbstractDefaultPageController {
 	@Override
 	public Breadcrumbs getBreadcrumbs() {
 		List<Link> links=new ArrayList<>();
-		links.add(new Link("#", "Home"));
 		Breadcrumbs breadcrumbs=new Breadcrumbs("Error", links);
 		return breadcrumbs;
 	}

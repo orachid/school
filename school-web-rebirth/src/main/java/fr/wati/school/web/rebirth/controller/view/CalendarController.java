@@ -74,7 +74,7 @@ public class CalendarController extends AbstractDefaultPageController {
 				"date-time/bootstrap-datepicker.min.js",
 				"date-time/bootstrap-timepicker.min.js",
 				"date-time/moment.min.js", "ajax-chosen.js",
-				"bootstrap-datetimepicker.min.js","jquery.tooltipster.min.js","jquery.tmpl.min.js"};
+				"bootstrap-datetimepicker.min.js","jquery.tooltipster.min.js","jquery.tmpl.min.js","jquery.loadTemplate/jquery.loadTemplate-1.4.4.min.js"};
 	}
 
 	/*

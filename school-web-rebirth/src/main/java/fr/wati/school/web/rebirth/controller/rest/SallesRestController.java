@@ -28,30 +28,39 @@ import fr.wati.school.web.rebirth.utils.JqgridObjectMapper;
 
 @Controller
 @RequestMapping(value = "/rest/salles")
-public class SallesRestController implements RestCrudController<Salle,SalleDto> {
+public class SallesRestController implements
+		RestCrudController<Salle, SalleDto> {
 
 	@Autowired
 	private SalleService salleService;
 	@Autowired
 	private SalleRepository salleRepository;
 
-  /* (non-Javadoc)
- * @see fr.wati.school.web.rebirth.controller.rest.RestController#read(int)
- */
-@Override
-@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-  public @ResponseBody SalleDto read(@PathVariable("id") int id) {
-    return DtoMapper.map(salleRepository.findOne(Long.valueOf(String.valueOf(id))));
-  }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.wati.school.web.rebirth.controller.rest.RestController#read(int)
+	 */
+	@Override
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public @ResponseBody
+	SalleDto read(@PathVariable("id") int id) {
+		return DtoMapper.map(salleRepository.findOne(Long.valueOf(String
+				.valueOf(id))));
+	}
 
-  /* (non-Javadoc)
- * @see fr.wati.school.web.rebirth.controller.rest.RestController#records(java.lang.Boolean, java.lang.String, java.lang.Integer, java.lang.Integer, java.lang.String, java.lang.String)
- */
-@Override
-@RequestMapping(method = RequestMethod.GET)
-  public
-  @ResponseBody
-  JqgridResponse<SalleDto> records(@RequestParam("_search") Boolean search,
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.wati.school.web.rebirth.controller.rest.RestController#records(java
+	 * .lang.Boolean, java.lang.String, java.lang.Integer, java.lang.Integer,
+	 * java.lang.String, java.lang.String)
+	 */
+	@Override
+	@RequestMapping(method = RequestMethod.GET)
+	public @ResponseBody
+	JqgridResponse<SalleDto> records(@RequestParam(value="_search",required=false) Boolean search,
 			@RequestParam(value = "filters", required = false) String filters,
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "rows", required = false) Integer rows,
@@ -59,14 +68,14 @@ public class SallesRestController implements RestCrudController<Salle,SalleDto> 
 			@RequestParam(value = "sord", required = false) String sord) {
 
 		Pageable pageRequest = new PageRequest(page - 1, rows);
-
+		if(search==null) search=false;
 		if (search == true) {
 			return getFilteredRecords(filters, pageRequest);
 
 		}
 
 		Page<Salle> salles = salleRepository.findAll(pageRequest);
-		List<SalleDto> dtos=DtoMapper.mapSalles(salles);
+		List<SalleDto> dtos = DtoMapper.mapSalles(salles);
 		JqgridResponse<SalleDto> response = new JqgridResponse<SalleDto>();
 		response.setRows(dtos);
 		response.setRecords(Long.valueOf(salles.getTotalElements()).toString());
@@ -76,9 +85,13 @@ public class SallesRestController implements RestCrudController<Salle,SalleDto> 
 		return response;
 	}
 
-  /* (non-Javadoc)
- * @see fr.wati.school.web.rebirth.controller.rest.RestController#getFilteredRecords(java.lang.String, org.springframework.data.domain.Pageable)
- */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.wati.school.web.rebirth.controller.rest.RestController#getFilteredRecords
+	 * (java.lang.String, org.springframework.data.domain.Pageable)
+	 */
 	@Override
 	public JqgridResponse<SalleDto> getFilteredRecords(String filters,
 			Pageable pageRequest) {
@@ -109,51 +122,72 @@ public class SallesRestController implements RestCrudController<Salle,SalleDto> 
 		response.setPage(Integer.valueOf(salles.getNumber() + 1).toString());
 		return response;
 	}
-  
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public @ResponseBody
 	ResponseEntity<List<SalleDto>> list() {
 		List<Salle> salles = salleRepository.findAll();
-		List<SalleDto> sallesDtos = DtoMapper
-				.mapSalles(salles);
-		return new ResponseEntity<List<SalleDto>>(sallesDtos,
-				HttpStatus.OK);
+		List<SalleDto> sallesDtos = DtoMapper.mapSalles(salles);
+		return new ResponseEntity<List<SalleDto>>(sallesDtos, HttpStatus.OK);
 	}
-	
-  /* (non-Javadoc)
- * @see fr.wati.school.web.rebirth.controller.rest.RestController#updateBook(long, fr.wati.school.web.rebirth.domain.SalleDto)
- */
-@Override
-@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-  @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void update(@PathVariable("id") long id, @RequestBody SalleDto salleDto) {
-	  Salle salle = salleRepository.findOne(id);
-	  salle.setCode(salleDto.getCode());
-	  salle.setNom(salleDto.getNom());
-	  salleService.save(salle);
-  }
 
-  /* (non-Javadoc)
- * @see fr.wati.school.web.rebirth.controller.rest.RestController#createBook(javax.servlet.http.HttpServletRequest, fr.wati.school.web.rebirth.domain.SalleDto)
- */
-@Override
-@RequestMapping(method = RequestMethod.POST)
-  public ResponseEntity<String> create(@RequestBody SalleDto salleDto) {
-	  Salle salle = new Salle();
-	  salle.setCode(salleDto.getCode());
-	  salle.setNom(salleDto.getNom());
-	  salleService.save(salle);
-	  return new ResponseEntity<String>(salleDto.getNom()+" created", HttpStatus.CREATED);
-  }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.wati.school.web.rebirth.controller.rest.RestController#updateBook(
+	 * long, fr.wati.school.web.rebirth.domain.SalleDto)
+	 */
+	@Override
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void update(@PathVariable("id") long id,
+			@RequestBody SalleDto salleDto) {
+		Salle salle = salleRepository.findOne(id);
+		salle.setCode(salleDto.getCode());
+		salle.setNom(salleDto.getNom());
+		salleService.save(salle);
+	}
 
-  /* (non-Javadoc)
- * @see fr.wati.school.web.rebirth.controller.rest.RestController#deleteBook(long)
- */
-@Override
-@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-  @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void delete(@PathVariable("id") long id) {
-	  salleService.delete(id);
-  }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.wati.school.web.rebirth.controller.rest.RestController#createBook(
+	 * javax.servlet.http.HttpServletRequest,
+	 * fr.wati.school.web.rebirth.domain.SalleDto)
+	 */
+	@Override
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<String> create(@RequestBody SalleDto salleDto) {
+		Salle salle = new Salle();
+		salle.setCode(salleDto.getCode());
+		salle.setNom(salleDto.getNom());
+		salleService.save(salle);
+		return new ResponseEntity<String>(salleDto.getNom() + " created",
+				HttpStatus.CREATED);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.wati.school.web.rebirth.controller.rest.RestController#deleteBook(
+	 * long)
+	 */
+	@Override
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void delete(@PathVariable("id") long id) {
+		salleService.delete(id);
+	}
+
+	@Override
+	@RequestMapping(value="/all",method = RequestMethod.GET)
+	public @ResponseBody
+	List<SalleDto> getAll() {
+		Pageable pageRequest = new PageRequest(0, 100);
+		return DtoMapper.mapSalles(salleRepository.findAll(pageRequest));
+	}
 
 }

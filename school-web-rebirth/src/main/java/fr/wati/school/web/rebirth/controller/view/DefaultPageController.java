@@ -32,7 +32,7 @@ public class DefaultPageController extends AbstractDefaultPageController {
 	@Override
 	public Breadcrumbs getBreadcrumbs() {
 		List<Link> links = new ArrayList<>();
-		links.add(new Link("#", "Home"));
+//		links.add(new Link("#", "Home"));
 		Breadcrumbs breadcrumbs = new Breadcrumbs("Home", links);
 		return breadcrumbs;
 	}

@@ -15,6 +15,7 @@
 	</context:component-scan>
 
 	<import resource="security.xml" />
+	<import resource="elfinder-servlet.xml" />
 	<!-- <import resource="side-navigation-context.xml" /> -->
 
 	<context:property-placeholder location="classpath:*-school.properties" />

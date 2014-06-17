@@ -43,7 +43,7 @@ public class MatieresRestController implements RestCrudController<Matiere, Matie
   @RequestMapping(method = RequestMethod.GET)
   public
   @ResponseBody
-  JqgridResponse<MatiereDto> records(@RequestParam("_search") Boolean search,
+  JqgridResponse<MatiereDto> records(@RequestParam(value="_search",required=false) Boolean search,
 			@RequestParam(value = "filters", required = false) String filters,
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "rows", required = false) Integer rows,
@@ -51,7 +51,7 @@ public class MatieresRestController implements RestCrudController<Matiere, Matie
 			@RequestParam(value = "sord", required = false) String sord) {
 
 		Pageable pageRequest = new PageRequest(page - 1, rows);
-
+		if(search==null) search=false;
 		if (search == true) {
 			return getFilteredRecords(filters, pageRequest);
 
@@ -135,4 +135,10 @@ public class MatieresRestController implements RestCrudController<Matiere, Matie
 	  matiereService.delete(id);
   }
 
+  @Override
+  @RequestMapping(value="/all",method=RequestMethod.GET)
+  public @ResponseBody List<MatiereDto> getAll() {
+  	Pageable pageRequest = new PageRequest(0, 100);
+  	return DtoMapper.mapMatieres(matiereRepository.findAll(pageRequest));
+  }
 }

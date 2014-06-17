@@ -37,13 +37,18 @@ public class UserRestController implements RestCrudController<Personne, Personne
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   public @ResponseBody PersonneDto read(@PathVariable("id") int id) {
-    return DtoMapper.map(personRepository.findOne(Long.valueOf(String.valueOf(id))));
+	  
+	Personne findOne = personRepository.findOne(Long.valueOf(String.valueOf(id)));
+	if(findOne!=null){
+		return DtoMapper.map(findOne);
+	}
+    return null;
   }
 
   @RequestMapping(method = RequestMethod.GET)
   public
   @ResponseBody
-  JqgridResponse<PersonneDto> records(@RequestParam("_search") Boolean search,
+  JqgridResponse<PersonneDto> records(@RequestParam(value="_search",required=false) Boolean search,
 			@RequestParam(value = "filters", required = false) String filters,
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "rows", required = false) Integer rows,
@@ -52,6 +57,7 @@ public class UserRestController implements RestCrudController<Personne, Personne
 
 		Pageable pageRequest = new PageRequest(page - 1, rows);
 
+		if(search==null) search=false;
 		if (search == true) {
 			return getFilteredRecords(filters, pageRequest);
 
@@ -132,5 +138,12 @@ public class UserRestController implements RestCrudController<Personne, Personne
   public void delete(@PathVariable("id") long id) {
 	  personneService.delete(id);
   }
+
+@Override
+@RequestMapping(value="/all",method=RequestMethod.GET)
+public @ResponseBody List<PersonneDto> getAll() {
+	Pageable pageRequest = new PageRequest(0, 100);
+	return DtoMapper.mapPersonne(personRepository.findAll(pageRequest));
+}
 
 }

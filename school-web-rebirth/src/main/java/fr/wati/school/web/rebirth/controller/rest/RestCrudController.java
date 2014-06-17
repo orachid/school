@@ -1,6 +1,7 @@
 package fr.wati.school.web.rebirth.controller.rest;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,8 @@ public interface RestCrudController<T, DTO extends Serializable> {
 	JqgridResponse<DTO> getFilteredRecords(String filters, Pageable pageRequest);
 
 	void update(long id, DTO dto);
+	
+	List<DTO> getAll();
 
 	ResponseEntity<String> create(DTO dto);
 

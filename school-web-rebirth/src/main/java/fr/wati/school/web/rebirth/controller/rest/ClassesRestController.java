@@ -60,7 +60,7 @@ public class ClassesRestController implements
 	@Override
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody
-	JqgridResponse<ClasseDto> records(@RequestParam("_search") Boolean search,
+	JqgridResponse<ClasseDto> records(@RequestParam(value="_search",required=false) Boolean search,
 			@RequestParam(value = "filters", required = false) String filters,
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "rows", required = false) Integer rows,
@@ -68,7 +68,7 @@ public class ClassesRestController implements
 			@RequestParam(value = "sord", required = false) String sord) {
 
 		Pageable pageRequest = new PageRequest(page - 1, rows);
-
+		if(search==null) search=false;
 		if (search == true) {
 			return getFilteredRecords(filters, pageRequest);
 
@@ -184,4 +184,10 @@ public class ClassesRestController implements
 		classeService.delete(id);
 	}
 
+	@Override
+	@RequestMapping(value="/all",method=RequestMethod.GET)
+	public @ResponseBody List<ClasseDto> getAll() {
+		Pageable pageRequest = new PageRequest(0, 100);
+		return DtoMapper.mapClasse(classeRepository.findAll(pageRequest));
+	}
 }

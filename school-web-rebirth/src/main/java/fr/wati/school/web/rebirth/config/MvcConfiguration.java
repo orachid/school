@@ -22,7 +22,7 @@ import fr.wati.school.web.rebirth.utils.CustomObjectMapper;
 import fr.wati.school.web.rebirth.utils.ImprovedMustacheTemplateLoader;
 
 @Configuration
-@ComponentScan(basePackages = "fr.wati.school")
+@ComponentScan(basePackages = {"fr.wati.school"})
 @EnableWebMvc
 public class MvcConfiguration extends WebMvcConfigurerAdapter {
 

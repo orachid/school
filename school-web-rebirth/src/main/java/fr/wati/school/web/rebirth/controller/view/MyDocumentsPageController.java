@@ -45,7 +45,7 @@ public class MyDocumentsPageController extends AbstractDefaultPageController {
 	
 	@Override
 	public String getInline_scripts() {
-		return "views/assets/scripts/documents.js";
+		return "views/assets/scripts/documents.js,views/assets/scripts/elfinder.js";
 	}
 
 	@Override
@@ -56,14 +56,14 @@ public class MyDocumentsPageController extends AbstractDefaultPageController {
 	@Override
 	public Breadcrumbs getBreadcrumbs() {
 		List<Link> links = new ArrayList<>();
-		links.add(new Link("#", "Document"));
-		Breadcrumbs breadcrumbs = new Breadcrumbs("My documents", links);
+//		links.add(new Link("#", "Document"));
+		Breadcrumbs breadcrumbs = new Breadcrumbs("Documents", links);
 		return breadcrumbs;
 	}
 
 	@Override
 	public String[] getScripts() {
-		return new String[] { "fuelux/fuelux.tree.min.js","ace-elements.min.js"};
+		return new String[] { "jquery-ui-1.10.3.custom.min.js","fuelux/fuelux.tree.min.js","ace-elements.min.js","../elfinder/js/elfinder.full.js"};
 	}
 
 	/*
@@ -75,6 +75,7 @@ public class MyDocumentsPageController extends AbstractDefaultPageController {
 	 */
 	@Override
 	public String[] getStyles() {
-		return new String[] {};
+		return new String[] {"../elfinder/css/elfinder.min.css","../elfinder/css/theme.css",
+				"jquery-ui/themes/smoothness/jquery-ui.min.css"};
 	}
 }

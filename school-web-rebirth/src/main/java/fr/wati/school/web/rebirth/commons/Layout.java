@@ -146,19 +146,19 @@ public class Layout {
 		messagerieNavItem.setSubmenu(new SideNavItem[]{mailNavItem,chatNavItem});
 		superNavItems.add(messagerieNavItem);
 		//Documents
-		documentNavItem = new SideNavItem("Documents", "#", "icon-folder-close", true, false);
+		documentNavItem = new SideNavItem("Documents", "/mydocuments", "icon-folder-close", false, true);
 		documentNavItem.setLevel1(true);
 		documentNavItem.setLevel2(false);
 		//myDocuments
-		myDocumentsNavItem= new SideNavItem("My documents", "/mydocuments", null, false, true);
-		myDocumentsNavItem.setLevel1(false);
-		myDocumentsNavItem.setLevel2(true);
+//		myDocumentsNavItem= new SideNavItem("My documents", "/mydocuments", null, false, true);
+//		myDocumentsNavItem.setLevel1(false);
+//		myDocumentsNavItem.setLevel2(true);
 		//public documents
-		publicDocumentsNavItem= new SideNavItem("Public documents", "/publicdocuments", null, false, true);
-		publicDocumentsNavItem.setLevel1(false);
-		publicDocumentsNavItem.setLevel2(true);
+//		publicDocumentsNavItem= new SideNavItem("Public documents", "/publicdocuments", null, false, true);
+//		publicDocumentsNavItem.setLevel1(false);
+//		publicDocumentsNavItem.setLevel2(true);
 		
-		documentNavItem.setSubmenu(new SideNavItem[]{myDocumentsNavItem,publicDocumentsNavItem});
+		//documentNavItem.setSubmenu(new SideNavItem[]{myDocumentsNavItem,publicDocumentsNavItem});
 		superNavItems.add(documentNavItem);
 		
 		biblioNavItem = new SideNavItem("Bibliotheque", "/bibliotheque", "icon-admin", false, true);
@@ -220,8 +220,8 @@ public class Layout {
 			messagerieNavItem.setClazz("active open");
 			break;
 		case "/mydocuments":
-			myDocumentsNavItem.setClazz("active");
-			documentNavItem.setClazz("active open");
+			documentNavItem.setClazz("active");
+//			documentNavItem.setClazz("active open");
 			break;
 		case "/publicdocuments":
 			publicDocumentsNavItem.setClazz("active");

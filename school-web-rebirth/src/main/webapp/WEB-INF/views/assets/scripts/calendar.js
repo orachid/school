@@ -129,7 +129,8 @@ jQuery(function($) {
 								            success: function(data) {
 								               // update our tooltip content with our returned data and cache it
 								              	d=document.createElement('div');
-								            	$( "#event-details-template" ).tmpl( data ).appendTo($(d));
+								            	//$('#event-details-template').tmpl(data).appendTo($(d));
+								              	$(d).loadTemplate($('#event-details-template'),data);
 								            	origin.tooltipster('update',$(d).html());
 								            }
 								         });
