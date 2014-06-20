@@ -1,4 +1,5 @@
-<div id="id-message-list-navbar" class="message-navbar align-center clearfix">
+<!-- #section:pages/inbox.navbar -->
+<div id="id-message-list-navbar" class="message-navbar clearfix">
 	<div class="message-bar">
 		<div class="message-infobar" id="id-message-infobar">
 			<span class="blue bigger-150">Inbox</span>
@@ -15,78 +16,78 @@
 		{{> page.message_select}}
 		{{> page.message_sort}}
 
-
+		<!-- #section:pages/inbox.navbar-search -->
 		<div class="nav-search minimized">
 			<form class="form-search">
 			  <span class="input-icon">
-				<input type="text" autocomplete="off" class="input-small nav-search-input" placeholder="Search inbox ...">
-				<i class="icon-search nav-search-icon"></i>
+				<input type="text" autocomplete="off" class="input-small nav-search-input" placeholder="Search inbox ..." />
+				<i class="ace-icon fa fa-search nav-search-icon"></i>
 			  </span>
 			</form>
 		</div>
+		<!-- /section:pages/inbox.navbar-search -->
 	</div>
 </div>
 
 
 
 
-
-<div id="id-message-item-navbar" class="hide message-navbar align-center clearfix">
+<div id="id-message-item-navbar" class="hide message-navbar clearfix">
 	<div class="message-bar">
 		<div class="message-toolbar">
 			{{> page.message_actions}}
 		</div>
 	</div>
-	
+
 	<div>
 		<div class="messagebar-item-left">
 			<a href="#" class="btn-back-message-list">
-				<i class="icon-arrow-left blue bigger-110 middle"></i>
+				<i class="ace-icon fa fa-arrow-left blue bigger-110 middle"></i>
 				<b class="bigger-110 middle">Back</b>
 			</a>
 		</div>
 		<div class="messagebar-item-right">
-			<i class="icon-time bigger-110 orange middle"></i>
-			<span class="time grey">Today, 7:15 pm</span>
+			<i class="ace-icon fa fa-clock-o bigger-110 orange"></i>
+			<span class="grey">Today, 7:15 pm</span>
 		</div>
 	</div>
-	
 </div>
 
 
 
 
-<div id="id-message-new-navbar" class="hide message-navbar align-center clearfix">
+<div id="id-message-new-navbar" class="hide message-navbar clearfix">
 
 	<div class="message-bar">
 		<div class="message-toolbar">
-			<a href="#" class="btn btn-xs btn-message">
-				<i class="icon-save bigger-125"></i>
+			<button type="button" class="btn btn-xs btn-white btn-primary">
+				<i class="ace-icon fa fa-floppy-o bigger-125"></i>
 				<span class="bigger-110">Save Draft</span>
-			</a>
-			<a href="#" class="btn btn-xs btn-message">
-				<i class="icon-remove bigger-125"></i>
+			</button>
+			<button type="button" class="btn btn-xs btn-white btn-primary">
+				<i class="ace-icon fa fa-times bigger-125 orange2"></i>
 				<span class="bigger-110">Discard</span>
-			</a>
+			</button>
 		</div>
 	</div>
 
 	
-	<div class="message-item-bar">
+	<div>
 		<div class="messagebar-item-left">
-			<a href="#" class="btn-back-message-list no-hover-underline">
-				<i class="icon-arrow-left blue bigger-110 middle"></i>
+			<a href="#" class="btn-back-message-list">
+				<i class="ace-icon fa fa-arrow-left bigger-110 middle blue"></i>
 				<b class="middle bigger-110">Back</b>
 			</a>
 		</div>
 		<div class="messagebar-item-right">
-		   <span class="inline btn-send-message">
-			<button type="button" class="btn btn-sm btn-primary no-border">
+			<span class="inline btn-send-message">
+			  <button type="button" class="btn btn-sm btn-primary no-border btn-white btn-round">
 				<span class="bigger-110">Send</span>
-				<i class="icon-arrow-right icon-on-right"></i>
-			</button>
-		   </span>
+				<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+			  </button>
+			</span>
 		</div>
 	</div>
-	
+
 </div>
+<!-- /section:pages/inbox.navbar -->

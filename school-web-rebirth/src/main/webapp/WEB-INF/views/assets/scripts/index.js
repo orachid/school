@@ -18,9 +18,14 @@ jQuery(function($) {
 	$('.sparkline').each(function(){
 		var $box = $(this).closest('.infobox');
 		var barColor = !$box.hasClass('infobox-dark') ? $box.css('color') : '#FFF';
-		$(this).sparkline('html', {tagValuesAttribute:'data-values', type: 'bar', barColor: barColor , chartRangeMin:$(this).data('min') || 0} );
+		$(this).sparkline('html',
+						 {
+							tagValuesAttribute:'data-values',
+							type: 'bar',
+							barColor: barColor ,
+							chartRangeMin:$(this).data('min') || 0
+						 });
 	});
-
 
 
 
@@ -71,7 +76,7 @@ jQuery(function($) {
  placeholder.data('draw', drawPieChart);
 
 
-
+  //pie chart tooltip example
   var $tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body');
   var previousPoint = null;
 
@@ -148,15 +153,15 @@ jQuery(function($) {
 		var w1 = $parent.width();
 
 		var off2 = $source.offset();
-		var w2 = $source.width();
+		//var w2 = $source.width();
 
 		if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
 		return 'left';
 	}
 
 
-	$('.dialogs,.comments').slimScroll({
-		height: '300px'
+	$('.dialogs,.comments').ace_scroll({
+		size: 300
     });
 	
 	
@@ -178,7 +183,8 @@ jQuery(function($) {
 		placeholder: 'draggable-placeholder',
 		forcePlaceholderSize:true,
 		tolerance:'pointer',
-		stop: function( event, ui ) {//just for Chrome!!!! so that dropdowns on items don't appear below other items after being moved
+		stop: function( event, ui ) {
+			//just for Chrome!!!! so that dropdowns on items don't appear below other items after being moved
 			$(ui.item).css('z-index', 'auto');
 		}
 		}
@@ -188,6 +194,16 @@ jQuery(function($) {
 		if(this.checked) $(this).closest('li').addClass('selected');
 		else $(this).closest('li').removeClass('selected');
 	});
-	
+
+
+	//show the dropdowns on top or bottom depending on window height and menu position
+	$('#task-tab .dropdown-hover').on('mouseenter', function(e) {
+		var offset = $(this).offset();
+
+		var $w = $(window)
+		if (offset.top > $w.scrollTop() + $w.innerHeight() - 100) 
+			$(this).addClass('dropup');
+		else $(this).removeClass('dropup');
+	});
 
 })

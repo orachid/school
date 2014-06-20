@@ -4,7 +4,7 @@
 
 	<div class="widget-body">
 	 <div class="widget-main">
-		<h4 class="header blue lighter bigger"><i class="icon-coffee green"></i> Please Enter Your Information</h4>
+		<h4 class="header blue lighter bigger"><i class="ace-icon fa fa-coffee green"></i> Please Enter Your Information</h4>
 		
 		<div class="space-6"></div>
 		<c:if test="${error==true}">
@@ -38,8 +38,8 @@
 						<input type="checkbox" class="ace" name="remember-me" /><span class="lbl"> Remember Me</span>
 					</label>
 					<button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
-						<i class="icon-key"></i>
-						Login
+						<i class="ace-icon fa fa-key"></i>
+						<span class="bigger-110">Login</span>
 					</button>
 				</div>
 				
@@ -58,17 +58,23 @@
 			<a class="btn btn-danger"><i class="icon-google-plus"></i></a>
 		</div> -->
 		
-	 </div><!--/widget-main-->
+	 </div><!-- /.widget-main -->
 	
 	
 	 <div class="toolbar clearfix">
 		<div>
-			<a href="#" onclick="show_box('forgot-box'); return false;" class="forgot-password-link"><i class="icon-arrow-left"></i> I forgot my password</a>
+			<a href="#" data-target="#forgot-box" class="forgot-password-link">
+				<i class="ace-icon fa fa-arrow-left"></i>
+				I forgot my password
+			</a>
 		</div>
 		<div>
-			<a href="#" onclick="show_box('signup-box'); return false;" class="user-signup-link">I want to register <i class="icon-arrow-right"></i></a>
+			<a href="#" data-target="#signup-box" class="user-signup-link">
+				I want to register
+				<i class="ace-icon fa fa-arrow-right"></i>
+			</a>
 		</div>
 	 </div>
-	</div><!--/widget-body-->
+	</div><!-- /.widget-body -->
 
-</div><!--/login-box-->
+</div><!-- /.login-box -->

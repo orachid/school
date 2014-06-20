@@ -1,17 +1,19 @@
+<!-- #section:pages/inbox.message-list -->
 <div class="message-list" id="message-list">
  {{#page.messages}}
+	<!-- #section:pages/inbox.message-list.item -->
 	<div class="message-item{{#unread}} message-unread{{/unread}}">
 		<label class="inline">
 			<input type="checkbox" class="ace" />
 			<span class="lbl"></span>
 		</label>
 
-		<i class="message-star {{#starred}}icon-star orange2{{/starred}}{{^starred}}icon-star-empty light-grey{{/starred}}"></i>
+		<i class="message-star {{#starred}}ace-icon fa fa-star orange2{{/starred}}{{^starred}}ace-icon fa fa-star-o light-grey{{/starred}}"></i>
 		<span class="sender" title="{{sender}}">{{sender}} {{#count}}<span class="light-grey">({{count}})</span>{{/count}}</span>
 		<span class="time">{{time}}</span>
 		{{#attachment}}
 		<span class="attachment">
-			<i class="icon-paper-clip"></i>
+			<i class="ace-icon fa fa-paperclip"></i>
 		</span>
 		{{/attachment}}
 
@@ -19,13 +21,13 @@
 			{{#flags}}
 			<span class="message-flags">
 				{{#replied}}
-				<i class="icon-reply light-grey"></i>
+				<i class="ace-icon fa fa-reply light-grey"></i>
 				{{/replied}}
 				{{#forwarded}}
-				<i class="icon-mail-forward light-grey"></i>
+				<i class="ace-icon fa fa-mail-forward light-grey"></i>
 				{{/forwarded}}
 				{{#flag}}
-				<i class="icon-flag icon-flip-horizontal light-grey"></i>
+				<i class="ace-icon fa fa-flag fa-flip-horizontal light-grey"></i>
 				{{/flag}}
 			</span>
 			{{/flags}}
@@ -37,5 +39,7 @@
 			</span>
 		</span>
 	</div>
+	<!-- /section:pages/inbox.message-list.item -->
  {{/page.messages}}
 </div>
+<!-- /section:pages/inbox.message-list -->

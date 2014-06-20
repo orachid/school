@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.wati</groupId>
 	<artifactId>school</artifactId>
@@ -9,8 +10,8 @@
 	<modules>
 		<module>school-entities</module>
 		<module>school-services</module>
-   		<module>school-web-rebirth</module>
-  </modules>
+		<module>school-web-rebirth</module>
+	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.2.0.RELEASE</spring.version>
@@ -56,4 +57,10 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+	<repositories>
+		<repository>
+			<id>spring-milestones</id>
+			<url>http://repo.springsource.org/libs-milestone/</url>
+		</repository>
+	</repositories>
 </project>

@@ -4,7 +4,7 @@
 
 	<div class="widget-body">
 	 <div class="widget-main">
-		<h4 class="header green lighter bigger"><i class="icon-group blue"></i> New User Registration</h4>
+		<h4 class="header green lighter bigger"><i class="ace-icon fa fa-users blue"></i> New User Registration</h4>
 		<div class="space-6"></div>
 
 		<p>
@@ -16,28 +16,28 @@
 				<label class="block clearfix">
 					<span class="block input-icon input-icon-right">
 						<input type="email" class="form-control" placeholder="Email" />
-						<i class="icon-envelope"></i>
+						<i class="ace-icon fa fa-envelope"></i>
 					</span>
 				</label>
 				
 				<label class="block clearfix">
 					<span class="block input-icon input-icon-right">
 						<input type="text" class="form-control" placeholder="Username" />
-						<i class="icon-user"></i>
+						<i class="ace-icon fa fa-user"></i>
 					</span>
 				</label>
 				
 				<label class="block clearfix">
 					<span class="block input-icon input-icon-right">
 						<input type="password" class="form-control" placeholder="Password" />
-						<i class="icon-lock"></i>
+						<i class="ace-icon fa fa-lock"></i>
 					</span>
 				</label>
 				
 				<label class="block clearfix">
 					<span class="block input-icon input-icon-right">
 						<input type="password" class="form-control" placeholder="Repeat password" />
-						<i class="icon-retweet"></i>
+						<i class="ace-icon fa fa-retweet"></i>
 					</span>
 				</label>
 				
@@ -49,12 +49,12 @@
 				
 				<div class="clearfix">
 					<button type="reset" class="width-30 pull-left btn btn-sm">
-						<i class="icon-refresh"></i>
-						Reset
+						<i class="ace-icon fa fa-refresh"></i>
+						<span class="bigger-110">Reset</span>
 					</button>
 					<button type="button" class="width-65 pull-right btn btn-sm btn-success">
-						Register
-						<i class="icon-arrow-right icon-on-right"></i>
+						<span class="bigger-110">Register</span>
+						<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
 					</button>
 				</div>
 				
@@ -64,9 +64,9 @@
 	
 
 	<div class="toolbar center">
-		<a href="#" onclick="show_box('login-box'); return false;" class="back-to-login-link"><i class="icon-arrow-left"></i> Back to login</a>
+		<a href="#" data-target="#login-box" class="back-to-login-link"><i class="ace-icon fa fa-arrow-left"></i> Back to login</a>
 	</div>
 
- </div><!--/widget-body-->
+ </div><!-- /.widget-body -->
 
-</div><!--/signup-box-->
+</div><!-- /.signup-box -->

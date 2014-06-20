@@ -9,11 +9,16 @@ jQuery(function($) {
 
 
 	var $validation = false;
-	$('#fuelux-wizard').ace_wizard().on('change' , function(e, info){
+	$('#fuelux-wizard')
+	.ace_wizard({
+		//step: 2 //optional argument. wizard will jump to step "2" at first
+	})
+	.on('change' , function(e, info){
 		if(info.step == 1 && $validation) {
 			if(!$('#validation-form').valid()) return false;
 		}
-	}).on('finished', function(e) {
+	})
+	.on('finished', function(e) {
 		bootbox.dialog({
 			message: "Thank you! Your information was successfully saved!", 
 			buttons: {
@@ -24,10 +29,23 @@ jQuery(function($) {
 			}
 		});
 	}).on('stepclick', function(e){
-		//return false;//prevent clicking on steps
+		//e.preventDefault();//this will prevent clicking and selecting steps
 	});
 
 
+	//jump to a step
+	$('#step-jump').on('click', function() {
+		var wizard = $('#fuelux-wizard').data('wizard')
+		wizard.currentStep = 3;
+		wizard.setState();
+	})
+	//determine selected step
+	//wizard.selectedItem().step
+
+
+
+	//hide or show the other form which requires validation
+	//this is for demo only, you usullay want just one form in your application
 	$('#skip-validation').removeAttr('checked').on('click', function(){
 		$validation = this.checked;
 		if(this.checked) {
@@ -38,7 +56,7 @@ jQuery(function($) {
 			$('#validation-form').addClass('hide');
 			$('#sample-form').show();
 		}
-	});
+	})
 
 
 
@@ -84,6 +102,10 @@ jQuery(function($) {
 			comment: {
 				required: true
 			},
+			date: {
+				required: true,
+				date: true
+			},
 			state: {
 				required: true
 			},
@@ -111,16 +133,13 @@ jQuery(function($) {
 			agree: "Please accept our policy"
 		},
 
-		invalidHandler: function (event, validator) { //display error alert on form submit   
-			$('.alert-danger', $('.login-form')).show();
-		},
 
 		highlight: function (e) {
 			$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
 		},
 
 		success: function (e) {
-			$(e).closest('.form-group').removeClass('has-error').addClass('has-info');
+			$(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
 			$(e).remove();
 		},
 
@@ -150,4 +169,15 @@ jQuery(function($) {
 	
 	$('#modal-wizard .modal-header').ace_wizard();
 	$('#modal-wizard .wizard-actions .btn[data-dismiss=modal]').removeAttr('disabled');
+	
+	
+	/**
+	$('#date').datepicker({autoclose:true}).on('changeDate', function(ev) {
+		$(this).closest('form').validate().element($(this));
+	});
+	
+	$('#mychosen').chosen().on('change', function(ev) {
+		$(this).closest('form').validate().element($(this));
+	});
+	*/
 })
