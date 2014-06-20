@@ -1,15 +1,16 @@
 jQuery(function($){
 
+Dropzone.autoDiscover = false;
 try {
-  $(".dropzone").dropzone({
+  var myDropzone = new Dropzone("#dropzone" , {
     paramName: "file", // The name that will be used to transfer the file
     maxFilesize: 0.5, // MB
-  
+
 	addRemoveLinks : true,
 	dictDefaultMessage :
-	'<span class="bigger-150 bolder"><i class="icon-caret-right red"></i> Drop files</span> to upload \
+	'<span class="bigger-150 bolder"><i class="ace-icon fa fa-caret-right red"></i> Drop files</span> to upload \
 	<span class="smaller-80 grey">(or click)</span> <br /> \
-	<i class="upload-icon icon-cloud-upload blue icon-3x"></i>'
+	<i class="upload-icon ace-icon fa fa-cloud-upload blue fa-3x"></i>'
 ,
 	dictResponseError: 'Error while uploading file!',
 	

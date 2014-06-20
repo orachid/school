@@ -4,7 +4,7 @@ jQuery(function($){
 		var msg='';
 		if (reason==='unsupported-file-type') { msg = "Unsupported format " +detail; }
 		else {
-			console.log("error uploading file", reason, detail);
+			//console.log("error uploading file", reason, detail);
 		}
 		$('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+ 
 		 '<strong>File upload error</strong> '+msg+' </div>').prependTo('#alerts');
@@ -51,15 +51,27 @@ jQuery(function($){
 	}).prev().addClass('wysiwyg-style2');
 
 	
+	/**
+	//make the editor have all the available height
+	$(window).on('resize.editor', function() {
+		var offset = $('#editor1').parent().offset();
+		var winHeight =  $(this).height();
+		
+		$('#editor1').css({'height':winHeight - offset.top - 10, 'max-height': 'none'});
+	}).triggerHandler('resize.editor');
+	*/
+	
 
 	$('#editor2').css({'height':'200px'}).ace_wysiwyg({
 		toolbar_place: function(toolbar) {
-			return $(this).closest('.widget-box').find('.widget-header').prepend(toolbar).children(0).addClass('inline');
+			return $(this).closest('.widget-box')
+			       .find('.widget-header').prepend(toolbar)
+				   .find('.wysiwyg-toolbar').addClass('inline');
 		},
 		toolbar:
 		[
 			'bold',
-			{name:'italic' , title:'Change Title!', icon: 'icon-leaf'},
+			{name:'italic' , title:'Change Title!', icon: 'ace-icon fa fa-leaf'},
 			'strikethrough',
 			null,
 			'insertunorderedlist',
@@ -69,29 +81,36 @@ jQuery(function($){
 			'justifycenter',
 			'justifyright'
 		],
-		speech_button:false
+		speech_button: false
 	});
+	
+	
 
 
 	$('[data-toggle="buttons"] .btn').on('click', function(e){
 		var target = $(this).find('input[type=radio]');
 		var which = parseInt(target.val());
 		var toolbar = $('#editor1').prev().get(0);
-		if(which == 1 || which == 2 || which == 3) {
+		if(which >= 1 && which <= 4) {
 			toolbar.className = toolbar.className.replace(/wysiwyg\-style(1|2)/g , '');
 			if(which == 1) $(toolbar).addClass('wysiwyg-style1');
 			else if(which == 2) $(toolbar).addClass('wysiwyg-style2');
+			if(which == 4) {
+				$(toolbar).find('.btn-group > .btn').addClass('btn-white btn-round');
+			} else $(toolbar).find('.btn-group > .btn-white').removeClass('btn-white btn-round');
 		}
 	});
 
 
 	
 
+	//RESIZE IMAGE
+	
 	//Add Image Resize Functionality to Chrome and Safari
 	//webkit browsers don't have image resize functionality when content is editable
 	//so let's add something using jQuery UI resizable
 	//another option would be opening a dialog for user to enter dimensions.
-	if ( typeof jQuery.ui !== 'undefined' && /applewebkit/.test(navigator.userAgent.toLowerCase()) ) {
+	if ( typeof jQuery.ui !== 'undefined' && ace.vars['webkit'] ) {
 		
 		var lastResizableImg = null;
 		function destroyResizable() {
@@ -112,7 +131,8 @@ jQuery(function($){
 						});
 						target.data('resizable', true);
 						
-						if( lastResizableImg != null ) {//disable previous resizable image
+						if( lastResizableImg != null ) {
+							//disable previous resizable image
 							lastResizableImg.resizable( "destroy" );
 							lastResizableImg.removeData('resizable');
 						}
@@ -129,19 +149,15 @@ jQuery(function($){
 				destroyResizable();
 			});
 	    }
-		
+
 		enableImageResize();
 
 		/**
 		//or we can load the jQuery UI dynamically only if needed
 		if (typeof jQuery.ui !== 'undefined') enableImageResize();
 		else {//load jQuery UI if not loaded
-			$.getScript($path_assets+"/js/jquery-ui-1.10.3.custom.min.js", function(data, textStatus, jqxhr) {
-				if('ontouchend' in document) {//also load touch-punch for touch devices
-					$.getScript($path_assets+"/js/jquery.ui.touch-punch.min.js", function(data, textStatus, jqxhr) {
-						enableImageResize();
-					});
-				} else	enableImageResize();
+			$.getScript($path_assets+"/js/jquery-ui.custom.min.js", function(data, textStatus, jqxhr) {
+				enableImageResize()
 			});
 		}
 		*/

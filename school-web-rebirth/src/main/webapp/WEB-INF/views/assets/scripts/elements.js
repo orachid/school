@@ -3,6 +3,20 @@ jQuery(function($) {
 	$('#myTab a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 	  console.log(e.target.getAttribute("href"));
 	})
+		
+	$('#accordion').on('shown.bs.collapse', function (e) {
+		console.log($(e.target).is('#collapseTwo'))
+	});
+	*/
+	
+	$('#myTab a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+		if($(e.target).attr('href') == "#home") drawChartNow();
+	})
+
+	
+	/**
+		//go to next tab, without user clicking
+		$('#myTab > .active').next().find('> a').trigger('click');
 	*/
 
 
@@ -12,6 +26,8 @@ jQuery(function($) {
 		if(which == 2) $('#accordion').addClass('accordion-style2');
 		 else $('#accordion').removeClass('accordion-style2');
 	});
+	
+	//$('[href="#collapseTwo"]').trigger('click');
 
 
 	var oldie = /msie\s*(8|7|6)/.test(navigator.userAgent.toLowerCase());
@@ -123,9 +139,9 @@ jQuery(function($) {
 	$("#bootbox-regular").on(ace.click_event, function() {
 		bootbox.prompt("What is your name?", function(result) {
 			if (result === null) {
-				//Example.show("Prompt dismissed");
+				
 			} else {
-				//Example.show("Hi <b>"+result+"</b>");
+				
 			}
 		});
 	});
@@ -137,6 +153,28 @@ jQuery(function($) {
 			}
 		});
 	});
+	
+/**
+	$("#bootbox-confirm").on(ace.click_event, function() {
+		bootbox.confirm({
+			message: "Are you sure?",
+			buttons: {
+			  confirm: {
+				 label: "OK",
+				 className: "btn-primary btn-sm",
+			  },
+			  cancel: {
+				 label: "Cancel",
+				 className: "btn-sm",
+			  }
+			},
+			callback: function(result) {
+				if(result) alert(1)
+			}
+		  }
+		);
+	});
+**/
 		
 	$("#bootbox-options").on(ace.click_event, function() {
 		bootbox.dialog({
@@ -145,7 +183,7 @@ jQuery(function($) {
 			{
 				"success" :
 				 {
-					"label" : "<i class='icon-ok'></i> Success!",
+					"label" : "<i class='ace-icon fa fa-check'></i> Success!",
 					"className" : "btn-sm btn-success",
 					"callback": function() {
 						//Example.show("great success");
@@ -195,7 +233,7 @@ jQuery(function($) {
 			max: parseInt($this.data('max')),
 			step: parseFloat($this.data('step')),
 			slide: function( event, ui ) {
-				$this.attr('value', ui.value);
+				$this.val(ui.value);
 				spinner_update();
 			}
 		});

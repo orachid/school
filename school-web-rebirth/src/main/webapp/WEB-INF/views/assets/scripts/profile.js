@@ -2,17 +2,21 @@ jQuery(function($) {
 
 	//editables on first profile page
 	$.fn.editable.defaults.mode = 'inline';
-	$.fn.editableform.loading = "<div class='editableform-loading'><i class='light-blue icon-2x icon-spinner icon-spin'></i></div>";
-    $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="icon-ok icon-white"></i></button>'+
-                                '<button type="button" class="btn editable-cancel"><i class="icon-remove"></i></button>';    
+	$.fn.editableform.loading = "<div class='editableform-loading'><i class='ace-icon fa fa-spinner fa-spin fa-2x light-blue'></i></div>";
+    $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="ace-icon fa fa-check"></i></button>'+
+                                '<button type="button" class="btn editable-cancel"><i class="ace-icon fa fa-times"></i></button>';    
 	
 	//editables 
+	
+	//text editable
     $('#username').editable({
 		type: 'text',
 		name: 'username'
     });
 
 
+	
+	//select2 editable
 	var countries = [];
     $.each({ "CA": "Canada", "IN": "India", "NL": "Netherlands", "TR": "Turkey", "US": "United States"}, function(k, v) {
         countries.push({id: k, text: v});
@@ -44,14 +48,18 @@ jQuery(function($) {
     $('#country').editable({
 		type: 'select2',
 		value : 'NL',
+		//onblur:'ignore',
         source: countries,
+		select2: {
+			'width': 140
+		},		
 		success: function(response, newValue) {
 			if(currentValue == newValue) return;
 			currentValue = newValue;
 			
 			var new_source = (!newValue || newValue == "") ? [] : cities[newValue];
 			
-			//the destroy method is causing errors in x-editable v1.4.6
+			//the destroy method is causing errors in x-editable v1.4.6+
 			//it worked fine in v1.4.5
 			/**			
 			$('#city').editable('destroy').editable({
@@ -65,7 +73,11 @@ jQuery(function($) {
 			$(city).clone().attr('id', 'city').text('Select City').editable({
 				type: 'select2',
 				value : null,
-				source: new_source
+				//onblur:'ignore',
+				source: new_source,
+				select2: {
+					'width': 140
+				}
 			}).insertAfter(city);//insert it after previous instance
 			$(city).remove();//remove previous instance
 			
@@ -75,35 +87,52 @@ jQuery(function($) {
 	$('#city').editable({
 		type: 'select2',
 		value : 'Amsterdam',
-        source: cities[currentValue]
+		//onblur:'ignore',
+        source: cities[currentValue],
+		select2: {
+			'width': 140
+		}
     });
 
 
-
+	
+	//custom date editable
 	$('#signup').editable({
-		type: 'date',
-		format: 'yyyy-mm-dd',
-		viewformat: 'dd/mm/yyyy',
-		datepicker: {
-			weekStart: 1
+		type: 'adate',
+		date: {
+			//datepicker plugin options
+			    format: 'yyyy/mm/dd',
+			viewformat: 'yyyy/mm/dd',
+			 weekStart: 1
+			 
+			//,nativeUI: true//if true and browser support input[type=date], native browser control will be used
+			//,format: 'yyyy-mm-dd',
+			//viewformat: 'yyyy-mm-dd'
 		}
-	});
+	})
 
     $('#age').editable({
         type: 'spinner',
 		name : 'age',
 		spinner : {
-			min : 16, max:99, step:1
+			min : 16,
+			max : 99,
+			step: 1,
+			on_sides: true
+			//,nativeUI: true//if true and browser support input[type=number], native browser control will be used
 		}
 	});
 	
-	//var $range = document.createElement("INPUT");
-	//$range.type = 'range';
+
     $('#login').editable({
-        type: 'slider',//$range.type == 'range' ? 'range' : 'slider',
+        type: 'slider',
 		name : 'login',
+		
 		slider : {
-			min : 1, max:50, width:100
+			 min : 1,
+			  max: 50,
+			width: 100
+			//,nativeUI: true//if true and browser support input[type=range], native browser control will be used
 		},
 		success: function(response, newValue) {
 			if(parseInt(newValue) == 1)
@@ -116,6 +145,7 @@ jQuery(function($) {
 		mode: 'inline',
         type: 'wysiwyg',
 		name : 'about',
+
 		wysiwyg : {
 			//css : {'max-width':'300px'}
 		},
@@ -126,11 +156,15 @@ jQuery(function($) {
 	
 	
 	// *** editable avatar *** //
-	try {//ie8 throws some harmless exception, so let's catch it
+	try {//ie8 throws some harmless exceptions, so let's catch'em
 
-		//it seems that editable plugin calls appendChild, and as Image doesn't have it, it causes errors on IE at unpredicted points
-		//so let's have a fake appendChild for it!
-		if( /msie\s*(8|7|6)/.test(navigator.userAgent.toLowerCase()) ) Image.prototype.appendChild = function(el){}
+		//first let's add a fake appendChild method for Image element for browsers that have a problem with this
+		//because editable plugin calls appendChild, and it causes errors on IE at unpredicted points
+		try {
+			document.createElement('IMG').appendChild(document.createElement('B'));
+		} catch(e) {
+			Image.prototype.appendChild = function(el){}
+		}
 
 		var last_gritter
 		$('#avatar').editable({
@@ -141,25 +175,19 @@ jQuery(function($) {
 				//specify ace file input plugin's options here
 				btn_choose: 'Change Avatar',
 				droppable: true,
-				/**
-				//this will override the default before_change that only accepts image files
-				before_change: function(files, dropped) {
-					return true;
-				},
-				*/
+				maxSize: 110000,//~100Kb
 
 				//and a few extra ones here
 				name: 'avatar',//put the field name here as well, will be used inside the custom plugin
-				max_size: 110000,//~100Kb
-				on_error : function(code) {//on_error function will be called when the selected file has a problem
+				on_error : function(error_type) {//on_error function will be called when the selected file has a problem
 					if(last_gritter) $.gritter.remove(last_gritter);
-					if(code == 1) {//file format error
+					if(error_type == 1) {//file format error
 						last_gritter = $.gritter.add({
 							title: 'File is not an image!',
 							text: 'Please choose a jpg|gif|png image!',
 							class_name: 'gritter-error gritter-center'
 						});
-					} else if(code == 2) {//file size rror
+					} else if(error_type == 2) {//file size rror
 						last_gritter = $.gritter.add({
 							title: 'File too big!',
 							text: 'Image size should not exceed 100Kb!',
@@ -175,14 +203,11 @@ jQuery(function($) {
 			},
 		    url: function(params) {
 				// ***UPDATE AVATAR HERE*** //
-				//You can replace the contents of this function with examples/profile-avatar-update.js for actual upload
-
+				//for a working upload example you can replace the contents of this function with 
+				//examples/profile-avatar-update.js
 
 				var deferred = new $.Deferred
 
-				//if value is empty, means no valid files were selected
-				//but it may still be submitted by the plugin, because "" (empty string) is different from previous non-empty value whatever it was
-				//so we return just here to prevent problems
 				var value = $('#avatar').next().find('input[type=hidden]:eq(0)').val();
 				if(!value || value.length == 0) {
 					deferred.resolve();
@@ -210,6 +235,8 @@ jQuery(function($) {
 				 } , parseInt(Math.random() * 800 + 800))
 
 				return deferred.promise();
+				
+				// ***END OF UPDATE AVATAR HERE*** //
 			},
 			
 			success: function(response, newValue) {
@@ -222,23 +249,27 @@ jQuery(function($) {
 	//another option is using modals
 	$('#avatar2').on('click', function(){
 		var modal = 
-		'<div class="modal hide fade">\
+		'<div class="modal fade">\
+		  <div class="modal-dialog">\
+		   <div class="modal-content">\
 			<div class="modal-header">\
 				<button type="button" class="close" data-dismiss="modal">&times;</button>\
 				<h4 class="blue">Change Avatar</h4>\
 			</div>\
 			\
 			<form class="no-margin">\
-			<div class="modal-body">\
+			 <div class="modal-body">\
 				<div class="space-4"></div>\
 				<div style="width:75%;margin-left:12%;"><input type="file" name="file-input" /></div>\
-			</div>\
+			 </div>\
 			\
-			<div class="modal-footer center">\
-				<button type="submit" class="btn btn-small btn-success"><i class="icon-ok"></i> Submit</button>\
-				<button type="button" class="btn btn-small" data-dismiss="modal"><i class="icon-remove"></i> Cancel</button>\
-			</div>\
+			 <div class="modal-footer center">\
+				<button type="submit" class="btn btn-sm btn-success"><i class="ace-icon fa fa-check"></i> Submit</button>\
+				<button type="button" class="btn btn-sm" data-dismiss="modal"><i class="ace-icon fa fa-times"></i> Cancel</button>\
+			 </div>\
 			</form>\
+		  </div>\
+		 </div>\
 		</div>';
 		
 		
@@ -255,31 +286,14 @@ jQuery(function($) {
 			style:'well',
 			btn_choose:'Click to choose new avatar',
 			btn_change:null,
-			no_icon:'icon-picture',
+			no_icon:'ace-icon fa fa-picture-o',
 			thumbnail:'small',
 			before_remove: function() {
 				//don't remove/reset files while being uploaded
 				return !working;
 			},
-			before_change: function(files, dropped) {
-				var file = files[0];
-				if(typeof file === "string") {
-					//file is just a file name here (in browsers that don't support FileReader API)
-					if(! (/\.(jpe?g|png|gif)$/i).test(file) ) return false;
-				}
-				else {//file is a File object
-					var type = $.trim(file.type);
-					if( ( type.length > 0 && ! (/^image\/(jpe?g|png|gif)$/i).test(type) )
-							|| ( type.length == 0 && ! (/\.(jpe?g|png|gif)$/i).test(file.name) )//for android default browser!
-						) return false;
-
-					if( file.size > 110000 ) {//~100Kb
-						return false;
-					}
-				}
-
-				return true;
-			}
+			allowExt: ['jpg', 'jpeg', 'png', 'gif'],
+			allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 		});
 
 		form.on('submit', function(){
@@ -287,7 +301,7 @@ jQuery(function($) {
 			
 			file.ace_file_input('disable');
 			form.find('button').attr('disabled', 'disabled');
-			form.find('.modal-body').append("<div class='center'><i class='icon-spinner icon-spin bigger-150 orange'></i></div>");
+			form.find('.modal-body').append("<div class='center'><i class='ace-icon fa fa-spinner fa-spin bigger-150 orange'></i></div>");
 			
 			var deferred = new $.Deferred;
 			working = true;
@@ -317,12 +331,13 @@ jQuery(function($) {
 	
 
 	//////////////////////////////
-	$('#profile-feed-1').slimScroll({
-	height: '250px',
-	alwaysVisible : true
+	$('#profile-feed-1').ace_scroll({
+		height: '250px',
+		mouseWheelLock: true,
+		alwaysVisible : true
 	});
 
-	$('.profile-social-links > a').tooltip();
+	$('a[ data-original-title]').tooltip();
 
 	$('.easy-pie-chart.percentage').each(function(){
 	var barColor = $(this).data('color') || '#555';
@@ -341,8 +356,9 @@ jQuery(function($) {
   
 	///////////////////////////////////////////
 
+	//right & left position
 	//show the user info on right or left depending on its position
-	$('#user-profile-2 .memberdiv').on('mouseenter', function(){
+	$('#user-profile-2 .memberdiv').on('mouseenter touchstart', function(){
 		var $this = $(this);
 		var $parent = $this.closest('.tab-pane');
 
@@ -356,8 +372,8 @@ jQuery(function($) {
 		if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) place = 'right';
 		
 		$this.find('.popover').removeClass('right left').addClass(place);
-	}).on('click', function() {
-		return false;
+	}).on('click', function(e) {
+		e.preventDefault();
 	});
 
 
@@ -367,27 +383,12 @@ jQuery(function($) {
 		style:'well',
 		btn_choose:'Change avatar',
 		btn_change:null,
-		no_icon:'icon-picture',
+		no_icon:'ace-icon fa fa-picture-o',
 		thumbnail:'large',
 		droppable:true,
-		before_change: function(files, dropped) {
-			var file = files[0];
-			if(typeof file === "string") {//files is just a file name here (in browsers that don't support FileReader API)
-				if(! (/\.(jpe?g|png|gif)$/i).test(file) ) return false;
-			}
-			else {//file is a File object
-				var type = $.trim(file.type);
-				if( ( type.length > 0 && ! (/^image\/(jpe?g|png|gif)$/i).test(type) )
-						|| ( type.length == 0 && ! (/\.(jpe?g|png|gif)$/i).test(file.name) )//for android default browser!
-					) return false;
-
-				if( file.size > 110000 ) {//~100Kb
-					return false;
-				}
-			}
-
-			return true;
-		}
+		
+		allowExt: ['jpg', 'jpeg', 'png', 'gif'],
+		allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 	})
 	.end().find('button[type=reset]').on(ace.click_event, function(){
 		$('#user-profile-3 input[type=file]').ace_file_input('reset_input');

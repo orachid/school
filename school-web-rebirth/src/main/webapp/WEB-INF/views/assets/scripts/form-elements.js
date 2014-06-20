@@ -14,7 +14,13 @@ jQuery(function($) {
 	});
 
 
-	$(".chosen-select").chosen(); 
+	$('.chosen-select').chosen({allow_single_deselect:true}); 
+	//resize the chosen on window resize
+	$(window).on('resize.chosen', function() {
+		var w = $('.chosen-select').parent().width();
+		$('.chosen-select').next().css({'width':w});
+	}).trigger('resize.chosen');
+
 	$('#chosen-multiple-style').on('click', function(e){
 		var target = $(e.target).find('input[type=radio]');
 		var which = parseInt(target.val());
@@ -64,8 +70,11 @@ jQuery(function($) {
 			$('#form-field-5').attr('class', 'col-xs-'+val).val('.col-xs-'+val);
 		}
 	});
+
+
 	
-	
+	//"jQuery UI Slider"
+	//range slider tooltip example
 	$( "#slider-range" ).css('height','200px').slider({
 		orientation: "vertical",
 		range: true,
@@ -73,16 +82,18 @@ jQuery(function($) {
 		max: 100,
 		values: [ 17, 67 ],
 		slide: function( event, ui ) {
-			var val = ui.values[$(ui.handle).index()-1]+"";
+			var val = ui.values[$(ui.handle).index()-1] + "";
 
-			if(! ui.handle.firstChild ) {
-				$(ui.handle).append("<div class='tooltip right in' style='display:none;left:16px;top:-6px;'><div class='tooltip-arrow'></div><div class='tooltip-inner'></div></div>");
+			if( !ui.handle.firstChild ) {
+				$("<div class='tooltip right in' style='display:none;left:16px;top:-6px;'><div class='tooltip-arrow'></div><div class='tooltip-inner'></div></div>")
+				.prependTo(ui.handle);
 			}
 			$(ui.handle.firstChild).show().children().eq(1).text(val);
 		}
 	}).find('a').on('blur', function(){
 		$(this.firstChild).hide();
 	});
+	
 	
 	$( "#slider-range-max" ).slider({
 		range: "max",
@@ -91,7 +102,7 @@ jQuery(function($) {
 		value: 2
 	});
 	
-	$( "#eq > span" ).css({width:'90%', 'float':'left', margin:'15px'}).each(function() {
+	$( "#slider-eq > span" ).css({width:'90%', 'float':'left', margin:'15px'}).each(function() {
 		// read initial values from markup and remove that
 		var value = parseInt( $( this ).text(), 10 );
 		$( this ).empty().slider({
@@ -101,6 +112,8 @@ jQuery(function($) {
 			
 		});
 	});
+	
+	$("#slider-eq > span.ui-slider-purple").slider('disable');//disable third item
 
 	
 	$('#id-input-file-1 , #id-input-file-2').ace_file_input({
@@ -115,12 +128,15 @@ jQuery(function($) {
 		//onchange:''
 		//
 	});
-	
+	//pre-show a file name, for example a previously selected file
+	//$('#id-input-file-1').ace_file_input('show_file_list', ['myfile.txt'])
+
+
 	$('#id-input-file-3').ace_file_input({
 		style:'well',
 		btn_choose:'Drop files here or click to choose',
 		btn_change:null,
-		no_icon:'icon-cloud-upload',
+		no_icon:'ace-icon fa fa-cloud-upload',
 		droppable:true,
 		thumbnail:'small'//large | fit
 		//,icon_remove:null//set null, to hide remove/reset button
@@ -148,67 +164,111 @@ jQuery(function($) {
 	});
 	
 
-	//dynamically change allowed formats by changing before_change callback function
+	//dynamically change allowed formats by changing allowExt && allowMime function
 	$('#id-file-format').removeAttr('checked').on('change', function() {
-		var before_change
+		var whitelist_ext, whitelist_mime;
 		var btn_choose
 		var no_icon
 		if(this.checked) {
 			btn_choose = "Drop images here or click to choose";
-			no_icon = "icon-picture";
-			before_change = function(files, dropped) {
-				var allowed_files = [];
-				for(var i = 0 ; i < files.length; i++) {
-					var file = files[i];
-					if(typeof file === "string") {
-						//IE8 and browsers that don't support File Object
-						if(! (/\.(jpe?g|png|gif|bmp)$/i).test(file) ) return false;
-					}
-					else {
-						var type = $.trim(file.type);
-						if( ( type.length > 0 && ! (/^image\/(jpe?g|png|gif|bmp)$/i).test(type) )
-								|| ( type.length == 0 && ! (/\.(jpe?g|png|gif|bmp)$/i).test(file.name) )//for android's default browser which gives an empty string for file.type
-							) continue;//not an image so don't keep this file
-					}
-					
-					allowed_files.push(file);
-				}
-				if(allowed_files.length == 0) return false;
+			no_icon = "ace-icon fa fa-picture-o";
 
-				return allowed_files;
-			}
+			whitelist_ext = ["jpeg", "jpg", "png", "gif" , "bmp"];
+			whitelist_mime = ["image/jpg", "image/jpeg", "image/png", "image/gif", "image/bmp"];
 		}
 		else {
 			btn_choose = "Drop files here or click to choose";
-			no_icon = "icon-cloud-upload";
-			before_change = function(files, dropped) {
-				return files;
-			}
+			no_icon = "ace-icon fa fa-cloud-upload";
+			
+			whitelist_ext = null;//all extensions are acceptable
+			whitelist_mime = null;//all mimes are acceptable
 		}
 		var file_input = $('#id-input-file-3');
-		file_input.ace_file_input('update_settings', {'before_change':before_change, 'btn_choose': btn_choose, 'no_icon':no_icon})
+		file_input
+		.ace_file_input('update_settings',
+		{
+			'btn_choose': btn_choose,
+			'no_icon': no_icon,
+			'allowExt': whitelist_ext,
+			'allowMime': whitelist_mime
+		})
 		file_input.ace_file_input('reset_input');
+		
+		file_input
+		.off('file.error.ace')
+		.on('file.error.ace', function(e, info) {
+			//console.log(info.file_count);//number of selected files
+			//console.log(info.invalid_count);//number of invalid files
+			//console.log(info.error_list);//a list of errors in the following format
+			
+			//info.error_count['ext']
+			//info.error_count['mime']
+			//info.error_count['size']
+			
+			//info.error_list['ext']  = [list of file names with invalid extension]
+			//info.error_list['mime'] = [list of file names with invalid mimetype]
+			//info.error_list['size'] = [list of file names with invalid size]
+			
+			
+			/**
+			if( !info.dropped ) {
+				//perhapse reset file field if files have been selected, and there are invalid files among them
+				//when files are dropped, only valid files will be added to our file array
+				e.preventDefault();//it will rest input
+			}
+			*/
+			
+			
+			//if files have been selected (not dropped), you can choose to reset input
+			//because browser keeps all selected files anyway and this cannot be changed
+			//we can only reset file field to become empty again
+			//on any case you still should check files with your server side script
+			//because any arbitrary file can be uploaded by user and it's not safe to rely on browser-side measures
+		});
+	
 	});
-
-
-
 
 	$('#spinner1').ace_spinner({value:0,min:0,max:200,step:10, btn_up_class:'btn-info' , btn_down_class:'btn-info'})
 	.on('change', function(){
 		//alert(this.value)
 	});
-	$('#spinner2').ace_spinner({value:0,min:0,max:10000,step:100, touch_spinner: true, icon_up:'icon-caret-up', icon_down:'icon-caret-down'});
-	$('#spinner3').ace_spinner({value:0,min:-100,max:100,step:10, on_sides: true, icon_up:'icon-plus smaller-75', icon_down:'icon-minus smaller-75', btn_up_class:'btn-success' , btn_down_class:'btn-danger'});
+	$('#spinner2').ace_spinner({value:0,min:0,max:10000,step:100, touch_spinner: true, icon_up:'ace-icon fa fa-caret-up', icon_down:'ace-icon fa fa-caret-down'});
+	$('#spinner3').ace_spinner({value:0,min:-100,max:100,step:10, on_sides: true, icon_up:'ace-icon fa fa-plus smaller-75', icon_down:'ace-icon fa fa-minus smaller-75', btn_up_class:'btn-success' , btn_down_class:'btn-danger'});
+	//$('#spinner1').ace_spinner('disable').ace_spinner('value', 11);
+	//or
+	//$('#spinner1').closest('.ace-spinner').spinner('disable').spinner('enable').spinner('value', 11);//disable, enable or change value
+	//$('#spinner1').closest('.ace-spinner').spinner('value', 0);//reset to 0
 
 
-	
-	$('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
+	//datepicker plugin
+	//link
+	$('.date-picker').datepicker({
+		autoclose: true,
+		todayHighlight: true
+	})
+	//show datepicker when clicking on the icon
+	.next().on(ace.click_event, function(){
 		$(this).prev().focus();
 	});
-	$('input[name=date-range-picker]').daterangepicker().prev().on(ace.click_event, function(){
+
+	//or change it into a date range picker
+	$('.input-daterange').datepicker({autoclose:true});
+
+
+	//to translate the daterange picker, please copy the "examples/daterange-fr.js" contents here before initialization
+	$('input[name=date-range-picker]').daterangepicker({
+		'applyClass' : 'btn-sm btn-success',
+		'cancelClass' : 'btn-sm btn-default',
+		locale: {
+			applyLabel: 'Apply',
+			cancelLabel: 'Cancel',
+		}
+	})
+	.prev().on(ace.click_event, function(){
 		$(this).next().focus();
 	});
-	
+
+
 	$('#timepicker1').timepicker({
 		minuteStep: 1,
 		showSeconds: true,
@@ -217,26 +277,47 @@ jQuery(function($) {
 		$(this).prev().focus();
 	});
 	
-	$('#colorpicker1').colorpicker();
-	$('#simple-colorpicker-1').ace_colorpicker();
-
+	$('#date-timepicker1').datetimepicker().next().on(ace.click_event, function(){
+		$(this).prev().focus();
+	});
 	
+
+	$('#colorpicker1').colorpicker();
+
+	$('#simple-colorpicker-1').ace_colorpicker();
+	//$('#simple-colorpicker-1').ace_colorpicker('pick', 2);//select 2nd color
+	//$('#simple-colorpicker-1').ace_colorpicker('pick', '#fbe983');//select #fbe983 color
+	//var picker = $('#simple-colorpicker-1').data('ace_colorpicker')
+	//picker.pick('red', true);//insert the color if it doesn't exist
+
+
 	$(".knob").knob();
 	
 	
-	//we could just set the data-provide="tag" of the element inside HTML, but IE8 fails!
 	var tag_input = $('#form-field-tags');
-	if(! ( /msie\s*(8|7|6)/.test(navigator.userAgent.toLowerCase())) ) 
-	{
+	try{
 		tag_input.tag(
 		  {
 			placeholder:tag_input.attr('placeholder'),
 			//enable typeahead by specifying the source array
-			source: ace.variable_US_STATES,//defined in ace.js >> ace.enable_search_ahead
+			source: ace.vars['US_STATES'],//defined in ace.js >> ace.enable_search_ahead
+			/**
+			//or fetch data from database, fetch those that match "query"
+			source: function(query, process) {
+			  $.ajax({url: 'remote_source.php?q='+encodeURIComponent(query)})
+			  .done(function(result_items){
+				process(result_items);
+			  });
+			}
+			*/
 		  }
 		);
+
+		//programmatically add a new
+		var $tag_obj = $('#form-field-tags').data('tag');
+		$tag_obj.add('Programmatically Added');
 	}
-	else {
+	catch(e) {
 		//display a textarea for old IE, because it doesn't support this plugin or another one I tried!
 		tag_input.after('<textarea id="'+tag_input.attr('id')+'" name="'+tag_input.attr('name')+'" rows="3">'+tag_input.val()+'</textarea>').remove();
 		//$('#form-field-tags').autosize({append: "\n"});
@@ -250,7 +331,7 @@ jQuery(function($) {
 		style:'well',
 		btn_choose:'Drop files here or click to choose',
 		btn_change:null,
-		no_icon:'icon-cloud-upload',
+		no_icon:'ace-icon fa fa-cloud-upload',
 		droppable:true,
 		thumbnail:'large'
 	})

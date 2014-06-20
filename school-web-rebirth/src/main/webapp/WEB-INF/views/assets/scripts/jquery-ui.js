@@ -41,7 +41,7 @@ jQuery(function($) {
 
 		var dialog = $( "#dialog-message" ).removeClass('hide').dialog({
 			modal: true,
-			title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='icon-ok'></i> jQuery UI Dialog</h4></div>",
+			title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='ace-icon fa fa-check'></i> jQuery UI Dialog</h4></div>",
 			title_html: true,
 			buttons: [ 
 				{
@@ -75,11 +75,11 @@ jQuery(function($) {
 		$( "#dialog-confirm" ).removeClass('hide').dialog({
 			resizable: false,
 			modal: true,
-			title: "<div class='widget-header'><h4 class='smaller'><i class='icon-warning-sign red'></i> Empty the recycle bin?</h4></div>",
+			title: "<div class='widget-header'><h4 class='smaller'><i class='ace-icon fa fa-exclamation-triangle red'></i> Empty the recycle bin?</h4></div>",
 			title_html: true,
 			buttons: [
 				{
-					html: "<i class='icon-trash bigger-110'></i>&nbsp; Delete all items",
+					html: "<i class='ace-icon fa fa-trash-o bigger-110'></i>&nbsp; Delete all items",
 					"class" : "btn btn-danger btn-xs",
 					click: function() {
 						$( this ).dialog( "close" );
@@ -87,7 +87,7 @@ jQuery(function($) {
 				}
 				,
 				{
-					html: "<i class='icon-remove bigger-110'></i>&nbsp; Cancel",
+					html: "<i class='ace-icon fa fa-times bigger-110'></i>&nbsp; Cancel",
 					"class" : "btn btn-xs",
 					click: function() {
 						$( this ).dialog( "close" );
@@ -196,11 +196,12 @@ jQuery(function($) {
 		create: function( event, ui ) {
 			//add custom classes and icons
 			$(this)
-			.next().addClass('btn btn-success').html('<i class="icon-plus"></i>')
-			.next().addClass('btn btn-danger').html('<i class="icon-minus"></i>')
+			.next().addClass('btn btn-success').html('<i class="ace-icon fa fa-plus"></i>')
+			.next().addClass('btn btn-danger').html('<i class="ace-icon fa fa-minus"></i>')
 			
 			//larger buttons on touch devices
-			if(ace.click_event == "tap") $(this).closest('.ui-spinner').addClass('ui-spinner-touch');
+			if('touchstart' in document.documentElement) 
+				$(this).closest('.ui-spinner').addClass('ui-spinner-touch');
 		}
 	});
 
