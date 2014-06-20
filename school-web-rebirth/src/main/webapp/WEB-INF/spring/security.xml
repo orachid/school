@@ -16,13 +16,17 @@
 	<http security="none" pattern="/resources/**" />
 
 	<http auto-config='true'>
+		<!-- <headers> <cache-control /> </headers> -->
 		<intercept-url pattern="/login/" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		<intercept-url pattern="/**"
 			access="ROLE_ADMIN, ROLE_STUDENT, ROLE_PROF, ROLE_SECRETAIRE, ROLE_DIRECTOR, ROLE_PARENT" />
 		<form-login login-page="/login/"
 			authentication-failure-url="/login/?error=true" />
+		<!-- <csrf /> -->
+		<!-- enable remember me -->
+		<remember-me token-validity-seconds="1209600"
+			remember-me-parameter="remember-me" data-source-ref="dataSource" />
 	</http>
-
 	<authentication-manager>
 		<authentication-provider>
 			<jdbc-user-service data-source-ref="dataSource"
@@ -36,7 +40,7 @@
        SELECT u.USERNAME, r.ROLE FROM USERs u, USERs_ROLEs ur,ROLE r
         WHERE u.ID = ur.userId and r.id=ur.roleId
         AND u.USERNAME=?;" />
+			<password-encoder ref="passwordEncoder" />
 		</authentication-provider>
 	</authentication-manager>
-
 </beans:beans>

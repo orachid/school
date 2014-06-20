@@ -8,10 +8,11 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-	<context:annotation-config/> 
+	<context:annotation-config />
 	<!-- <context:load-time-weaver/> -->
 	<context:spring-configured />
-	<context:component-scan base-package="fr.wati.school.services">
+	<context:component-scan
+		base-package="fr.wati.school.services,fr.wati.school.web.rebirth.elfinder">
 	</context:component-scan>
 
 	<import resource="security.xml" />
@@ -37,25 +38,27 @@
 		</property>
 	</bean>
 
-<bean class="fr.wati.school.services.documents.DocumentManager">
-	<property name="rootDocumentFolder" value="${document.root.folder}"/>
-</bean>
+	<bean class="fr.wati.school.services.documents.DocumentManager">
+		<property name="rootDocumentFolder" value="${document.root.folder}" />
+	</bean>
 	<!-- Localization Start -->
 
-	 <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <property name="basename" value="classpath:/locales/messages"/>
-        <!-- Do not use System Locale file as default. Windows & Linux could have different default locale -->
-        <property name="fallbackToSystemLocale" value="false" />
-    </bean>
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:/locales/messages" />
+		<!-- Do not use System Locale file as default. Windows & Linux could have 
+			different default locale -->
+		<property name="fallbackToSystemLocale" value="false" />
+	</bean>
 
-    <!-- <bean class="ru.xpoft.vaadin.VaadinMessageSource" /> -->
+	<!-- <bean class="ru.xpoft.vaadin.VaadinMessageSource" /> -->
 
 	<!-- Localization End -->
 
 
-	
 
-	<bean id="sessionFactory"
+
+	<!-- <bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan" value="fr.wati.school.entities.bean" />
@@ -66,7 +69,8 @@
 				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
 			</props>
 		</property>
-	</bean>
+		<property name="entityInterceptor" ref="defaultHibernateEntityInterceptor"/>
+	</bean> -->
 
 	<bean id="entityManager"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -81,12 +85,34 @@
 		</property>
 	</bean>
 
-	<!-- <bean id="crudEntityManager" class="fr.wati.util.CRUDEntityManagerFactory"
+	<!-- <bean id="crudEntityManager" class="fr.wati.util.CRUDEntityManagerFactory" 
 		factory-method="createEntityManager" /> -->
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	<jpa:repositories base-package="fr.wati.school.dao" />
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManager" />
+	</bean>
+
+	<!-- If request parameter "targetUrl" is existed, then forward to this url -->
+	<!-- For update login form -->
+	<bean id="savedRequestAwareAuthenticationSuccessHandler"
+		class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+		<property name="targetUrlParameter" value="targetUrl" />
+	</bean>
+
+	<bean id="passwordEncoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+		<constructor-arg name="strength" value="${bcrypt.encoder.strength}" />
+	</bean>
+	<bean id="userPasswordEntityInterceptor" class="fr.wati.school.dao.UserPasswordEntityInterceptor">
+		<property name="passwordEncoder" ref="passwordEncoder" />
+	</bean>
+	<bean id="defaultHibernateEntityInterceptor" class="fr.wati.school.dao.DefaultHibernateEntityInterceptor">
+		<property name="interceptors" >
+			<list>
+				<ref bean="userPasswordEntityInterceptor"/>
+			</list>
+		</property>
 	</bean>
 </beans>

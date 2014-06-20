@@ -126,6 +126,7 @@ public class UserRestController implements RestCrudController<Personne, Personne
 	  personne.setPrenom(personneDto.getPrenom());
 	  personne.setNom(personneDto.getNom());
 	  personne.setUsername(personneDto.getUsername());
+	  personne.setPassword(personneDto.getPassword());
 	  personne.setCivilite(personneDto.getCivilite());
 	  personne.setDateNaissance(personneDto.getDateNaissance());
 	  personne.getContact().setEmail(personneDto.getEmail());

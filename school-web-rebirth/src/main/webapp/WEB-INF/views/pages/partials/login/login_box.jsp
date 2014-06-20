@@ -35,7 +35,7 @@
 				
 				<div class="clearfix">
 					<label class="inline">
-						<input type="checkbox" class="ace" /><span class="lbl"> Remember Me</span>
+						<input type="checkbox" class="ace" name="remember-me" /><span class="lbl"> Remember Me</span>
 					</label>
 					<button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
 						<i class="icon-key"></i>
@@ -49,14 +49,14 @@
 		</form>
 		
 
-		<div class="social-or-login center">
+		<!-- <div class="social-or-login center">
 			<span class="bigger-110">Or Login Using</span>
 		</div>
 		<div class="social-login center">
 			<a class="btn btn-primary"><i class="icon-facebook"></i></a>
 			<a class="btn btn-info"><i class="icon-twitter"></i></a>
 			<a class="btn btn-danger"><i class="icon-google-plus"></i></a>
-		</div>
+		</div> -->
 		
 	 </div><!--/widget-main-->
 	

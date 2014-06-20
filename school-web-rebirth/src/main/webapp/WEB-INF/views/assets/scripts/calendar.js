@@ -113,7 +113,7 @@ jQuery(function($) {
 					    },
 						eventMouseover : function(event, jsEvent, view) {
 							$(".fc-event-inner").addClass('tooltip');
-							url='rest/calendar/eventDetails/'+event.id;
+							url='/calendar/eventDetails/'+event.id;
 							$('.tooltip').tooltipster({
 								   content: 'Loading event datas...',
 								   functionBefore: function(origin, continueTooltip) {
@@ -128,10 +128,10 @@ jQuery(function($) {
 								            url: finalUrl,
 								            success: function(data) {
 								               // update our tooltip content with our returned data and cache it
-								              	d=document.createElement('div');
+								              	//d=document.createElement('div');
 								            	//$('#event-details-template').tmpl(data).appendTo($(d));
-								              	$(d).loadTemplate($('#event-details-template'),data);
-								            	origin.tooltipster('update',$(d).html());
+								              	//$(d).loadTemplate($('#event-details-template'),data);
+								            	origin.tooltipster('update',data);
 								            }
 								         });
 								      //}

@@ -5,7 +5,7 @@
 <jsp:include
 	page="/WEB-INF/views/layouts/partials/login/_template/header.jsp"/>
 
-<body class="login-layout">
+<body class="login-layout light-login">
 
 	<div class="main-container">
 		<div class="main-content">

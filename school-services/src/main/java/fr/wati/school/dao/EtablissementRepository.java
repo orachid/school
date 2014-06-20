@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import fr.wati.school.entities.bean.Etablissement;
+import fr.wati.school.entities.bean.Etudiant;
 
 public interface EtablissementRepository extends
 		JpaRepository<Etablissement, Long> {
@@ -19,5 +20,7 @@ public interface EtablissementRepository extends
 	 * @return
 	 */
 	Page<Etablissement> findByCodeLike(String string, Pageable pageRequest);
+	
+	Etablissement findByClasses_Etudiants(Etudiant etudiant);
 
 }

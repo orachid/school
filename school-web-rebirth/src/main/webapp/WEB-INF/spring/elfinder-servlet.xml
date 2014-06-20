@@ -24,9 +24,20 @@
 		</property>
 	</bean>
 
+	<bean class="cn.bluejoe.elfinder.impl.DefaultFsServiceConfig">
+                    <property name="tmbWidth" ><value>${tmbWidth}</value>
+                    </property>
+    </bean>
+
+	<!-- Use a dynamic FsServiceFactory -->
+	 <bean id="fsServiceFactory" class="fr.wati.school.web.rebirth.elfinder.DynamicFsServiceFactory">
+	 
+	 </bean>
+	
 	<!-- FsService is often retrieved from HttpRequest -->
 	<!-- while a static FsService is defined here -->
-	<bean id="fsServiceFactory" class="cn.bluejoe.elfinder.impl.StaticFsServiceFactory">
+	
+	<!-- <bean id="fsServiceFactory" class="cn.bluejoe.elfinder.impl.StaticFsServiceFactory">
 		<property name="fsService">
 			<bean class="cn.bluejoe.elfinder.impl.DefaultFsService">
 				<property name="serviceConfig">
@@ -36,12 +47,12 @@
 				</property>
 				<property name="volumes">
 					<list>
-						<!-- two volumes are mounted here -->
-						<bean class="fr.wati.school.web.rebirth.elfinder.LocalFsVolume">
+						two volumes are mounted here
+						<bean class="fr.wati.school.web.rebirth.elfinder.UserFsVolume">
 							<property name="name" value="MyFiles" />
 							<property name="rootDir" value="/tmp/a" />
 						</bean>
-						<bean class="fr.wati.school.web.rebirth.elfinder.LocalFsVolume">
+						<bean class="fr.wati.school.web.rebirth.elfinder.UserFsVolume">
 							<property name="name" value="Shared" />
 							<property name="rootDir" value="/tmp/b" />
 						</bean>
@@ -75,5 +86,6 @@
 				</property>
 			</bean>
 		</property>
-	</bean>
+	</bean> -->
+
 </beans>

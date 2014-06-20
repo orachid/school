@@ -136,6 +136,15 @@ $(function() {
 				required : true
 			}
 		}, {
+			name : 'password',
+			label : 'Password',
+			index : 'password',
+			width : 200,
+			editable : true,
+			editrules : {
+				required : true
+			}
+		}, {
 			name : 'civilite',
 			label : 'Civilite',
 			index : 'civilite',

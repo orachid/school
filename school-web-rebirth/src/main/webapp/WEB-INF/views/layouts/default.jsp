@@ -4,7 +4,7 @@
 <html lang="en">
 	<jsp:include
 	page="/WEB-INF/views/layouts/partials/_shared/_template/header.jsp"/>
-	<body>
+	<body class="no-skin">
 	<jsp:include
 	page="/WEB-INF/views/layouts/partials/_shared/topbar.jsp"/>
 

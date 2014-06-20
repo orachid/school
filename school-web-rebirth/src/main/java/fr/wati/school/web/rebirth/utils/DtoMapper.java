@@ -101,6 +101,7 @@ public class DtoMapper {
 		PersonneDto dto = new PersonneDto();
 		dto.setId(Long.valueOf(personne.getId().toString()));
 		dto.setUsername(personne.getUsername());
+		dto.setPassword(personne.getPassword());
 		dto.setNom(personne.getNom());
 		dto.setPrenom(personne.getPrenom());
 		dto.setCivilite(personne.getCivilite());
