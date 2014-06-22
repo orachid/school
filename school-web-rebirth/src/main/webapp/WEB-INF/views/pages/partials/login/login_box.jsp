@@ -38,6 +38,7 @@
 						<input type="checkbox" class="ace" name="remember-me" /><span class="lbl"> Remember Me</span>
 					</label>
 					<button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
+
 						<i class="ace-icon fa fa-key"></i>
 						<span class="bigger-110">Login</span>
 					</button>
