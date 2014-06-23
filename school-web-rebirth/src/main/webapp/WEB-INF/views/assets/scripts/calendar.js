@@ -43,8 +43,8 @@ jQuery(function($) {
 					{
 						defaultView : 'agendaWeek',
 						buttonText : {
-							prev : '<i class="icon-chevron-left"></i>',
-							next : '<i class="icon-chevron-right"></i>'
+							prev : '<i class="ace-icon fa fa-chevron-left"></i>',
+							next : '<i class="ace-icon fa fa-chevron-right"></i>'
 						},
 
 						header : {

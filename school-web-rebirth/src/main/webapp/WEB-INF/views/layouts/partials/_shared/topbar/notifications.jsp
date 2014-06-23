@@ -1,11 +1,11 @@
 <li class="purple">
 	<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-		<i class="icon-bell-alt icon-animated-bell"></i>
+		<i class="ace-icon fa fa-bell icon-animated-bell"></i>
 		<span class="badge badge-important">${layouttopbar_notificationscount}</span>
 	</a>
 	<ul class="pull-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
 		<li class="dropdown-header">
-			<i class="icon-warning-sign"></i> ${layouttopbar_notificationscount} Notifications
+			<i class="ace-icon fa fa-exclamation-triangle"></i> ${layouttopbar_notificationscount} Notifications
 		</li>
 
 		{{#layout.topbar_notifications.latest}}
@@ -27,7 +27,7 @@
 		<li>
 			<a href="#">
 				See all notifications
-				<i class="icon-arrow-right"></i>
+				<i class="ace-icon fa fa-arrow-right"></i>
 			</a>
 		</li>
 	</ul>

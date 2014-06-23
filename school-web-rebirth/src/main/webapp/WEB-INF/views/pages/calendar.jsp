@@ -3,7 +3,7 @@
 	<div class="col-xs-8 col-sm-11">
 		<div class="input-group">
 			<span class="input-group-addon"> <i
-				class="icon-calendar bigger-110"></i>
+				class="fa fa-calendar bigger-110"></i>
 			</span> <input class="form-control" type="text"
 				name="calendar-date-range-input" id="id-date-range-picker-1" />
 		</div>

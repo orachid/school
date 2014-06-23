@@ -6,7 +6,7 @@
 	</script>
 
 	<ul class="breadcrumb">
-		<li><i class="icon-home home-icon"></i> <a href="/">Home</a></li>
+		<li><i class="ace-icon fa fa-home home-icon"></i> <a href="/">Home</a></li>
 		<c:forEach var="link" items="${breadcrumbs.links}" >
 				<li><a href="${link.link}">${link.title}</a></li>
 		</c:forEach>
@@ -17,7 +17,7 @@
 		<form class="form-search">
 			<span class="input-icon">
 				<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
-				<i class="icon-search nav-search-icon"></i>
+				<i class="ace-icon fa fa-search nav-search-icon"></i>
 			</span>
 		</form>
 	</div><!--#nav-search-->

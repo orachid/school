@@ -73,9 +73,7 @@ public class CalendarController extends AbstractDefaultPageController {
 	@Override
 	public Breadcrumbs getBreadcrumbs() {
 		List<Link> links = new ArrayList<>();
-		links.add(new Link("#", "Admin"));
-		links.add(new Link("#", "Edition"));
-		Breadcrumbs breadcrumbs = new Breadcrumbs("Default", links);
+		Breadcrumbs breadcrumbs = new Breadcrumbs("Emploie du temps", links);
 		return breadcrumbs;
 	}
 
@@ -91,14 +89,12 @@ public class CalendarController extends AbstractDefaultPageController {
 
 	@Override
 	public String[] getScripts() {
-		return new String[] { "jquery-ui-1.10.3.custom.min.js",
+		return new String[] { "jquery-ui.custom.min.js",
 				"jquery.ui.touch-punch.min.js", "fullcalendar.min.js",
-				"bootbox.min.js", "date-time/daterangepicker.min.js",
-				"chosen.jquery.min.js",
-				"date-time/bootstrap-datepicker.min.js",
+				"bootbox.min.js", "date-time/moment.min.js","date-time/daterangepicker.min.js",
+				"chosen.jquery.min.js","date-time/bootstrap-datepicker.min.js",
 				"date-time/bootstrap-timepicker.min.js",
-				"date-time/moment.min.js", "ajax-chosen.js",
-				"bootstrap-datetimepicker.min.js","jquery.tooltipster.min.js"};
+				 "ajax-chosen.js","jquery.tooltipster.min.js"};
 	}
 
 	/*

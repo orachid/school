@@ -10,7 +10,7 @@ package fr.wati.school.web.rebirth.commons;
 public class Site {
 
 	private String title="School Web Application";
-	private String brand_icon="school-icon";
+	private String brand_icon="fa fa-leaf";//"school-icon";
 	private String brand_text="Beyond education";
 	private String protocol="http:";
 	private boolean remote_fonts;

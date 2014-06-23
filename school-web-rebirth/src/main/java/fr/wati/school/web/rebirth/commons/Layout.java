@@ -56,42 +56,42 @@ public class Layout {
 		Layout layout=new Layout();
 		List<SideNavItem> superNavItems=new ArrayList<>();
 		
-		dashboardNavItem = new SideNavItem("DashBoard", "/", "icon-home", false, true);
+		dashboardNavItem = new SideNavItem("DashBoard", "/", "menu-icon fa fa-home", false, true);
 		dashboardNavItem.setLevel1(true);
 		dashboardNavItem.setLevel2(false);
 		superNavItems.add(dashboardNavItem);
-		adminNavItem = new SideNavItem("Admin", "#", "icon-admin", true, false);
+		adminNavItem = new SideNavItem("Admin", "#", "menu-icon fa fa-star", true, false);
 		adminNavItem.setLevel1(true);
 		adminNavItem.setLevel2(false);
 		superNavItems.add(adminNavItem);
 		List<SideNavItem> adminSubItems=new ArrayList<>();
 		//Admin Edition
-		adminEditionNavItem = new SideNavItem("Edition", "#", null, true, false);
+		adminEditionNavItem = new SideNavItem("Edition", "#", "menu-icon fa fa-star-half-o", true, false);
 		adminEditionNavItem.setLevel1(false);
 		adminEditionNavItem.setLevel2(true);
 		//Admin edition submenu
 		List<SideNavItem> adminEditionSubItems=new ArrayList<>();
-		userEditionItem = new SideNavItem("Users edition", "/users", null, false, true);
+		userEditionItem = new SideNavItem("Users edition", "/users", "menu-icon fa fa-star-o", false, true);
 		userEditionItem.setLevel1(false);
 		userEditionItem.setLevel2(true);
 		adminEditionSubItems.add(userEditionItem);
 		
-		etablissementEditionItem = new SideNavItem("Etablissement", "/etablissements", null, false, true);
+		etablissementEditionItem = new SideNavItem("Etablissement", "/etablissements", "menu-icon fa fa-star-o", false, true);
 		etablissementEditionItem.setLevel1(false);
 		etablissementEditionItem.setLevel2(true);
 		adminEditionSubItems.add(etablissementEditionItem);
 		
-		matiereEditionItem = new SideNavItem("Matieres", "/matieres", null, false, true);
+		matiereEditionItem = new SideNavItem("Matieres", "/matieres", "menu-icon fa fa-star-o", false, true);
 		matiereEditionItem.setLevel1(false);
 		matiereEditionItem.setLevel2(true);
 		adminEditionSubItems.add(matiereEditionItem);
 		
-		classesEditionItem = new SideNavItem("Classes", "/classes", null, false, true);
+		classesEditionItem = new SideNavItem("Classes", "/classes", "menu-icon fa fa-star-o", false, true);
 		classesEditionItem.setLevel1(false);
 		classesEditionItem.setLevel2(true);
 		adminEditionSubItems.add(classesEditionItem);
 		
-		sallesEditionItem = new SideNavItem("Salles", "/salles", null, false, true);
+		sallesEditionItem = new SideNavItem("Salles", "/salles", "menu-icon fa fa-star-o", false, true);
 		sallesEditionItem.setLevel1(false);
 		sallesEditionItem.setLevel2(true);
 		adminEditionSubItems.add(sallesEditionItem);
@@ -101,17 +101,17 @@ public class Layout {
 		
 		adminSubItems.add(adminEditionNavItem);
 		//Batch
-		batchNavItem = new SideNavItem("Batch", "/batch", null, false, true);
+		batchNavItem = new SideNavItem("Batch", "/batch", "menu-icon fa fa-star-half-o", false, true);
 		adminSubItems.add(batchNavItem);
 		
 		//Global settings
-		appSettingsNavItem = new SideNavItem("Global settings", "/app-settings", null, false, true);
+		appSettingsNavItem = new SideNavItem("Global settings", "/app-settings", "menu-icon fa fa-wrench", false, true);
 		adminSubItems.add(appSettingsNavItem);
 				
 		//Add Admin sub menus
 		adminNavItem.setSubmenu(adminSubItems.toArray(new SideNavItem[adminSubItems.size()]));
 		//scolarite
-		scolariteNavItem = new SideNavItem("Scolarite", "#", "icon-suitcase", true, false);
+		scolariteNavItem = new SideNavItem("Scolarite", "#", "menu-icon fa fa-suitcase", true, false);
 		scolariteNavItem.setLevel1(true);
 		scolariteNavItem.setLevel2(false);
 		List<SideNavItem> scolariteSubmenus=new ArrayList<>();
@@ -127,26 +127,26 @@ public class Layout {
 		
 		superNavItems.add(scolariteNavItem);
 		//emploie de temps
-		calendarNavItem = new SideNavItem("Emploie de temps", "/calendar", "icon-calendar", false, true);
+		calendarNavItem = new SideNavItem("Emploie de temps", "/calendar", "menu-icon fa fa-calendar", false, true);
 		calendarNavItem.setLevel1(true);
 		calendarNavItem.setLevel2(false);
 		superNavItems.add(calendarNavItem);
 		//Messagerie
-		messagerieNavItem = new SideNavItem("Messages", "#", "icon-mail", true, false);
+		messagerieNavItem = new SideNavItem("Messagerie", "#", "menu-icon fa fa-envelope", true, false);
 		messagerieNavItem.setLevel1(true);
 		messagerieNavItem.setLevel2(false);
 		//Mail menu
-		mailNavItem = new SideNavItem("Mail", "/mails", "icon-mail", false, true);
+		mailNavItem = new SideNavItem("Mail", "/mails", "menu-icon fa fa-envelope", false, true);
 		mailNavItem.setLevel1(false);
 		mailNavItem.setLevel2(true);
 		//chat menu
-		chatNavItem = new SideNavItem("Chat", "/chat", "icon-comments", false, true);
+		chatNavItem = new SideNavItem("Chat", "/chat", "menu-icon fa fa-comments", false, true);
 		chatNavItem.setLevel1(false);
 		chatNavItem.setLevel2(true);
 		messagerieNavItem.setSubmenu(new SideNavItem[]{mailNavItem,chatNavItem});
 		superNavItems.add(messagerieNavItem);
 		//Documents
-		documentNavItem = new SideNavItem("Documents", "/mydocuments", "icon-folder-close", false, true);
+		documentNavItem = new SideNavItem("Documents", "/mydocuments", "menu-icon fa fa-folder", false, true);
 		documentNavItem.setLevel1(true);
 		documentNavItem.setLevel2(false);
 		//myDocuments
@@ -161,7 +161,7 @@ public class Layout {
 		//documentNavItem.setSubmenu(new SideNavItem[]{myDocumentsNavItem,publicDocumentsNavItem});
 		superNavItems.add(documentNavItem);
 		
-		biblioNavItem = new SideNavItem("Bibliotheque", "/bibliotheque", "icon-admin", false, true);
+		biblioNavItem = new SideNavItem("Bibliotheque", "/bibliotheque", "menu-icon fa fa-star", false, true);
 		biblioNavItem.setLevel1(true);
 		biblioNavItem.setLevel2(false);
 		superNavItems.add(biblioNavItem);

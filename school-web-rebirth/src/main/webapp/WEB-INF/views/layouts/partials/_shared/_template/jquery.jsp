@@ -11,7 +11,7 @@
 
 <!--[if !IE]> -->
 <script type="text/javascript">
- window.jQuery || document.write("<script src='${path.assets}/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+ window.jQuery || document.write("<script src='${path.assets}/js/jquery.min.js'>"+"<"+"/script>");
 </script>
 <!-- <![endif]-->
 <!--[if IE]>
