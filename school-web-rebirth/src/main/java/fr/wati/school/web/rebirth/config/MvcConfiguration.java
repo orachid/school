@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -36,19 +36,6 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
 		internalResourceViewResolver.setViewClass(JstlView.class);
 		internalResourceViewResolver.setPrefix("/WEB-INF/views/");
 		internalResourceViewResolver.setSuffix(".jsp");
-		
-//		MustacheViewResolver mustacheViewResolver = new MustacheViewResolver();
-//        mustacheViewResolver.setPrefix("/WEB-INF/views/");
-//        mustacheViewResolver.setSuffix(".mustache");
-//        mustacheViewResolver.setCache(false);
-//        mustacheViewResolver.setContentType("text/html;charset=utf-8");
-//
-//        MustacheTemplateLoader mustacheTemplateLoader = new MustacheTemplateLoader();
-//        mustacheTemplateLoader.setResourceLoader(resourceLoader);
-//
-//        improvedMustacheTemplateLoader.setResourceLoader(resourceLoader);
-//        
-//        mustacheViewResolver.setTemplateLoader(improvedMustacheTemplateLoader);
         return internalResourceViewResolver;
     }
 
@@ -60,7 +47,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
 	@Override
 	public void configureMessageConverters(
 			List<HttpMessageConverter<?>> converters) {
-		MappingJacksonHttpMessageConverter mappingJacksonHttpMessageConverter = new MappingJacksonHttpMessageConverter();
+		MappingJackson2HttpMessageConverter mappingJacksonHttpMessageConverter = new MappingJackson2HttpMessageConverter();
 		mappingJacksonHttpMessageConverter.setObjectMapper(new CustomObjectMapper());
 		List<MediaType> mediaTypes=new ArrayList<>();
 		mediaTypes.add(MediaType.APPLICATION_JSON);

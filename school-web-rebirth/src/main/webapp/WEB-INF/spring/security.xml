@@ -24,12 +24,12 @@
 			authentication-failure-url="/login/?error=true" />
 		<!-- <csrf /> -->
 		<!-- enable remember me -->
-		<remember-me token-validity-seconds="1209600"
+		<remember-me token-validity-seconds="1209600" user-service-ref="userService" 
 			remember-me-parameter="remember-me" data-source-ref="dataSource" />
 	</http>
 	<authentication-manager>
 		<authentication-provider>
-			<jdbc-user-service data-source-ref="dataSource"
+			<jdbc-user-service data-source-ref="dataSource" id="userService"
 
 				users-by-username-query="
          SELECT USERNAME, PASSWORD, ENABLED 

@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <a class="menu-toggler" id="menu-toggler" href="#"><span class="menu-text"></span></a>
 
-<div class="sidebar" id="sidebar">
+<div class="sidebar responsive push_away" id="sidebar">
 	<script type="text/javascript">
 	try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
 	</script>
@@ -24,8 +24,8 @@
 
 	</ul><!--/.nav-list-->
 
-	<div class="sidebar-collapse" id="sidebar-collapse">
-		<i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+	<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+		<i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
 	</div>
 
 	<script type="text/javascript">

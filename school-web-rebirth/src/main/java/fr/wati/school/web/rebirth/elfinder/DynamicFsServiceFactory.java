@@ -11,7 +11,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import cn.bluejoe.elfinder.service.FsService;
 import cn.bluejoe.elfinder.service.FsServiceFactory;
 
-@Component
+@Component("fsServiceFactory")
 public class DynamicFsServiceFactory implements FsServiceFactory {
 
 	@Autowired

@@ -50,7 +50,6 @@ jQuery(function($) {
 	                     end: schoolUtils.formatDate( $.fullCalendar.parseDate($('#end-date-date').val()))
 	                	}), // je sérialise les données (voir plus loin), ici les $_POST
 	                success: function(html) { // je récupère la réponse du fichier PHP
-	                    alert(html); // j'affiche cette réponse
 	                    $('#add-event-modal-form').modal('hide');
 	                    $('#calendar').fullCalendar( 'refetchEvents' );
 	                }

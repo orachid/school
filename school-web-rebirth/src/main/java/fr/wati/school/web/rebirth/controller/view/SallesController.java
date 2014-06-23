@@ -93,7 +93,7 @@ public class SallesController extends AbstractDefaultPageController {
 	 */
 	@Override
 	public String[] getStyles() {
-		return new String[] { "jquery-ui-1.10.3.full.min.css", "ui.jqgrid.css",
+		return new String[] { "jquery-ui.min.css", "ui.jqgrid.css",
 				"datepicker.css" };
 	}
 }

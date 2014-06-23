@@ -9,13 +9,13 @@
 	<div class="navbar-header pull-left">
 	  <a href="#" class="navbar-brand">
 		<small>
-			<i class="{{site.brand_icon}}"></i>
+			<i class="${site.brand_icon}"></i>
 			${site.brand_text}
 		</small>
 	  </a><!-- /.brand -->
 	</div><!-- /.navbar-header -->
 
-	<div class="navbar-header pull-right" role="navigation">
+	<div class="navbar-buttons navbar-header pull-right" role="navigation">
 	  <ul class="nav ace-nav">
 			<!-- COMMENTED BY RACHID -->
 			

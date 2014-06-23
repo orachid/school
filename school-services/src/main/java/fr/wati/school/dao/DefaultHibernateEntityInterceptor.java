@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @SuppressWarnings("serial")
-@Component
+//@Component
 public class DefaultHibernateEntityInterceptor extends EmptyInterceptor {
 
 	@Autowired

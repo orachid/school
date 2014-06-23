@@ -19,6 +19,8 @@
 				<jsp:include
 					page="/WEB-INF/views/layouts/partials/default/breadcrumbs.jsp"/>
 				<div class="page-content">
+					<jsp:include
+				page="/WEB-INF/views/layouts/partials/_shared/settings.jsp"/>
 					<!-- {{^page.no-header}}{{!if no such thing as "no-header", then print header}} -->
 					<div class="page-header">
 						<h1>${page.title} 
@@ -41,8 +43,7 @@
 				</div><!--/.page-content-->
 
 			</div><!--/.main-content -->
-			<jsp:include
-				page="/WEB-INF/views/layouts/partials/_shared/settings.jsp"/>
+			
 		 </div><!--/.main-container-inner-->
 
 		 <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">

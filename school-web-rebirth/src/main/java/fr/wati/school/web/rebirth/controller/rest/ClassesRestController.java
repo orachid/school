@@ -190,4 +190,6 @@ public class ClassesRestController implements
 		Pageable pageRequest = new PageRequest(0, 100);
 		return DtoMapper.mapClasse(classeRepository.findAll(pageRequest));
 	}
+	
+	
 }

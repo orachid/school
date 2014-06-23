@@ -10,14 +10,18 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import fr.wati.school.entities.bean.Users;
 
 @SuppressWarnings("serial")
+@Component
 public class UserPasswordEntityInterceptor extends EmptyInterceptor {
 
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	private static Log log = LogFactory
