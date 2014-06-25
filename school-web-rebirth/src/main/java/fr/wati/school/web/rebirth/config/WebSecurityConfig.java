@@ -28,6 +28,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 
 /**
@@ -37,7 +39,7 @@ import org.springframework.security.web.header.writers.frameoptions.XFrameOption
  */
 @Configuration
 @EnableWebSecurity
-@Import({PersistenceConfig.class,ELFinderConfig.class})
+@Import({ PersistenceConfig.class, ELFinderConfig.class })
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -61,32 +63,41 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 				.formLogin()
 				.defaultSuccessUrl("/")
-				.loginPage("/login/")
-				.failureUrl("/login/?error=true")
+				.loginPage("/login")
+				.failureUrl("/login?error=true")
 				.permitAll()
 				.and()
-//				.logout()
-//				.logoutSuccessUrl("/login.html?logout")
-//				.logoutUrl("/logout.html")
-//				.permitAll()
-				//.and()
+				.logout()
+				.permitAll()
+				.and()
 				.authorizeRequests()
 				.antMatchers("/resources/**")
 				.permitAll()
-				.anyRequest()
-				.authenticated()
+				.and()
+				.rememberMe()
+				.tokenRepository(persistentTokenRepository())
+				.tokenValiditySeconds(env.getProperty(
+						"rememberme.token.validity", Integer.class))
 				.and()
 				.authorizeRequests()
 				.antMatchers("/**")
 				.hasAnyRole(
-						new String[] { "ROLE_ADMIN", "ROLE_STUDENT",
-								"ROLE_PROF", "ROLE_SECRETAIRE",
-								"ROLE_DIRECTOR", "ROLE_PARENT" });
+						new String[] { "ADMIN", "STUDENT", "PROF",
+								"SECRETAIRE", "DIRECTOR", "PARENT" }).and()
+				.authorizeRequests().anyRequest().authenticated();
+	}
+
+	@Bean
+	public PersistentTokenRepository persistentTokenRepository() {
+		JdbcTokenRepositoryImpl jdbcTokenRepositoryImpl=new JdbcTokenRepositoryImpl();
+		jdbcTokenRepositoryImpl.setDataSource(dataSource);
+		return jdbcTokenRepositoryImpl;
 	}
 
 	@Bean
 	public PasswordEncoder getPasswordEncoder() {
-		return new BCryptPasswordEncoder(env.getProperty("bcrypt.encoder.strength", Integer.class));
+		return new BCryptPasswordEncoder(env.getProperty(
+				"bcrypt.encoder.strength", Integer.class));
 	}
 
 	@Override
@@ -100,8 +111,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						"SELECT USERNAME, PASSWORD, ENABLED FROM USERs WHERE USERNAME=?;")
 				.passwordEncoder(passwordEncoder);
 
-		// .inMemoryAuthentication()
-		// .withUser("fabrice").password("fab123").roles("USER").and()
-		// .withUser("paulson").password("bond").roles("ADMIN","USER");
 	}
 }

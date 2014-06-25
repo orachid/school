@@ -10,6 +10,6 @@
 		<li><a href="#"><i class="ace-icon fa fa-cog"></i> Settings</a></li>
 		<li><a href="#"><i class="ace-icon fa fa-user"></i> Profile</a></li>
 		<li class="divider"></li>
-		<li><a href="/j_spring_security_logout"><i class="ace-icon fa fa-power-off"></i> Logout</a></li>
+		<li><a href="/logout"><i class="ace-icon fa fa-power-off"></i> Logout</a></li>
 	</ul>
 </li>

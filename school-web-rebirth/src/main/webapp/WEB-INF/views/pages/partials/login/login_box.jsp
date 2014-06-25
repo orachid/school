@@ -15,18 +15,18 @@
 	  			</c:if>
 			</div>
 		</c:if>
-		<form  method="post" action="/j_spring_security_check">
+		<form  method="post" action="/login">
 			 <fieldset>
 				<label class="block clearfix">
 					<span class="block input-icon input-icon-right">
-						<input type="text" class="form-control" placeholder="Username" name="j_username" />
+						<input type="text" class="form-control" placeholder="Username" name="username" />
 						<i class="icon-user"></i>
 					</span>
 				</label>
 				
 				<label class="block clearfix">
 					<span class="block input-icon input-icon-right">
-						<input type="password" class="form-control" placeholder="Password" name="j_password" />
+						<input type="password" class="form-control" placeholder="Password" name="password" />
 						<i class="icon-lock"></i>
 					</span>
 				</label>

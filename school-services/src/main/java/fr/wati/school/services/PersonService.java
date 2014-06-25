@@ -72,6 +72,7 @@ public class PersonService implements CrudService<Personne, Long>{
 		personRepository.deleteAll();
 	}
 
+	@Transactional(readOnly=true)
 	public Personne findByUsername(String username){
 		return personRepository.findByUsername(username);
 	}

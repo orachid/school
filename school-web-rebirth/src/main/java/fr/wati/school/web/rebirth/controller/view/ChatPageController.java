@@ -48,12 +48,12 @@ public class ChatPageController extends AbstractDefaultPageController {
 	
 	@Override
 	public String getInline_scripts() {
-		return "views/assets/scripts/classes-jqgrid.js";
+		return "views/assets/scripts/classes-jqgrid.js,views/assets/scripts/chat.js";
 	}
 
 	@Override
 	public String getContent() {
-		return "/pages/blank";
+		return "/pages/chat";
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class ChatPageController extends AbstractDefaultPageController {
 	@Override
 	public String[] getScripts() {
 		return new String[] { "jqGrid/jquery.jqGrid.min.js",
-				"jqGrid/i18n/grid.locale-en.js" };
+				"jqGrid/i18n/grid.locale-en.js","sockjs-0.3.4.js","stomp.js" };
 	}
 
 	/*
@@ -79,7 +79,7 @@ public class ChatPageController extends AbstractDefaultPageController {
 	 */
 	@Override
 	public String[] getStyles() {
-		return new String[] { "jquery-ui-1.10.3.full.min.css", "ui.jqgrid.css",
+		return new String[] { "jquery-ui.min.css", "ui.jqgrid.css",
 				"datepicker.css" };
 	}
 }
