@@ -67,7 +67,7 @@ public class ChatPageController extends AbstractDefaultPageController {
 	@Override
 	public String[] getScripts() {
 		return new String[] { "jqGrid/jquery.jqGrid.min.js",
-				"jqGrid/i18n/grid.locale-en.js","sockjs-0.3.4.js","stomp.js" };
+				"jqGrid/i18n/grid.locale-en.js","sockjs-0.3.4.js","stomp.js","jquery.gritter.min.js" };
 	}
 
 	/*
@@ -80,6 +80,6 @@ public class ChatPageController extends AbstractDefaultPageController {
 	@Override
 	public String[] getStyles() {
 		return new String[] { "jquery-ui.min.css", "ui.jqgrid.css",
-				"datepicker.css" };
+				"datepicker.css","jquery.gritter.css" };
 	}
 }

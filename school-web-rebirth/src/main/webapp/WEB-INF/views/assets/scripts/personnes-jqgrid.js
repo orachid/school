@@ -136,15 +136,6 @@ $(function() {
 				required : true
 			}
 		}, {
-			name : 'password',
-			label : 'Password',
-			index : 'password',
-			width : 200,
-			editable : true,
-			editrules : {
-				required : true
-			}
-		}, {
 			name : 'civilite',
 			label : 'Civilite',
 			index : 'civilite',
@@ -189,15 +180,15 @@ $(function() {
 			'#pager',
 			{
 				edit : true,
-				editicon : 'icon-pencil blue',
+				editicon : 'ace-icon fa fa-pencil blue',
 				add : true,
-				addicon : 'icon-plus-sign purple',
+				addicon : 'ace-icon fa fa-plus-circle purple',
 				del : true,
-				delicon : 'icon-trash red',
+				delicon : 'ace-icon fa fa-trash-o red',
 				search : true,
-				searchicon : 'icon-search orange',
+				searchicon : 'ace-icon fa fa-search orange',
 				refresh : true,
-				refreshicon : 'icon-refresh green',
+				refreshicon : 'ace-icon fa fa-refresh green',
 			}, // options
 			editOptions,
 			addOptions,
@@ -241,13 +232,13 @@ $(function() {
 		buttons.addClass('btn btn-sm').find('[class*="-icon"]').remove();// ui-icon,
 		// s-icon
 		buttons.eq(0).addClass('btn-primary')
-				.prepend('<i class="icon-ok"></i>');
-		buttons.eq(1).prepend('<i class="icon-remove"></i>');
+				.prepend('<i class="ace-icon fa fa-check"></i>');
+		buttons.eq(1).prepend('<i class="ace-icon fa fa-times"></i>');
 
 		buttons = form.next().find('.navButton a');
 		buttons.find('.ui-icon').remove();
-		buttons.eq(0).append('<i class="icon-chevron-left"></i>');
-		buttons.eq(1).append('<i class="icon-chevron-right"></i>');
+		buttons.eq(0).append('<i class="ace-icon fa fa-chevron-left"></i>');
+		buttons.eq(1).append('<i class="ace-icon fa fa-chevron-right"></i>');
 	}
 
 	function style_delete_form(form) {
@@ -255,8 +246,8 @@ $(function() {
 		buttons.addClass('btn btn-sm').find('[class*="-icon"]').remove();// ui-icon,
 		// s-icon
 		buttons.eq(0).addClass('btn-danger').prepend(
-				'<i class="icon-trash"></i>');
-		buttons.eq(1).prepend('<i class="icon-remove"></i>');
+				'<i class="ace-icon fa fa-trash-o"></i>');
+		buttons.eq(1).prepend('<i class="ace-icon fa fa-times"></i>');
 	}
 
 	function style_search_filters(form) {
@@ -271,13 +262,13 @@ $(function() {
 		var buttons = dialog.find('.EditTable');
 		buttons.find('.EditButton a[id*="_reset"]').addClass(
 				'btn btn-sm btn-info').find('.ui-icon').attr('class',
-				'icon-retweet');
+				'ace-icon fa fa-retweet');
 		buttons.find('.EditButton a[id*="_query"]').addClass(
 				'btn btn-sm btn-inverse').find('.ui-icon').attr('class',
-				'icon-comment-alt');
+				'ace-icon fa fa-comment-o');
 		buttons.find('.EditButton a[id*="_search"]').addClass(
 				'btn btn-sm btn-purple').find('.ui-icon').attr('class',
-				'icon-search');
+				'ace-icon fa fa-search');
 	}
 
 	function beforeDeleteCallback(e) {
@@ -331,10 +322,10 @@ $(function() {
 	// replace icons with FontAwesome icons like above
 	function updatePagerIcons(table) {
 		var replacement = {
-			'ui-icon-seek-first' : 'icon-double-angle-left bigger-140',
-			'ui-icon-seek-prev' : 'icon-angle-left bigger-140',
-			'ui-icon-seek-next' : 'icon-angle-right bigger-140',
-			'ui-icon-seek-end' : 'icon-double-angle-right bigger-140'
+				'ui-icon-seek-first' : 'ace-icon fa fa-angle-double-left bigger-140',
+				'ui-icon-seek-prev' : 'ace-icon fa fa-angle-left bigger-140',
+				'ui-icon-seek-next' : 'ace-icon fa fa-angle-right bigger-140',
+				'ui-icon-seek-end' : 'ace-icon fa fa-angle-double-right bigger-140'
 		};
 		$('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon')
 				.each(

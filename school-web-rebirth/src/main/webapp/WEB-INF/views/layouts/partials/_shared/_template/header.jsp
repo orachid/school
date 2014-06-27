@@ -8,6 +8,7 @@
 
 	<!-- basic styles -->
 	<link href="${path.assets}/css/bootstrap.min.css" rel="stylesheet" />
+	
 
 	<link rel="stylesheet" href="${path.assets}/css/font-awesome.min.css" />
 	<!--[if IE 7]>

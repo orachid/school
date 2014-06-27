@@ -14,9 +14,17 @@ function connect() {
 	stompClient.connect({}, function(frame) {
 		setConnected(true);
 		console.log('Connected: ' + frame);
+		var user = frame.headers['user-name'];
 		stompClient.subscribe('/topic/greetings', function(greeting) {
 			showGreeting(JSON.parse(greeting.body).content);
 		});
+		stompClient.subscribe("/user/queue/errors", function(msg) {
+			$.gritter.add({
+				title: 'An error occured',
+				text: msg.body,
+				class_name: 'gritter-error gritter-light'
+			});
+		  });
 	});
 }
 
